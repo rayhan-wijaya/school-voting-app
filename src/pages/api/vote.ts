@@ -48,7 +48,7 @@ async function handlePost(request: NextApiRequest, response: NextApiResponse) {
         );
     }
 
-    return response.status(200).send();
+    return response.status(200).send({});
 }
 
 export default async function handler(
