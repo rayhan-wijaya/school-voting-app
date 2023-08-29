@@ -59,9 +59,11 @@ function StudentNumberPage({
 }
 
 function VotePage({
+    members,
     organizationMemberIds,
     setOrganizationMemberIds,
 }: {
+    members: Awaited<OrganizationMembers>,
     organizationMemberIds: number[] | undefined;
     setOrganizationMemberIds: React.Dispatch<React.SetStateAction<number[]>>;
 }) {
@@ -71,7 +73,13 @@ function VotePage({
     );
 }
 
-export default function Home() {
+export default function Home(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
+    const { data: members } = useQuery({
+        queryKey: ["organization-members"],
+        queryFn: getOrganizationMembers,
+        initialData: props.members,
+    });
+
     const [studentNumber, setStudentNumber] = useState<number>();
     const [organizationMemberIds, setOrganizationMemberIds] = useState<
         number[]
@@ -92,6 +100,7 @@ export default function Home() {
 
                 {pageIndex === 2 ? (
                     <VotePage
+                        members={members}
                         organizationMemberIds={organizationMemberIds}
                         setOrganizationMemberIds={setOrganizationMemberIds}
                     />
@@ -133,4 +142,15 @@ export default function Home() {
             </button>
         </div>
     );
+}
+
+export async function getServerSideProps() {
+    const members = await getOrganizationMembers();
+
+    return {
+        revalidate: 3000,
+        props: {
+            members,
+        },
+    };
 }
