@@ -27,3 +27,25 @@ async function voteOrganizationMembers({
 
     return await response.json();
 }
+
+function StudentNumberPage({
+    studentNumber,
+    setStudentNumber,
+}: {
+    studentNumber: number | undefined;
+    setStudentNumber: React.Dispatch<React.SetStateAction<number | undefined>>;
+}) {
+    return (
+        <>
+            <h1>Student number</h1>
+
+            <input
+                type="number"
+                value={studentNumber}
+                onChange={function (event) {
+                    setStudentNumber(event.target.valueAsNumber);
+                }}
+            />
+        </>
+    );
+}
