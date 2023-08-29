@@ -1,5 +1,8 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { URLSearchParams } from "url";
+import type { OrganizationMembers } from "~/pages/api/members";
+import { InferGetServerSidePropsType } from "next";
 
 async function voteOrganizationMembers({
     studentId,
