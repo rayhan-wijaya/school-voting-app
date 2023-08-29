@@ -54,3 +54,23 @@ async function getAllMembers() {
         );
     });
 }
+
+async function handleGet(_request: NextApiRequest, response: NextApiResponse) {
+    const members = await getAllMembers();
+
+    return response.status(200).json(members);
+}
+
+export default async function handler(
+    request: NextApiRequest,
+    response: NextApiResponse
+) {
+    switch (request.method) {
+        case "GET":
+            return await handleGet(request, response);
+        default:
+            return response
+                .status(501)
+                .json({ message: "Unimplemented method" });
+    }
+}
