@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { URLSearchParams } from "url";
 import type { OrganizationMembers } from "~/pages/api/members";
-import { InferGetServerSidePropsType } from "next";
+import { InferGetStaticPropsType } from "next";
+import { env } from "~/lib/env";
 
 async function voteOrganizationMembers({
     studentId,
@@ -20,19 +21,24 @@ async function voteOrganizationMembers({
         }),
     });
 
-    const response = await fetch("/api/vote?" + searchParams, {
-        method: "POST",
-        cache: "no-cache",
-        next: {
-            revalidate: 3000,
-        },
-    });
+    const response = await fetch(
+        new URL("/api/vote?" + searchParams, env.NEXT_PUBLIC_BASE_URL),
+        {
+            method: "POST",
+            cache: "no-cache",
+            next: {
+                revalidate: 3000,
+            },
+        }
+    );
 
     return await response.json();
 }
 
 async function getOrganizationMembers() {
-    const response = await fetch("/api/members");
+    const response = await fetch(
+        new URL("/api/members", env.NEXT_PUBLIC_BASE_URL)
+    );
     return await (response.json() as OrganizationMembers);
 }
 
@@ -63,17 +69,33 @@ function VotePage({
     organizationMemberIds,
     setOrganizationMemberIds,
 }: {
-    members: Awaited<OrganizationMembers>,
+    members: Awaited<OrganizationMembers>;
     organizationMemberIds: number[] | undefined;
     setOrganizationMemberIds: React.Dispatch<React.SetStateAction<number[]>>;
 }) {
     return (
         <>
+            {members.map(function (member) {
+                return (
+                    <div>
+                        <h2>
+                            ({member.nickname}) {member.fullName}
+                        </h2>
+                        <span>
+                            {member.position === "vice_chairman"
+                                ? "Wakil Ketua"
+                                : "Ketua"}
+                        </span>
+                    </div>
+                );
+            })}
         </>
     );
 }
 
-export default function Home(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Home(
+    props: InferGetStaticPropsType<typeof getStaticProps>
+) {
     const { data: members } = useQuery({
         queryKey: ["organization-members"],
         queryFn: getOrganizationMembers,
@@ -144,7 +166,7 @@ export default function Home(props: InferGetServerSidePropsType<typeof getServer
     );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
     const members = await getOrganizationMembers();
 
     return {
