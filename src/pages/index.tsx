@@ -49,3 +49,16 @@ function StudentNumberPage({
         </>
     );
 }
+
+function VotePage({
+    organizationMemberIds,
+    setOrganizationMemberIds,
+}: {
+    organizationMemberIds: number[] | undefined;
+    setOrganizationMemberIds: React.Dispatch<React.SetStateAction<number[]>>;
+}) {
+    return (
+        <>
+        </>
+    );
+}
