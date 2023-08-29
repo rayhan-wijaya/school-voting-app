@@ -62,3 +62,67 @@ function VotePage({
         </>
     );
 }
+
+export default function Home() {
+    const [studentNumber, setStudentNumber] = useState<number>();
+    const [organizationMemberIds, setOrganizationMemberIds] = useState<
+        number[]
+    >([]);
+
+    const [pageIndex, setPageIndex] = useState<number>(1);
+    const pageIndexLimit = 2;
+
+    return (
+        <div>
+            <div className="flex flex-col gap-3">
+                {pageIndex === 1 ? (
+                    <StudentNumberPage
+                        studentNumber={studentNumber}
+                        setStudentNumber={setStudentNumber}
+                    />
+                ) : null}
+
+                {pageIndex === 2 ? (
+                    <VotePage
+                        organizationMemberIds={organizationMemberIds}
+                        setOrganizationMemberIds={setOrganizationMemberIds}
+                    />
+                ) : null}
+
+                {pageIndex === pageIndexLimit ? (
+                    <div>
+                        <button>Submit</button>
+                    </div>
+                ) : null}
+            </div>
+
+            <button
+                onClick={function () {
+                    setPageIndex(function (pageIndex) {
+                        if (pageIndex > 1) {
+                            return pageIndex - 1;
+                        }
+
+                        return pageIndex;
+                    });
+                }}
+            >
+                Prev
+            </button>
+
+            <button
+                onClick={function () {
+                    setPageIndex(function (pageIndex) {
+                        if (pageIndex < pageIndexLimit) {
+                            return pageIndex + 1;
+                        }
+
+                        return pageIndex;
+                    });
+                }}
+            >
+                Next
+            </button>
+        </div>
+    );
+}
