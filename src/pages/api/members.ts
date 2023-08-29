@@ -74,3 +74,5 @@ export default async function handler(
                 .json({ message: "Unimplemented method" });
     }
 }
+
+export type OrganizationMembers = ReturnType<typeof getAllMembers>;
