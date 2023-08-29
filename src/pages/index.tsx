@@ -31,6 +31,11 @@ async function voteOrganizationMembers({
     return await response.json();
 }
 
+async function getOrganizationMembers() {
+    const response = await fetch("/api/members");
+    return await (response.json() as OrganizationMembers);
+}
+
 function StudentNumberPage({
     studentNumber,
     setStudentNumber,
