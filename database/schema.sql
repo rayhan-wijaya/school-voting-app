@@ -5,7 +5,7 @@ CREATE TABLE `organization` (
 
 CREATE TABLE `organization_pair` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `organization_id` INT
+    `organization_id` INT,
 
     FOREIGN KEY (`organization_id`)
         REFERENCES `organization`(`id`)
