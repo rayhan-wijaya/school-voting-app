@@ -73,20 +73,32 @@ function VotePage({
     organizationMemberIds: number[] | undefined;
     setOrganizationMemberIds: React.Dispatch<React.SetStateAction<number[]>>;
 }) {
+    const organizationNames = Object.keys(members);
+
     return (
         <>
-            {members.map(function (member) {
+            {organizationNames.map(function (organizationName) {
+                const organizationMembers = members[organizationName];
+
                 return (
-                    <div>
-                        <h2>
-                            {member.nickname} - {member.fullName}
-                        </h2>
-                        <span>
-                            {member.position === "vice_chairman"
-                                ? "Wakil Ketua"
-                                : "Ketua"}
-                        </span>
-                    </div>
+                    <>
+                        <h2>{organizationName}</h2>
+
+                        {organizationMembers.map(function (member) {
+                            return (
+                                <div>
+                                    <h3>
+                                        {member.nickname} - {member.fullName}
+                                    </h3>
+                                    <span>
+                                        {member.position === "vice_chairman"
+                                            ? "Wakil Ketua"
+                                            : "Ketua"}
+                                    </span>
+                                </div>
+                            );
+                        })}
+                    </>
                 );
             })}
         </>
