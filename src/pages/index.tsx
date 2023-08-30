@@ -76,12 +76,12 @@ function VotePage({
     const organizationNames = Object.keys(members);
 
     return (
-        <>
+        <div className="flex gap-3">
             {organizationNames.map(function (organizationName) {
                 const organizationMembers = members[organizationName];
 
                 return (
-                    <>
+                    <div>
                         <h2>{organizationName}</h2>
 
                         {organizationMembers.map(function (member) {
@@ -98,10 +98,10 @@ function VotePage({
                                 </div>
                             );
                         })}
-                    </>
+                    </div>
                 );
             })}
-        </>
+        </div>
     );
 }
 
