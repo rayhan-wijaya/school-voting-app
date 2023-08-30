@@ -86,47 +86,54 @@ async function getAllMembers() {
                     return reject("`results` wasn't an array");
                 }
 
-                const memberResults = await Promise.allSettled(
-                    results.map(async function (result) {
-                        return organizationMemberSchema.parseAsync(result);
-                    })
-                );
-
-                const members = memberResults
-                    .filter(function (
-                        memberResult
-                    ): memberResult is PromiseFulfilledResult<OrganizationMember> {
-                        return memberResult.status === "fulfilled";
-                    })
-                    .map(function (memberResult) {
-                        return memberResult.value;
-                    });
-
-                const organizationIds = Array.from(
-                    new Set(
-                        members.map(function (member) {
-                            return member.organizationId;
+                const members = await filterSuccesses(
+                    await Promise.allSettled(
+                        results.map(async function (result) {
+                            return organizationMemberSchema.parseAsync(result);
                         })
                     )
                 );
 
-                const organizations = await Promise.all(
-                    organizationIds.map(async function (organizationId) {
-                        return {
-                            id: organizationId,
-                            name: await getOrganizationName(organizationId),
-                        };
-                    })
+                const organizationIds = Array.from(
+                    new Set(
+                        await filterSuccesses(
+                            await Promise.allSettled(
+                                members.map(function (member) {
+                                    return getOrganizationIdFromPairId(
+                                        member.pairId
+                                    );
+                                })
+                            )
+                        )
+                    )
+                );
+
+                const organizations = await filterSuccesses(
+                    await Promise.allSettled(
+                        organizationIds.map(async function (organizationId) {
+                            return {
+                                id: organizationId,
+                                name: await getOrganizationName(organizationId),
+                            };
+                        })
+                    )
                 );
 
                 const response = {} as MembersResponse;
 
                 for (const organization of organizations) {
-                    const organizationMembers = members.filter(function (
-                        member
-                    ) {
-                        return member.organizationId === organization.id;
-                    });
+                    const organizationMembers = [] as typeof members;
+
+                    for (const member of members) {
+                        const organizationId =
+                            await getOrganizationIdFromPairId(member.pairId);
+
+                        if (organizationId !== organization.id) {
+                            continue;
+                        }
+
+                        organizationMembers.push(member);
+                    }
 
                     response[organization.name] = organizationMembers;
                 }
