@@ -22,6 +22,29 @@ async function filterSuccesses<T>(promiseResults: PromiseSettledResult<T>[]) {
         });
 }
 
+async function getOrganizationIdFromPairId(pairId: number) {
+    return new Promise<number>(function (resolve, reject) {
+        database.pool.query(
+            {
+                sql: `
+                    SELECT
+                        organization_id as organizationId
+                    FROM organization_pair
+                    WHERE id = ?;
+                `,
+                values: [pairId],
+            },
+            function (error, results, _fields) {
+                if (error) {
+                    return reject(error);
+                }
+
+                return resolve(results?.[0]?.organizationId);
+            }
+        );
+    });
+}
+
 async function getOrganizationName(id: number) {
     return new Promise<string>(function (resolve, reject) {
         database.pool.query(
