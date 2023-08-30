@@ -4,7 +4,7 @@ import { database } from "~/lib/database";
 
 const organizationMemberSchema = z.object({
     id: z.number(),
-    organizationId: z.number(),
+    pairId: z.number(),
     nickname: z.string(),
     fullName: z.string(),
     position: z.enum(["chairman", "vice_chairman"]),
