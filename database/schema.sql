@@ -9,7 +9,7 @@ CREATE TABLE `organization_pair` (
 
     FOREIGN KEY (`organization_id`)
         REFERENCES `organization`(`id`)
-        ON DELETE CASCADE,
+        ON DELETE CASCADE
 );
 
 CREATE TABLE `organization_member` (
