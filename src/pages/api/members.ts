@@ -135,6 +135,16 @@ async function getAllMembers() {
                         organizationMembers.push(member);
                     }
 
+                    const distinctPairIds = Array.from(
+                        new Set(
+                            organizationMembers.map(function (
+                                organizationMember
+                            ) {
+                                return organizationMember.pairId;
+                            })
+                        )
+                    );
+
                     response[organization.name] = organizationMembers;
                 }
 
