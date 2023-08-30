@@ -12,8 +12,28 @@ const organizationMemberSchema = z.object({
 
 type OrganizationMember = z.infer<typeof organizationMemberSchema>;
 
+async function getOrganizationName(id: number) {
+    return new Promise<string>(function (resolve, reject) {
+        database.pool.query(
+            {
+                sql: "SELECT name FROM organization where id = ?",
+                values: [id],
+            },
+            function (error, results, _fields) {
+                if (error) {
+                    return reject(error);
+                }
+
+                return resolve(results?.[0]?.name);
+            }
+        );
+    });
+}
+
 async function getAllMembers() {
-    return new Promise<OrganizationMember[]>(function (resolve, reject) {
+    type MembersResponse = { [organizationName: string]: OrganizationMember[] };
+
+    return new Promise<MembersResponse>(function (resolve, reject) {
         database.pool.query(
             `
                 SELECT
