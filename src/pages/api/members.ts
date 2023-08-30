@@ -147,7 +147,21 @@ async function getAllMembers() {
                         )
                     );
 
-                    response[organization.name] = organizationMembers;
+                    const grouppedOrganizationMembers = {} as {
+                        [pairId: number]: OrganizationMember[];
+                    };
+
+                    for (const pairId of distinctPairIds) {
+                        const members = organizationMembers.filter(function (
+                            member
+                        ) {
+                            return member.pairId === pairId;
+                        });
+
+                        grouppedOrganizationMembers[pairId] = members;
+                    }
+
+                    response[organization.name] = grouppedOrganizationMembers;
                 }
 
                 return resolve(response);
