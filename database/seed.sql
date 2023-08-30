@@ -4,4 +4,9 @@ VALUES
     (1, 'Rayhan', 'Rayhan Satria Wijaya', 'vice_chairman'),
     (1, 'Malik', 'Malik Syarif Akbar', 'chairman'),
     (1, 'Akesh', 'Gede Akesh', 'vice_chairman'),
-    (1, 'Daffa', 'Daffa Prawono', 'chairman');
+    (1, 'Daffa', 'Daffa Prawono', 'chairman'),
+
+    (2, 'Rayhan', 'Rayhan Satria Wijaya', 'vice_chairman'),
+    (2, 'Malik', 'Malik Syarif Akbar', 'chairman'),
+    (2, 'Akesh', 'Gede Akesh', 'vice_chairman'),
+    (2, 'Daffa', 'Daffa Prawono', 'chairman');
