@@ -3,19 +3,28 @@ CREATE TABLE `organization` (
     `name` VARCHAR(10) UNIQUE
 );
 
-CREATE TABLE `organization_member` (
+CREATE TABLE `organization_pair` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `organization_id` INT,
-    `nickname` VARCHAR(12),
-    `full_name` VARCHAR(40),
-    `position` ENUM('chairman', 'vice_chairman'),
+    `organization_id` INT
 
     FOREIGN KEY (`organization_id`)
         REFERENCES `organization`(`id`)
         ON DELETE CASCADE,
+);
 
-    CONSTRAINT `organization_id_nickname`
-    UNIQUE (`organization_id`, `nickname`)
+CREATE TABLE `organization_member` (
+    `id` INT PRIMARY KEY AUTO_INCREMENT,
+    `pair_id` INT,
+    `nickname` VARCHAR(12),
+    `full_name` VARCHAR(40),
+    `position` ENUM('chairman', 'vice_chairman'),
+
+    FOREIGN KEY (`pair_id`)
+        REFERENCES `organization_pair`(`id`)
+        ON DELETE CASCADE,
+
+    CONSTRAINT `pair_id_nickname`
+    UNIQUE (`pair_id`, `nickname`)
 );
 
 CREATE TABLE `vote` (
