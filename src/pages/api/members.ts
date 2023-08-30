@@ -71,7 +71,7 @@ async function getAllMembers() {
             `
                 SELECT
                     id,
-                    organization_id as organizationId,
+                    pair_id as pairId,
                     nickname,
                     full_name as fullName,
                     position
