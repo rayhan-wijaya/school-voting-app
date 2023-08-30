@@ -79,7 +79,7 @@ function VotePage({
                 return (
                     <div>
                         <h2>
-                            ({member.nickname}) {member.fullName}
+                            {member.nickname} - {member.fullName}
                         </h2>
                         <span>
                             {member.position === "vice_chairman"
