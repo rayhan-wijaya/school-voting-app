@@ -64,7 +64,9 @@ async function getOrganizationName(id: number) {
 }
 
 async function getAllMembers() {
-    type MembersResponse = { [organizationName: string]: OrganizationMember[] };
+    type MembersResponse = {
+        [organizationName: string]: { [pairId: string]: OrganizationMember[] };
+    };
 
     return new Promise<MembersResponse>(function (resolve, reject) {
         database.pool.query(
