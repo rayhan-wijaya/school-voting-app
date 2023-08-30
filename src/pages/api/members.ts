@@ -69,7 +69,36 @@ async function getAllMembers() {
                         return memberResult.value;
                     });
 
-                return resolve(members);
+                const organizationIds = Array.from(
+                    new Set(
+                        members.map(function (member) {
+                            return member.organizationId;
+                        })
+                    )
+                );
+
+                const organizations = await Promise.all(
+                    organizationIds.map(async function (organizationId) {
+                        return {
+                            id: organizationId,
+                            name: await getOrganizationName(organizationId),
+                        };
+                    })
+                );
+
+                const response = {} as MembersResponse;
+
+                for (const organization of organizations) {
+                    const organizationMembers = members.filter(function (
+                        member
+                    ) {
+                        return member.organizationId === organization.id;
+                    });
+
+                    response[organization.name] = organizationMembers;
+                }
+
+                return resolve(response);
             }
         );
     });
