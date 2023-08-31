@@ -177,6 +177,7 @@ export default function Home(
 
                 <div className="flex flex-col">
                     <div className="p-3" />
+
                     {pageIndex === 1 ? (
                         <StudentNumberPage
                             studentNumber={studentNumber}
@@ -250,7 +251,6 @@ export default function Home(
                     </svg>
                 </button>
             </div>
-
         </div>
     );
 }
