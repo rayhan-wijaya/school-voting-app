@@ -78,23 +78,34 @@ function VotePage({
     return (
         <div className="flex gap-3">
             {organizationNames.map(function (organizationName) {
-                const organizationMembers = members[organizationName];
+                const organizationPairs = members[organizationName];
+                const pairIds = Object.keys(organizationPairs);
 
                 return (
                     <div>
                         <h2>{organizationName}</h2>
 
-                        {organizationMembers.map(function (member) {
+                        {pairIds.map(function (pairId) {
+                            const pair = organizationPairs[pairId];
+
                             return (
-                                <div>
-                                    <h3>
-                                        {member.nickname} - {member.fullName}
-                                    </h3>
-                                    <span>
-                                        {member.position === "vice_chairman"
-                                            ? "Wakil Ketua"
-                                            : "Ketua"}
-                                    </span>
+                                <div className="p-3">
+                                    {pair.map(function (member) {
+                                        return (
+                                            <>
+                                                <h3>
+                                                    {member.nickname} -{" "}
+                                                    {member.fullName}
+                                                </h3>
+                                                <span>
+                                                    {member.position ===
+                                                    "vice_chairman"
+                                                        ? "Wakil Ketua"
+                                                        : "Ketua"}
+                                                </span>
+                                            </>
+                                        );
+                                    })}
                                 </div>
                             );
                         })}
