@@ -51,10 +51,20 @@ function StudentNumberPage({
 }) {
     return (
         <>
-            <h1>Student number</h1>
+            <h1 className="text-center font-semibold">Welcome!</h1>
+
+            <div className="p-1" />
+
+            <p className="text-center">
+                Before we get started, please put in your student ID
+            </p>
+
+            <div className="p-3" />
 
             <input
                 type="number"
+                className="bg-gray-100 rounded-xl p-3"
+                placeholder="Student ID"
                 value={studentNumber}
                 onChange={function (event) {
                     setStudentNumber(event.target.valueAsNumber);
