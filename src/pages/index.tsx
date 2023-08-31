@@ -159,6 +159,7 @@ export default function Home(
             </div>
 
             <button
+                disabled={pageIndex <= 1}
                 onClick={function () {
                     setPageIndex(function (pageIndex) {
                         if (pageIndex > 1) {
@@ -186,6 +187,7 @@ export default function Home(
             </button>
 
             <button
+                disabled={pageIndex >= pageIndexLimit}
                 onClick={function () {
                     setPageIndex(function (pageIndex) {
                         if (pageIndex < pageIndexLimit) {
