@@ -89,7 +89,7 @@ function VotePage({
                             const pair = organizationPairs[pairId];
 
                             return (
-                                <div className="p-3">
+                                <div>
                                     {pair.map(function (member) {
                                         return (
                                             <>
