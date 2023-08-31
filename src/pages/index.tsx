@@ -145,84 +145,92 @@ export default function Home(
 
     return (
         <div>
-            <div className="flex flex-col gap-3">
-                {pageIndex === 1 ? (
-                    <StudentNumberPage
-                        studentNumber={studentNumber}
-                        setStudentNumber={setStudentNumber}
-                    />
-                ) : null}
+            <div className="flex justify-between gap-3 p-3">
+                <button
+                    className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center"
+                    disabled={pageIndex <= 1}
+                    onClick={function () {
+                        setPageIndex(function (pageIndex) {
+                            if (pageIndex > 1) {
+                                return pageIndex - 1;
+                            }
 
-                {pageIndex === 2 ? (
-                    <VotePage
-                        members={members}
-                        organizationMemberIds={organizationMemberIds}
-                        setOrganizationMemberIds={setOrganizationMemberIds}
-                    />
-                ) : null}
+                            return pageIndex;
+                        });
+                    }}
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M15.75 19.5L8.25 12l7.5-7.5"
+                        />
+                    </svg>
+                </button>
 
-                {pageIndex === pageIndexLimit ? (
-                    <div>
-                        <button>Submit</button>
-                    </div>
-                ) : null}
+                <div className="flex flex-col">
+                    <div className="p-3" />
+                    {pageIndex === 1 ? (
+                        <StudentNumberPage
+                            studentNumber={studentNumber}
+                            setStudentNumber={setStudentNumber}
+                        />
+                    ) : null}
+
+                    {pageIndex === 2 ? (
+                        <VotePage
+                            members={members}
+                            organizationMemberIds={organizationMemberIds}
+                            setOrganizationMemberIds={setOrganizationMemberIds}
+                        />
+                    ) : null}
+
+                    {pageIndex === pageIndexLimit ? (
+                        <div>
+                            <button>Submit</button>
+                        </div>
+                    ) : null}
+
+                    <div className="p-3" />
+                </div>
+
+                <button
+                    className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center"
+                    disabled={pageIndex >= pageIndexLimit}
+                    onClick={function () {
+                        setPageIndex(function (pageIndex) {
+                            if (pageIndex < pageIndexLimit) {
+                                return pageIndex + 1;
+                            }
+
+                            return pageIndex;
+                        });
+                    }}
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                        />
+                    </svg>
+                </button>
             </div>
 
-            <button
-                disabled={pageIndex <= 1}
-                onClick={function () {
-                    setPageIndex(function (pageIndex) {
-                        if (pageIndex > 1) {
-                            return pageIndex - 1;
-                        }
-
-                        return pageIndex;
-                    });
-                }}
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M15.75 19.5L8.25 12l7.5-7.5"
-                    />
-                </svg>
-            </button>
-
-            <button
-                disabled={pageIndex >= pageIndexLimit}
-                onClick={function () {
-                    setPageIndex(function (pageIndex) {
-                        if (pageIndex < pageIndexLimit) {
-                            return pageIndex + 1;
-                        }
-
-                        return pageIndex;
-                    });
-                }}
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M8.25 4.5l7.5 7.5-7.5 7.5"
-                    />
-                </svg>
-            </button>
         </div>
     );
 }
