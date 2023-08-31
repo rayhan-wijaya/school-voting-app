@@ -86,39 +86,44 @@ function VotePage({
     const organizationNames = Object.keys(members);
 
     return (
-        <div className="flex gap-3">
+        <div className="flex flex-col gap-16">
             {organizationNames.map(function (organizationName) {
                 const organizationPairs = members[organizationName];
                 const pairIds = Object.keys(organizationPairs);
 
                 return (
                     <div>
-                        <h2>{organizationName}</h2>
+                        <h2 className="font-semibold text-center">
+                            {organizationName}
+                        </h2>
 
-                        {pairIds.map(function (pairId) {
-                            const pair = organizationPairs[pairId];
+                        <div className="p-3" />
 
-                            return (
-                                <div>
-                                    {pair.map(function (member) {
-                                        return (
-                                            <>
-                                                <h3>
-                                                    {member.nickname} -{" "}
-                                                    {member.fullName}
-                                                </h3>
-                                                <span>
-                                                    {member.position ===
-                                                    "vice_chairman"
-                                                        ? "Wakil Ketua"
-                                                        : "Ketua"}
-                                                </span>
-                                            </>
-                                        );
-                                    })}
-                                </div>
-                            );
-                        })}
+                        <div className="grid grid-cols-2 gap-5">
+                            {pairIds.map(function (pairId) {
+                                const pair = organizationPairs[pairId];
+
+                                return (
+                                    <div className="bg-gray-100 rounded-xl flex flex-col gap-3 divide-y">
+                                        {pair.map(function (member) {
+                                            return (
+                                                <div className="p-5">
+                                                    <h3 className="font-semibold">
+                                                        {member.fullName}
+                                                    </h3>
+                                                    <span>
+                                                        {member.position ===
+                                                        "vice_chairman"
+                                                            ? "Wakil Ketua"
+                                                            : "Ketua"}
+                                                    </span>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
                 );
             })}
