@@ -152,11 +152,27 @@ async function getAllMembers() {
                     };
 
                     for (const pairId of distinctPairIds) {
-                        const members = organizationMembers.filter(function (
-                            member
-                        ) {
-                            return member.pairId === pairId;
-                        });
+                        const members = organizationMembers
+                            .filter(function (member) {
+                                return member.pairId === pairId;
+                            })
+                            .sort(function (memberA, memberB) {
+                                if (
+                                    memberA.position === "chairman" &&
+                                    memberB.position === "vice_chairman"
+                                ) {
+                                    return -1;
+                                }
+
+                                if (
+                                    memberA.position === "vice_chairman" &&
+                                    memberB.position === "chairman"
+                                ) {
+                                    return 1;
+                                }
+
+                                return 0;
+                            });
 
                         grouppedOrganizationMembers[pairId] = members;
                     }
