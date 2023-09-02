@@ -84,7 +84,9 @@ function VotePage({
 }: {
     members: Awaited<OrganizationMembers>;
     organizationMemberIds: number[] | undefined;
-    setOrganizationMemberIds: React.Dispatch<React.SetStateAction<number[]>>;
+    setOrganizationMemberIds: React.Dispatch<
+        React.SetStateAction<OrganizationPairIds>
+    >;
 }) {
     const organizationNames = Object.keys(members);
 
