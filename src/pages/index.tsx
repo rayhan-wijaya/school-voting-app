@@ -4,6 +4,7 @@ import { URLSearchParams } from "url";
 import type { OrganizationMembers } from "~/pages/api/members";
 import { InferGetStaticPropsType } from "next";
 import { env } from "~/lib/env";
+import { RadioGroup } from "@headlessui/react";
 
 async function voteOrganizationMembers({
     studentId,
