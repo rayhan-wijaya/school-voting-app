@@ -216,7 +216,7 @@ export default function Home(
                             <div className="p-8" />
 
                             <div className="flex gap-3 items-center justify-center">
-                                <button className="bg-gray-400 text-white font-semibold px-6 py-3 rounded-xl flex gap-3 justify-center items-center">
+                                <button className="bg-gray-500 text-white font-semibold px-6 py-3 rounded-xl flex gap-3 justify-center items-center">
                                     Submit
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
