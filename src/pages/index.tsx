@@ -155,9 +155,8 @@ export default function Home(
     });
 
     const [studentNumber, setStudentNumber] = useState<number>();
-    const [organizationMemberIds, setOrganizationMemberIds] = useState<
-        number[]
-    >([]);
+    const [organizationPairIds, setOrganizationPairIds] =
+        useState<OrganizationPairIds>({});
 
     const [pageIndex, setPageIndex] = useState<number>(1);
     const pageIndexLimit = 2;
