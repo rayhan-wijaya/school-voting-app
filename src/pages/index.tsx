@@ -104,10 +104,7 @@ function VotePage({
 
                         <div className="p-3" />
 
-                        <RadioGroup
-                            value={selectedPairId}
-                            onChange={setSelectedPairId}
-                        >
+                        <RadioGroup>
                             <div className="grid grid-cols-2 gap-5">
                                 {pairIds.map(function (pairId) {
                                     const pair = organizationPairs[pairId];
