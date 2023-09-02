@@ -110,26 +110,25 @@ function VotePage({
                                     const pair = organizationPairs[pairId];
 
                                     return (
-                                        <RadioGroup.Option className="focus:outline-none" value={pairId}>
-                                            <div className="ui-checked:bg-gray-400 bg-gray-100 rounded-xl flex flex-col gap-3 ui-checked:divide-gray-500 divide-y ui-checked:text-white cursor-pointer ui-active:ring-2 ui-active:ring-gray-300">
-                                                {pair.map(function (member) {
-                                                    return (
-                                                        <div className="p-5">
-                                                            <h3 className="font-semibold">
-                                                                {
-                                                                    member.fullName
-                                                                }
-                                                            </h3>
-                                                            <span className="ui-checked:text-gray-100">
-                                                                {member.position ===
-                                                                "vice_chairman"
-                                                                    ? "Wakil Ketua"
-                                                                    : "Ketua"}
-                                                            </span>
-                                                        </div>
-                                                    );
-                                                })}
-                                            </div>
+                                        <RadioGroup.Option
+                                            className="focus:outline-none ui-checked:bg-gray-400 bg-gray-100 rounded-xl flex flex-col gap-3 ui-checked:divide-gray-500 divide-y ui-checked:text-white cursor-pointer ui-active:ring-2 ui-active:ring-gray-300"
+                                            value={pairId}
+                                        >
+                                            {pair.map(function (member) {
+                                                return (
+                                                    <div className="p-5">
+                                                        <h3 className="font-semibold">
+                                                            {member.fullName}
+                                                        </h3>
+                                                        <span className="ui-checked:text-gray-100">
+                                                            {member.position ===
+                                                            "vice_chairman"
+                                                                ? "Wakil Ketua"
+                                                                : "Ketua"}
+                                                        </span>
+                                                    </div>
+                                                );
+                                            })}
                                         </RadioGroup.Option>
                                     );
                                 })}
