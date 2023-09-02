@@ -111,7 +111,7 @@ function VotePage({
 
                                     return (
                                         <RadioGroup.Option className="focus:outline-none" value={pairId}>
-                                            <div className="ui-checked:bg-gray-500 bg-gray-100 rounded-xl flex flex-col gap-3 ui-checked:divide-gray-600 divide-y ui-checked:text-white cursor-pointer ui-active:ring-2 ui-active:ring-gray-400">
+                                            <div className="ui-checked:bg-gray-400 bg-gray-100 rounded-xl flex flex-col gap-3 ui-checked:divide-gray-500 divide-y ui-checked:text-white cursor-pointer ui-active:ring-2 ui-active:ring-gray-300">
                                                 {pair.map(function (member) {
                                                     return (
                                                         <div className="p-5">
