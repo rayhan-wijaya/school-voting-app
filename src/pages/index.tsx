@@ -104,31 +104,40 @@ function VotePage({
 
                         <div className="p-3" />
 
-                        <div className="grid grid-cols-2 gap-5">
-                            {pairIds.map(function (pairId) {
-                                const pair = organizationPairs[pairId];
+                        <RadioGroup
+                            value={selectedPairId}
+                            onChange={setSelectedPairId}
+                        >
+                            <div className="grid grid-cols-2 gap-5">
+                                {pairIds.map(function (pairId) {
+                                    const pair = organizationPairs[pairId];
 
-                                return (
-                                    <div className="bg-gray-100 rounded-xl flex flex-col gap-3 divide-y">
-                                        {pair.map(function (member) {
-                                            return (
-                                                <div className="p-5">
-                                                    <h3 className="font-semibold">
-                                                        {member.fullName}
-                                                    </h3>
-                                                    <span>
-                                                        {member.position ===
-                                                        "vice_chairman"
-                                                            ? "Wakil Ketua"
-                                                            : "Ketua"}
-                                                    </span>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                );
-                            })}
-                        </div>
+                                    return (
+                                        <RadioGroup.Option className="focus:outline-none" value={pairId}>
+                                            <div className="ui-checked:bg-gray-500 bg-gray-100 rounded-xl flex flex-col gap-3 ui-checked:divide-gray-600 divide-y ui-checked:text-white cursor-pointer ui-active:ring-2 ui-active:ring-gray-400">
+                                                {pair.map(function (member) {
+                                                    return (
+                                                        <div className="p-5">
+                                                            <h3 className="font-semibold">
+                                                                {
+                                                                    member.fullName
+                                                                }
+                                                            </h3>
+                                                            <span className="ui-checked:text-gray-100">
+                                                                {member.position ===
+                                                                "vice_chairman"
+                                                                    ? "Wakil Ketua"
+                                                                    : "Ketua"}
+                                                            </span>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </RadioGroup.Option>
+                                    );
+                                })}
+                            </div>
+                        </RadioGroup>
                     </div>
                 );
             })}
