@@ -92,6 +92,14 @@ function VotePage({
 
     return (
         <div className="flex flex-col gap-16">
+            <div>
+                <h1 className="text-center font-semibold">Pick your Vote for Each Organization</h1>
+
+                <div className="p-2" />
+
+                <p className="text-center">Simply select your vote</p>
+            </div>
+
             {organizationNames.map(function (organizationName) {
                 const organizationPairs = members[organizationName];
                 const pairIds = Object.keys(organizationPairs);
