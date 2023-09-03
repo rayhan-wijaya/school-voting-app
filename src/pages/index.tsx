@@ -234,30 +234,26 @@ export default function Home(
         initialData: props.members,
     });
 
-    const {
-        mutate: mutateVotePairs,
-        isError: isVoteError,
-        error: voteError,
-        data: mutateVotePairsResponse,
-    } = useMutation({
-        mutationFn: async function ({
-            studentId,
-            organizationPairIds,
-        }: {
-            studentId: number;
-            organizationPairIds: (string | number)[];
-        }) {
-            if (!studentId || !studentPassword || !organizationPairIds) {
-                return;
-            }
-
-            return await voteOrganizationPairs({
+    const { mutate: mutateVotePairs, data: mutateVotePairsResponse } =
+        useMutation({
+            mutationFn: async function ({
                 studentId,
-                studentPassword,
-                organizationPairIds: organizationPairIds,
-            });
-        },
-    });
+                organizationPairIds,
+            }: {
+                studentId: number;
+                organizationPairIds: (string | number)[];
+            }) {
+                if (!studentId || !studentPassword || !organizationPairIds) {
+                    return;
+                }
+
+                return await voteOrganizationPairs({
+                    studentId,
+                    studentPassword,
+                    organizationPairIds: organizationPairIds,
+                });
+            },
+        });
 
     const [studentId, setStudentId] = useState<number>();
     const [studentPassword, setStudentPassword] = useState<string>();
