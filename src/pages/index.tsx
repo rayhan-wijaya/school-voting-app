@@ -211,7 +211,7 @@ export default function Home(
         },
     });
 
-    const [studentNumber, setStudentNumber] = useState<number>();
+    const [studentId, setStudentId] = useState<number>();
     const [organizationPairIds, setOrganizationPairIds] =
         useState<OrganizationPairIds>({});
 
@@ -275,7 +275,7 @@ export default function Home(
                                 <button
                                     onClick={function () {
                                         if (
-                                            !studentNumber ||
+                                            !studentId ||
                                             !organizationPairIds
                                         ) {
                                             return;
@@ -284,7 +284,7 @@ export default function Home(
                                         console.log("Clicked");
 
                                         mutateVotePairs({
-                                            studentId: studentNumber,
+                                            studentId: studentId,
                                             organizationPairIds:
                                                 Object.values(
                                                     organizationPairIds
@@ -321,7 +321,7 @@ export default function Home(
                     disabled={pageIndex >= pageIndexLimit}
                     onClick={function () {
                         setPageIndex(function (pageIndex) {
-                            if ((pageIndex + 1) === 2 && !studentNumber) {
+                            if ((pageIndex + 1) === 2 && !studentId) {
                                 return pageIndex;
                             }
 
