@@ -32,6 +32,10 @@ CREATE TABLE `vote` (
     `student_id` INT,
     `pair_id` INT,
 
+    FOREIGN KEY (`student_id`)
+        REFERENCES `student`(`id`)
+        ON DELETE CASCADE,
+
     FOREIGN KEY (`pair_id`)
         REFERENCES `organization_pair`(`id`)
         ON DELETE CASCADE,
