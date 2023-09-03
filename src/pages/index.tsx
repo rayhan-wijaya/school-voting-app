@@ -114,14 +114,16 @@ function VotePage({
 
                         <div className="p-3" />
 
-                        <RadioGroup onChange={function (pairId) {
-                            setOrganizationPairIds(function (prevPairIds) {
-                                return {
-                                    ...prevPairIds,
-                                    [organizationName]: pairId,
-                                };
-                            });
-                        }}>
+                        <RadioGroup
+                            onChange={function (pairId) {
+                                setOrganizationPairIds(function (prevPairIds) {
+                                    return {
+                                        ...prevPairIds,
+                                        [organizationName]: pairId,
+                                    };
+                                });
+                            }}
+                        >
                             <div className="grid grid-cols-2 gap-5">
                                 {pairIds.map(function (pairId) {
                                     const pair = organizationPairs[pairId];
