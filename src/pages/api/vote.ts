@@ -9,36 +9,43 @@ const numericString = z
         return Number(value);
     });
 
-const postVotingQuerySchema = z.object({
-    studentId: numericString,
-    organizationMemberIds: z.union([numericString, z.array(numericString)]),
+const postVotingBodySchema = z.object({
+    studentId: z.union([numericString, z.number()]).transform(function (value) {
+        return Number(value);
+    }),
+    organizationPairIds: z.union([numericString, z.array(numericString)]),
 });
 
 async function handlePost(request: NextApiRequest, response: NextApiResponse) {
-    const parsedQuery = await postVotingQuerySchema.safeParseAsync(
-        request.query
+    const parsedBody = await postVotingBodySchema.safeParseAsync(
+        JSON.parse(request.body)
     );
 
-    if (!parsedQuery.success) {
-        return response.status(400).json({ error: parsedQuery.error.issues });
+    if (!parsedBody.success) {
+        console.log(parsedBody.error.issues);
+        console.log("query failed to parse :(");
+
+        return response.status(400).json({ error: parsedBody.error.issues });
     }
 
-    const organizationMemberIds = Array.isArray(
-        parsedQuery.data.organizationMemberIds
-    )
-        ? parsedQuery.data.organizationMemberIds
-        : [parsedQuery.data.organizationMemberIds];
+    console.log(parsedBody.data);
 
-    for (const memberId of organizationMemberIds) {
+    const organizationPairIds = Array.isArray(
+        parsedBody.data.organizationPairIds
+    )
+        ? parsedBody.data.organizationPairIds
+        : [parsedBody.data.organizationPairIds];
+
+    for (const memberId of organizationPairIds) {
         database.pool.query(
             {
                 sql: `
                         INSERT INTO
-                            \`vote\` (\`student_id\`, \`organization_member_id\`)
+                            \`vote\` (\`student_id\`, \`pair_id\`)
                         VALUES
                             (?, ?);
                     `,
-                values: [parsedQuery.data.studentId, memberId],
+                values: [parsedBody.data.studentId, memberId],
             },
             function (error) {
                 if (error) {
