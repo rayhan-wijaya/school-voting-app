@@ -258,29 +258,11 @@ export default function Home(
 
     const [studentId, setStudentId] = useState<number>();
     const [studentPassword, setStudentPassword] = useState<string>();
-    const [passwordValidation, setPasswordValidation] = useState<boolean>();
     const [organizationPairIds, setOrganizationPairIds] =
         useState<OrganizationPairIds>({});
 
     const [pageIndex, setPageIndex] = useState<number>(1);
     const pageIndexLimit = 2;
-
-    useEffect(
-        function () {
-            setPageIndex(function (pageIndex) {
-                if (pageIndex + 1 === 2 && !passwordValidation) {
-                    return pageIndex;
-                }
-
-                if (pageIndex < pageIndexLimit) {
-                    return pageIndex + 1;
-                }
-
-                return pageIndex;
-            });
-        },
-        [passwordValidation]
-    );
 
     return (
         <div>
@@ -388,12 +370,22 @@ export default function Home(
                             return;
                         }
 
-                        setPasswordValidation(
-                            await getPasswordValidation({
-                                studentId,
-                                password: studentPassword,
-                            })
-                        );
+                        const passwordValidation = await getPasswordValidation({
+                            studentId,
+                            password: studentPassword,
+                        });
+
+                        setPageIndex(function (pageIndex) {
+                            if (pageIndex + 1 === 2 && !passwordValidation) {
+                                return pageIndex;
+                            }
+
+                            if (pageIndex < pageIndexLimit) {
+                                return pageIndex + 1;
+                            }
+
+                            return pageIndex;
+                        });
                     }}
                 >
                     <svg
