@@ -45,7 +45,7 @@ export async function isAuthValid({
                             .digest("hex")
                     );
                     const hashedOriginalPassword = Buffer.from(
-                        firstResult.password
+                        firstResult.hashedPassword
                     );
 
                     return resolve(
