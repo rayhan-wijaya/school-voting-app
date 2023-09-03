@@ -16,6 +16,28 @@ const postVotingBodySchema = z.object({
     organizationPairIds: z.union([numericString, z.array(numericString)]),
 });
 
+async function hasStudentVoted(studentId: number) {
+    return new Promise<boolean>(function (resolve, reject) {
+        database.pool.query(
+            {
+                sql: "SELECT id FROM vote WHERE student_id = ?",
+                values: [studentId],
+            },
+            function (error, results, _fields) {
+                if (error) {
+                    return reject(error);
+                }
+
+                if (!Array.isArray(results)) {
+                    return reject("`results` wasn't an array");
+                }
+
+                return resolve(results.length >= 0);
+            }
+        );
+    })
+}
+
 async function handlePost(request: NextApiRequest, response: NextApiResponse) {
     const parsedBody = await postVotingBodySchema.safeParseAsync(
         JSON.parse(request.body)
