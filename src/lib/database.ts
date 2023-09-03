@@ -3,7 +3,7 @@ import { env } from "./env";
 
 export const database = {
     pool: createPool({
-        connectionLimit: 40,
+        connectionLimit: 500,
         host: env.DATABASE_HOST,
         user: env.DATABASE_USER,
         password: env.DATABASE_PASSWORD,
