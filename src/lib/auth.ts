@@ -4,7 +4,7 @@ import { database } from "./database";
 
 const passwordResultsSchema = z.array(
     z.object({
-        password: z.string(),
+        hashedPassword: z.string(),
     })
 );
 
@@ -23,7 +23,7 @@ export async function isAuthValid({
 
             connection.query(
                 {
-                    sql: "SELECT password FROM student WHERE id = ?",
+                    sql: "SELECT hashed_password as hashedPassword FROM student WHERE id = ?",
                     values: [studentId],
                 },
                 function (error, results, _fields) {
