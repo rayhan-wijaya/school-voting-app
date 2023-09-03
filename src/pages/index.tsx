@@ -222,7 +222,7 @@ export default function Home(
         <div>
             <div className="flex justify-between gap-3 p-3">
                 <button
-                    className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center"
+                    className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center disabled:bg-gray-50 disabled:text-gray-300"
                     disabled={pageIndex <= 1}
                     onClick={function () {
                         setPageIndex(function (pageIndex) {
@@ -317,7 +317,7 @@ export default function Home(
                 </div>
 
                 <button
-                    className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center"
+                    className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center disabled:bg-gray-50 disabled:text-gray-300"
                     disabled={pageIndex >= pageIndexLimit}
                     onClick={function () {
                         setPageIndex(function (pageIndex) {
