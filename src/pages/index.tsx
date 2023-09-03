@@ -127,7 +127,7 @@ function VotePage({
     members,
     setOrganizationPairs,
 }: {
-    members: Awaited<OrganizationMembers>;
+    members: Awaited<OrganizationMembers> | undefined;
     setOrganizationPairs: React.Dispatch<
         React.SetStateAction<OrganizationPairs>
     >;
@@ -149,107 +149,120 @@ function VotePage({
             <div className="p-6" />
 
             <div className="flex flex-col gap-16">
-                {organizationNames.map(function (organizationName) {
-                    const organizationPairs = members[organizationName];
-                    const pairIds = Object.keys(organizationPairs);
+                {members
+                    ? organizationNames.map(function (organizationName) {
+                          const organizationPairs = members[organizationName];
+                          const pairIds = Object.keys(organizationPairs);
 
-                    return (
-                        <div key={organizationName}>
-                            <h2 className="font-semibold text-center">
-                                {organizationName}
-                            </h2>
+                          return (
+                              <div key={organizationName}>
+                                  <h2 className="font-semibold text-center">
+                                      {organizationName}
+                                  </h2>
 
-                            <div className="p-3" />
+                                  <div className="p-3" />
 
-                            <RadioGroup
-                                by={"organizationPairCompositeId"}
-                                onChange={function (pair: OrganizationPair) {
-                                    setOrganizationPairs(function (prevPairs) {
-                                        return {
-                                            ...prevPairs,
-                                            [organizationName]: pair,
-                                        };
-                                    });
-                                }}
-                            >
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                    {pairIds.map(function (pairId) {
-                                        const pair = organizationPairs[pairId];
+                                  <RadioGroup
+                                      by={"organizationPairCompositeId"}
+                                      onChange={function (
+                                          pair: OrganizationPair
+                                      ) {
+                                          setOrganizationPairs(function (
+                                              prevPairs
+                                          ) {
+                                              return {
+                                                  ...prevPairs,
+                                                  [organizationName]: pair,
+                                              };
+                                          });
+                                      }}
+                                  >
+                                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                          {pairIds.map(function (pairId) {
+                                              const pair =
+                                                  organizationPairs[pairId];
 
-                                        return (
-                                            <RadioGroup.Option
-                                                className="focus:outline-none ui-checked:bg-gray-500 bg-gray-100 rounded-xl ui-checked:text-white cursor-pointer ui-active:ring-4 ui-active:ring-gray-400 shadow-md"
-                                                key={`${pair[0].organizationId}-${pairId}`}
-                                                value={
-                                                    {
-                                                        organizationPairCompositeId: `${pair[0].organizationId}-${pairId}`,
-                                                        pairId: Number(pairId),
-                                                        organizationId: Number(
-                                                            pair[0]
-                                                                .organizationId
-                                                        ),
-                                                    } as OrganizationPair
-                                                }
-                                            >
-                                                <div className="p-1">
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        fill="none"
-                                                        viewBox="0 0 24 24"
-                                                        strokeWidth={1.5}
-                                                        stroke="currentColor"
-                                                        className="w-6 h-6 hidden ui-not-checked:block"
-                                                    >
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                        />
-                                                    </svg>
+                                              return (
+                                                  <RadioGroup.Option
+                                                      className="focus:outline-none ui-checked:bg-gray-500 bg-gray-100 rounded-xl ui-checked:text-white cursor-pointer ui-active:ring-4 ui-active:ring-gray-400 shadow-md"
+                                                      key={`${pair[0].organizationId}-${pairId}`}
+                                                      value={
+                                                          {
+                                                              organizationPairCompositeId: `${pair[0].organizationId}-${pairId}`,
+                                                              pairId: Number(
+                                                                  pairId
+                                                              ),
+                                                              organizationId:
+                                                                  Number(
+                                                                      pair[0]
+                                                                          .organizationId
+                                                                  ),
+                                                          } as OrganizationPair
+                                                      }
+                                                  >
+                                                      <div className="p-1">
+                                                          <svg
+                                                              xmlns="http://www.w3.org/2000/svg"
+                                                              fill="none"
+                                                              viewBox="0 0 24 24"
+                                                              strokeWidth={1.5}
+                                                              stroke="currentColor"
+                                                              className="w-6 h-6 hidden ui-not-checked:block"
+                                                          >
+                                                              <path
+                                                                  strokeLinecap="round"
+                                                                  strokeLinejoin="round"
+                                                                  d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                              />
+                                                          </svg>
 
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 24 24"
-                                                        fill="currentColor"
-                                                        className="w-6 h-6 hidden ui-checked:block"
-                                                    >
-                                                        <path
-                                                            fillRule="evenodd"
-                                                            d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm3 10.5a.75.75 0 000-1.5H9a.75.75 0 000 1.5h6z"
-                                                            clipRule="evenodd"
-                                                        />
-                                                    </svg>
-                                                </div>
+                                                          <svg
+                                                              xmlns="http://www.w3.org/2000/svg"
+                                                              viewBox="0 0 24 24"
+                                                              fill="currentColor"
+                                                              className="w-6 h-6 hidden ui-checked:block"
+                                                          >
+                                                              <path
+                                                                  fillRule="evenodd"
+                                                                  d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm3 10.5a.75.75 0 000-1.5H9a.75.75 0 000 1.5h6z"
+                                                                  clipRule="evenodd"
+                                                              />
+                                                          </svg>
+                                                      </div>
 
-                                                <div className="flex flex-col gap-3 ui-checked:divide-gray-600 divide-y">
-                                                    {pair.map(function (
-                                                        member
-                                                    ) {
-                                                        return (
-                                                            <div className="p-5" key={`${member.organizationId}-${member.nickname}`}>
-                                                                <h3 className="font-semibold">
-                                                                    {
-                                                                        member.fullName
-                                                                    }
-                                                                </h3>
-                                                                <span className="ui-checked:text-gray-100">
-                                                                    {member.position ===
-                                                                    "vice_chairman"
-                                                                        ? "Wakil Ketua"
-                                                                        : "Ketua"}
-                                                                </span>
-                                                            </div>
-                                                        );
-                                                    })}
-                                                </div>
-                                            </RadioGroup.Option>
-                                        );
-                                    })}
-                                </div>
-                            </RadioGroup>
-                        </div>
-                    );
-                })}
+                                                      <div className="flex flex-col gap-3 ui-checked:divide-gray-600 divide-y">
+                                                          {pair.map(function (
+                                                              member
+                                                          ) {
+                                                              return (
+                                                                  <div
+                                                                      className="p-5"
+                                                                      key={`${member.organizationId}-${member.nickname}`}
+                                                                  >
+                                                                      <h3 className="font-semibold">
+                                                                          {
+                                                                              member.fullName
+                                                                          }
+                                                                      </h3>
+                                                                      <span className="ui-checked:text-gray-100">
+                                                                          {member.position ===
+                                                                          "vice_chairman"
+                                                                              ? "Wakil Ketua"
+                                                                              : "Ketua"}
+                                                                      </span>
+                                                                  </div>
+                                                              );
+                                                          })}
+                                                      </div>
+                                                  </RadioGroup.Option>
+                                              );
+                                          })}
+                                      </div>
+                                  </RadioGroup>
+                              </div>
+                          );
+                      })
+                    : undefined}
             </div>
         </div>
     );
