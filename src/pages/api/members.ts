@@ -4,6 +4,7 @@ import { database } from "~/lib/database";
 
 const organizationMemberSchema = z.object({
     id: z.number(),
+    organizationId: z.number(),
     pairId: z.number(),
     nickname: z.string(),
     fullName: z.string(),
@@ -22,7 +23,13 @@ async function filterSuccesses<T>(promiseResults: PromiseSettledResult<T>[]) {
         });
 }
 
-async function getOrganizationIdFromPairId(pairId: number) {
+async function getOrganizationIdFromOrganizationPair({
+    organizationId,
+    pairId,
+}: {
+    organizationId: number;
+    pairId: number;
+}) {
     return new Promise<number>(function (resolve, reject) {
         database.pool.getConnection(function (error, connection) {
             if (error) {
@@ -80,7 +87,9 @@ async function getOrganizationName(id: number) {
 
 async function getAllMembers() {
     type MembersResponse = {
-        [organizationName: string]: { [pairId: string]: OrganizationMember[] };
+        [organizationName: string]: {
+            [organizationPairId: string]: OrganizationMember[];
+        };
     };
 
     return new Promise<MembersResponse>(function (resolve, reject) {
@@ -93,6 +102,7 @@ async function getAllMembers() {
                 `
                     SELECT
                         id,
+                        organization_id as organizationId,
                         pair_id as pairId,
                         nickname,
                         full_name as fullName,
@@ -123,8 +133,12 @@ async function getAllMembers() {
                             await filterSuccesses(
                                 await Promise.allSettled(
                                     members.map(function (member) {
-                                        return getOrganizationIdFromPairId(
-                                            member.pairId
+                                        return getOrganizationIdFromOrganizationPair(
+                                            {
+                                                pairId: member.pairId,
+                                                organizationId:
+                                                    member.organizationId,
+                                            }
                                         );
                                     })
                                 )
@@ -154,9 +168,10 @@ async function getAllMembers() {
 
                         for (const member of members) {
                             const organizationId =
-                                await getOrganizationIdFromPairId(
-                                    member.pairId
-                                );
+                                await getOrganizationIdFromOrganizationPair({
+                                    pairId: member.pairId,
+                                    organizationId: member.organizationId,
+                                });
 
                             if (organizationId !== organization.id) {
                                 continue;
