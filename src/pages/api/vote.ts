@@ -22,13 +22,8 @@ async function handlePost(request: NextApiRequest, response: NextApiResponse) {
     );
 
     if (!parsedBody.success) {
-        console.log(parsedBody.error.issues);
-        console.log("query failed to parse :(");
-
         return response.status(400).json({ error: parsedBody.error.issues });
     }
-
-    console.log(parsedBody.data);
 
     const organizationPairIds = Array.isArray(
         parsedBody.data.organizationPairIds
