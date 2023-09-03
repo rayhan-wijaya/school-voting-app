@@ -132,7 +132,7 @@ function VotePage({
         React.SetStateAction<OrganizationPairs>
     >;
 }) {
-    const organizationNames = Object.keys(members);
+    const organizationNames = members ? Object.keys(members) : [];
 
     return (
         <div>
