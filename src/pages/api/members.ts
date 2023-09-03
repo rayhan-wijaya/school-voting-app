@@ -23,42 +23,6 @@ async function filterSuccesses<T>(promiseResults: PromiseSettledResult<T>[]) {
         });
 }
 
-async function getOrganizationIdFromOrganizationPair({
-    organizationId,
-    pairId,
-}: {
-    organizationId: number;
-    pairId: number;
-}) {
-    return new Promise<number>(function (resolve, reject) {
-        database.pool.getConnection(function (error, connection) {
-            if (error) {
-                return reject(error);
-            }
-
-            connection.query(
-                {
-                    sql: `
-                        SELECT
-                            organization_id as organizationId
-                        FROM organization_pair
-                        WHERE id = ?;
-                    `,
-                    values: [pairId],
-                },
-                function (error, results, _fields) {
-                    if (error) {
-                        return reject(error);
-                    }
-
-                    return resolve(results?.[0]?.organizationId);
-                }
-            );
-            return connection.release();
-        });
-    });
-}
-
 async function getOrganizationName(id: number) {
     return new Promise<string>(function (resolve, reject) {
         database.pool.getConnection(function (error, connection) {
@@ -130,19 +94,9 @@ async function getAllMembers() {
 
                     const organizationIds = Array.from(
                         new Set(
-                            await filterSuccesses(
-                                await Promise.allSettled(
-                                    members.map(function (member) {
-                                        return getOrganizationIdFromOrganizationPair(
-                                            {
-                                                pairId: member.pairId,
-                                                organizationId:
-                                                    member.organizationId,
-                                            }
-                                        );
-                                    })
-                                )
-                            )
+                            members.map(function (member) {
+                                return member.organizationId;
+                            })
                         )
                     );
 
@@ -167,13 +121,7 @@ async function getAllMembers() {
                         const organizationMembers = [] as typeof members;
 
                         for (const member of members) {
-                            const organizationId =
-                                await getOrganizationIdFromOrganizationPair({
-                                    pairId: member.pairId,
-                                    organizationId: member.organizationId,
-                                });
-
-                            if (organizationId !== organization.id) {
+                            if (member.organizationId !== organization.id) {
                                 continue;
                             }
 
