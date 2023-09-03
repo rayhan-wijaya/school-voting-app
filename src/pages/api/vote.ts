@@ -3,12 +3,15 @@ import { z } from "zod";
 import { isAuthValid } from "~/lib/auth";
 import { database } from "~/lib/database";
 
-const numericString = z
-    .string()
-    .regex(/^\d+$/)
-    .transform(function (value) {
-        return Number(value);
-    });
+const numericString = z.union([
+    z
+        .string()
+        .regex(/^\d+$/)
+        .transform(function (value) {
+            return Number(value);
+        }),
+    z.number(),
+]);
 
 const organizationPairSchema = z.object({
     organizationId: numericString,
