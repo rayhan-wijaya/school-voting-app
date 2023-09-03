@@ -255,13 +255,10 @@ function VotePage({
     );
 }
 
-export default function Home(
-    props: InferGetStaticPropsType<typeof getStaticProps>
-) {
+export default function Home() {
     const { data: members } = useQuery({
         queryKey: ["organization-members"],
         queryFn: getOrganizationMembers,
-        initialData: props.members,
     });
 
     const { mutate: mutateVotePairs, data: mutateVotePairsResponse } =
@@ -483,15 +480,4 @@ export default function Home(
             <div className="p-3" />
         </div>
     );
-}
-
-export async function getStaticProps() {
-    const members = await getOrganizationMembers();
-
-    return {
-        revalidate: 3000,
-        props: {
-            members,
-        },
-    };
 }
