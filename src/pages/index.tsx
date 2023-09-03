@@ -341,7 +341,7 @@ export default function Home(
                     <>
                         <div className="p-8" />
 
-                        <div className="flex gap-3 items-center justify-center">
+                        <div className="flex flex-col gap-3 items-center justify-center">
                             <button
                                 disabled={hasSubmitted}
                                 onClick={function () {
