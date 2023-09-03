@@ -56,7 +56,7 @@ function StudentNumberPage({
             <input
                 type="number"
                 className="bg-gray-100 rounded-xl p-3"
-                placeholder="Student ID"
+                placeholder="Student ID *"
                 value={studentNumber}
                 onChange={function (event) {
                     setStudentNumber(event.target.valueAsNumber);
