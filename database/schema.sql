@@ -18,13 +18,21 @@ CREATE TABLE `organization_pair` (
 
 CREATE TABLE `organization_member` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
+    `organization_id` INT,
     `pair_id` INT,
     `nickname` VARCHAR(12),
     `full_name` VARCHAR(40),
     `position` ENUM('chairman', 'vice_chairman'),
 
+    INDEX `organization_id_index` (`organization_id`),
+    INDEX `pair_id_index` (`pair_id`),
+
     FOREIGN KEY (`pair_id`)
-        REFERENCES `organization_pair`(`id`)
+        REFERENCES `organization_pair`(`pair_id`)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (`organization_id`)
+        REFERENCES `organization_pair`(`organization_id`)
         ON DELETE CASCADE,
 
     CONSTRAINT `pair_id_nickname`
