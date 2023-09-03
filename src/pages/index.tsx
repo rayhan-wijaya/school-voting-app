@@ -126,7 +126,7 @@ function VotePage({
 
                                     return (
                                         <RadioGroup.Option
-                                            className="focus:outline-none ui-checked:bg-gray-500 bg-gray-100 rounded-xl flex flex-col gap-3 ui-checked:divide-gray-600 divide-y ui-checked:text-white cursor-pointer ui-active:ring-2 ui-active:ring-gray-400"
+                                            className="focus:outline-none ui-checked:bg-gray-500 bg-gray-100 rounded-xl flex flex-col gap-3 ui-checked:divide-gray-600 divide-y ui-checked:text-white cursor-pointer ui-active:ring-4 ui-active:ring-gray-400"
                                             value={pairId}
                                         >
                                             {pair.map(function (member) {
