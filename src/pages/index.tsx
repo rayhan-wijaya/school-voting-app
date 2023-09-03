@@ -347,8 +347,6 @@ export default function Home(
                                             return;
                                         }
 
-                                        console.log("Clicked");
-
                                         mutateVotePairs({
                                             studentId: studentId,
                                             organizationPairIds:
