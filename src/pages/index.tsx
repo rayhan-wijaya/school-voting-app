@@ -93,7 +93,9 @@ function VotePage({
     return (
         <div className="flex flex-col gap-16">
             <div>
-                <h1 className="text-center font-semibold">Pick your Vote for Each Organization</h1>
+                <h1 className="text-center font-semibold">
+                    Pick your Vote for Each Organization
+                </h1>
 
                 <div className="p-2" />
 
