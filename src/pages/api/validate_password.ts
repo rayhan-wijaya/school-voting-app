@@ -17,8 +17,6 @@ const getValidatePasswordQuerySchema = z.object({
 });
 
 async function handleGet(request: NextApiRequest, response: NextApiResponse) {
-    console.log(request.query);
-
     const parsedQuery = await getValidatePasswordQuerySchema.safeParseAsync(
         request.query
     );
