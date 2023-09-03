@@ -216,6 +216,7 @@ export default function Home(
     });
 
     const [studentId, setStudentId] = useState<number>();
+    const [studentPassword, setStudentPassword] = useState<string>();
     const [organizationPairIds, setOrganizationPairIds] =
         useState<OrganizationPairIds>({});
 
