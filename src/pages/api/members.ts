@@ -47,19 +47,27 @@ async function getOrganizationIdFromPairId(pairId: number) {
 
 async function getOrganizationName(id: number) {
     return new Promise<string>(function (resolve, reject) {
-        database.pool.query(
-            {
-                sql: "SELECT name FROM organization where id = ?",
-                values: [id],
-            },
-            function (error, results, _fields) {
-                if (error) {
-                    return reject(error);
-                }
-
-                return resolve(results?.[0]?.name);
+        database.pool.getConnection(function (error, connection) {
+            if (error) {
+                return reject(error);
             }
-        );
+
+            connection.query(
+                {
+                    sql: "SELECT name FROM organization where id = ?",
+                    values: [id],
+                },
+                function (error, results, _fields) {
+                    if (error) {
+                        return reject(error);
+                    }
+
+                    return resolve(results?.[0]?.name);
+                }
+            );
+
+            return connection.release();
+        });
     });
 }
 
