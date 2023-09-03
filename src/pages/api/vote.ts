@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
+import { isAuthValid } from "~/lib/auth";
 import { database } from "~/lib/database";
 
 const numericString = z
@@ -13,6 +14,7 @@ const postVotingBodySchema = z.object({
     studentId: z.union([numericString, z.number()]).transform(function (value) {
         return Number(value);
     }),
+    password: z.string(),
     organizationPairIds: z.union([numericString, z.array(numericString)]),
 });
 
@@ -58,6 +60,16 @@ async function handlePost(request: NextApiRequest, response: NextApiResponse) {
     if (await hasStudentVoted(parsedBody.data.studentId)) {
         return response.status(400).json({ error: "You already voted!" });
     }
+
+    if (
+        !(await isAuthValid({
+            studentId: parsedBody.data.studentId,
+            requestedPassword: parsedBody.data.password,
+        }))
+    ) {
+        return response.status(400).json({ error: "Incorrect password" });
+    }
+
 
     const organizationPairIds = Array.isArray(
         parsedBody.data.organizationPairIds
