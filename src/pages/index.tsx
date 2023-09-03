@@ -57,15 +57,33 @@ function StudentDetailsPage({
 
             <div className="p-3" />
 
-            <input
-                type="number"
-                className="bg-gray-100 rounded-xl p-3"
-                placeholder="Student ID *"
-                value={studentNumber}
-                onChange={function (event) {
-                    setStudentNumber(event.target.valueAsNumber);
-                }}
-            />
+            <label className="flex flex-col gap-2">
+                <span className="font-semibold">Student ID</span>
+                <input
+                    type="number"
+                    className="bg-gray-100 rounded-xl p-3"
+                    placeholder="Your student ID here"
+                    value={studentId}
+                    onChange={function (event) {
+                        setStudentId(event.target.valueAsNumber);
+                    }}
+                />
+            </label>
+
+            <div className="p-3" />
+
+            <label className="flex flex-col gap-2">
+                <span className="font-semibold">Password</span>
+                <input
+                    type="password"
+                    className="bg-gray-100 rounded-xl p-3"
+                    placeholder="Your student password here"
+                    value={studentPassword}
+                    onChange={function (event) {
+                        setStudentPassword(event.target.value);
+                    }}
+                />
+            </label>
         </>
     );
 }
