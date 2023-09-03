@@ -311,7 +311,94 @@ export default function Home(
 
     return (
         <div>
-            <div className="flex justify-between gap-3 p-3">
+            <div className="flex flex-col px-5">
+                <div className="p-3" />
+
+                {pageIndex === 1 ? (
+                    <StudentDetailsPage
+                        studentId={studentId}
+                        setStudentId={setStudentId}
+                        studentPassword={studentPassword}
+                        setStudentPassword={setStudentPassword}
+                    />
+                ) : null}
+
+                {pageIndex === 2 ? (
+                    <VotePage
+                        members={members}
+                        setOrganizationPairs={setOrganizationPairs}
+                    />
+                ) : null}
+
+                {pageIndex === pageIndexLimit ? (
+                    <>
+                        <div className="p-8" />
+
+                        <div className="flex gap-3 items-center justify-center">
+                            <button
+                                disabled={hasSubmitted}
+                                onClick={function () {
+                                    if (!studentId || !organizationPairs) {
+                                        return;
+                                    }
+
+                                    setHasSubmitted(true);
+
+                                    mutateVotePairs({
+                                        studentId: studentId,
+                                        organizationPairs:
+                                            Object.values(organizationPairs),
+                                    });
+
+                                    setTimeout(function () {
+                                        setPageIndex(1);
+
+                                        setStudentId(undefined);
+                                        setStudentPassword(undefined);
+
+                                        setOrganizationPairs({});
+                                        setVoteResponseJson(undefined);
+
+                                        setHasSubmitted(false);
+                                    }, 2000);
+                                }}
+                                className="bg-gray-600 text-white font-semibold px-6 py-3 rounded-xl flex gap-3 justify-center items-center cursor-pointer disabled:bg-gray-200 disabled:text-gray-300"
+                            >
+                                Submit
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={1.5}
+                                    stroke="currentColor"
+                                    className="w-6 h-6"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
+                                </svg>
+                            </button>
+
+                            {hasSubmitted &&
+                            voteResponseJson &&
+                            "error" in voteResponseJson
+                                ? JSON.stringify(voteResponseJson.error)
+                                : ""}
+
+                            {hasSubmitted &&
+                            mutateVotePairsResponse?.status === 200
+                                ? "Successfully voted!"
+                                : ""}
+                        </div>
+                    </>
+                ) : null}
+
+                <div className="p-3" />
+            </div>
+
+            <div className="flex gap-3 justify-center">
                 <button
                     className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center disabled:bg-gray-50 disabled:text-gray-300"
                     disabled={pageIndex <= 1}
@@ -340,95 +427,6 @@ export default function Home(
                         />
                     </svg>
                 </button>
-
-                <div className="flex flex-col">
-                    <div className="p-3" />
-
-                    {pageIndex === 1 ? (
-                        <StudentDetailsPage
-                            studentId={studentId}
-                            setStudentId={setStudentId}
-                            studentPassword={studentPassword}
-                            setStudentPassword={setStudentPassword}
-                        />
-                    ) : null}
-
-                    {pageIndex === 2 ? (
-                        <VotePage
-                            members={members}
-                            setOrganizationPairs={setOrganizationPairs}
-                        />
-                    ) : null}
-
-                    {pageIndex === pageIndexLimit ? (
-                        <>
-                            <div className="p-8" />
-
-                            <div className="flex gap-3 items-center justify-center">
-                                <button
-                                    disabled={hasSubmitted}
-                                    onClick={function () {
-                                        if (!studentId || !organizationPairs) {
-                                            return;
-                                        }
-
-                                        setHasSubmitted(true);
-
-                                        mutateVotePairs({
-                                            studentId: studentId,
-                                            organizationPairs:
-                                                Object.values(
-                                                    organizationPairs
-                                                ),
-                                        });
-
-                                        setTimeout(function () {
-                                            setPageIndex(1);
-
-                                            setStudentId(undefined);
-                                            setStudentPassword(undefined);
-
-                                            setOrganizationPairs({});
-                                            setVoteResponseJson(undefined);
-
-                                            setHasSubmitted(false);
-                                        }, 2000);
-                                    }}
-                                    className="bg-gray-600 text-white font-semibold px-6 py-3 rounded-xl flex gap-3 justify-center items-center cursor-pointer disabled:bg-gray-200 disabled:text-gray-300"
-                                >
-                                    Submit
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth={1.5}
-                                        stroke="currentColor"
-                                        className="w-6 h-6"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                        />
-                                    </svg>
-                                </button>
-
-                                {(hasSubmitted &&
-                                voteResponseJson &&
-                                "error" in voteResponseJson)
-                                    ? JSON.stringify(voteResponseJson.error)
-                                    : ""}
-
-                                {hasSubmitted &&
-                                mutateVotePairsResponse?.status === 200
-                                    ? "Successfully voted!"
-                                    : ""}
-                            </div>
-                        </>
-                    ) : null}
-
-                    <div className="p-3" />
-                </div>
 
                 <button
                     className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center disabled:bg-gray-50 disabled:text-gray-300"
@@ -472,6 +470,7 @@ export default function Home(
                     </svg>
                 </button>
             </div>
+            <div className="p-3" />
         </div>
     );
 }
