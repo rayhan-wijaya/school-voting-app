@@ -133,21 +133,55 @@ function VotePage({
                                             className="focus:outline-none ui-checked:bg-gray-500 bg-gray-100 rounded-xl ui-checked:text-white cursor-pointer ui-active:ring-4 ui-active:ring-gray-400 shadow-md"
                                             value={pairId}
                                         >
-                                            {pair.map(function (member) {
-                                                return (
-                                                    <div className="p-5">
-                                                        <h3 className="font-semibold">
-                                                            {member.fullName}
-                                                        </h3>
-                                                        <span className="ui-checked:text-gray-100">
-                                                            {member.position ===
-                                                            "vice_chairman"
-                                                                ? "Wakil Ketua"
-                                                                : "Ketua"}
-                                                        </span>
-                                                    </div>
-                                                );
-                                            })}
+                                            <div className="p-1">
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    strokeWidth={1.5}
+                                                    stroke="currentColor"
+                                                    className="w-6 h-6 hidden ui-not-checked:block"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                    />
+                                                </svg>
+
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24"
+                                                    fill="currentColor"
+                                                    className="w-6 h-6 hidden ui-checked:block"
+                                                >
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm3 10.5a.75.75 0 000-1.5H9a.75.75 0 000 1.5h6z"
+                                                        clipRule="evenodd"
+                                                    />
+                                                </svg>
+                                            </div>
+
+                                            <div className="flex flex-col gap-3 ui-checked:divide-gray-600 divide-y">
+                                                {pair.map(function (member) {
+                                                    return (
+                                                        <div className="p-5">
+                                                            <h3 className="font-semibold">
+                                                                {
+                                                                    member.fullName
+                                                                }
+                                                            </h3>
+                                                            <span className="ui-checked:text-gray-100">
+                                                                {member.position ===
+                                                                "vice_chairman"
+                                                                    ? "Wakil Ketua"
+                                                                    : "Ketua"}
+                                                            </span>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
                                         </RadioGroup.Option>
                                     );
                                 })}
