@@ -194,6 +194,25 @@ export default function Home(
         initialData: props.members,
     });
 
+    const { mutate: mutateVotePairs } = useMutation({
+        mutationFn: async function ({
+            studentId,
+            organizationPairIds,
+        }: {
+            studentId: number;
+            organizationPairIds: (string | number)[];
+        }) {
+            if (!studentId || !organizationPairIds) {
+                return;
+            }
+
+            return await voteOrganizationPairs({
+                studentId,
+                organizationPairIds: organizationPairIds,
+            });
+        },
+    });
+
     const [studentNumber, setStudentNumber] = useState<number>();
     const [organizationPairIds, setOrganizationPairIds] =
         useState<OrganizationPairIds>({});
