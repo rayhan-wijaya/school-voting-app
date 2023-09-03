@@ -70,11 +70,9 @@ type OrganizationPairIds = { [organizationName: string]: string | number };
 
 function VotePage({
     members,
-    organizationPairIds,
     setOrganizationPairIds,
 }: {
     members: Awaited<OrganizationMembers>;
-    organizationPairIds: OrganizationPairIds;
     setOrganizationPairIds: React.Dispatch<
         React.SetStateAction<OrganizationPairIds>
     >;
