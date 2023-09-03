@@ -30,14 +30,14 @@ CREATE TABLE `organization_member` (
 CREATE TABLE `vote` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
     `student_id` INT,
-    `organization_member_id` INT,
+    `pair_id` INT,
 
-    FOREIGN KEY (`organization_member_id`)
-        REFERENCES `organization_member`(`id`)
+    FOREIGN KEY (`pair_id`)
+        REFERENCES `organization_pair`(`id`)
         ON DELETE CASCADE,
 
-    CONSTRAINT `student_organization_member`
-    UNIQUE (`student_id`, `organization_member_id`)
+    CONSTRAINT `student_pair`
+    UNIQUE (`student_id`, `pair_id`)
 );
 
 --
