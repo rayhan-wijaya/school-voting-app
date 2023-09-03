@@ -10,12 +10,17 @@ const numericString = z
         return Number(value);
     });
 
+const organizationPairSchema = z.object({
+    organizationId: numericString,
+    pairId: numericString,
+});
+
 const postVotingBodySchema = z.object({
     studentId: z.union([numericString, z.number()]).transform(function (value) {
         return Number(value);
     }),
     password: z.string(),
-    organizationPairIds: z.union([numericString, z.array(numericString)]),
+    organizationPairs: z.array(organizationPairSchema),
 });
 
 async function hasStudentVoted(studentId: number) {
@@ -70,14 +75,11 @@ async function handlePost(request: NextApiRequest, response: NextApiResponse) {
         return response.status(400).json({ error: "Incorrect password" });
     }
 
+    const organizationPairs = Array.isArray(parsedBody.data.organizationPairs)
+        ? parsedBody.data.organizationPairs
+        : [parsedBody.data.organizationPairs];
 
-    const organizationPairIds = Array.isArray(
-        parsedBody.data.organizationPairIds
-    )
-        ? parsedBody.data.organizationPairIds
-        : [parsedBody.data.organizationPairIds];
-
-    for (const memberId of organizationPairIds) {
+    for (const organizationPair of organizationPairs) {
         database.pool.getConnection(function (error, connection) {
             if (error) {
                 return;
@@ -87,11 +89,15 @@ async function handlePost(request: NextApiRequest, response: NextApiResponse) {
                 {
                     sql: `
                         INSERT INTO
-                            \`vote\` (\`student_id\`, \`pair_id\`)
+                            \`vote\` (\`student_id\`, \`organization_id\`, \`pair_id\`)
                         VALUES
-                            (?, ?);
+                            (?, ?, ?);
                     `,
-                    values: [parsedBody.data.studentId, memberId],
+                    values: [
+                        parsedBody.data.studentId,
+                        organizationPair.organizationId,
+                        organizationPair.pairId,
+                    ],
                 },
                 function (error) {
                     if (error) {
