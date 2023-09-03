@@ -433,7 +433,7 @@ export default function Home(
                             d="M15.75 19.5L8.25 12l7.5-7.5"
                         />
                     </svg>
-                    Previous
+                    <span className="hidden sm:block">Previous</span>
                 </button>
 
                 <button
@@ -462,7 +462,7 @@ export default function Home(
                         });
                     }}
                 >
-                    Next
+                    <span className="hidden sm:block">Next</span>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
