@@ -259,9 +259,11 @@ export default function Home(
                     <div className="p-3" />
 
                     {pageIndex === 1 ? (
-                        <StudentNumberPage
-                            studentNumber={studentNumber}
-                            setStudentNumber={setStudentNumber}
+                        <StudentDetailsPage
+                            studentId={studentId}
+                            setStudentId={setStudentId}
+                            studentPassword={studentPassword}
+                            setStudentPassword={setStudentPassword}
                         />
                     ) : null}
 
