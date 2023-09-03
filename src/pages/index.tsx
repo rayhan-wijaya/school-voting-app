@@ -154,7 +154,7 @@ function VotePage({
                     const pairIds = Object.keys(organizationPairs);
 
                     return (
-                        <div>
+                        <div key={organizationName}>
                             <h2 className="font-semibold text-center">
                                 {organizationName}
                             </h2>
@@ -179,6 +179,7 @@ function VotePage({
                                         return (
                                             <RadioGroup.Option
                                                 className="focus:outline-none ui-checked:bg-gray-500 bg-gray-100 rounded-xl ui-checked:text-white cursor-pointer ui-active:ring-4 ui-active:ring-gray-400 shadow-md"
+                                                key={`${pair[0].organizationId}-${pairId}`}
                                                 value={
                                                     {
                                                         organizationPairCompositeId: `${pair[0].organizationId}-${pairId}`,
@@ -225,7 +226,7 @@ function VotePage({
                                                         member
                                                     ) {
                                                         return (
-                                                            <div className="p-5">
+                                                            <div className="p-5" key={`${member.organizationId}-${member.nickname}`}>
                                                                 <h3 className="font-semibold">
                                                                     {
                                                                         member.fullName
