@@ -8,3 +8,10 @@ const numericString = z
     .transform(function (value) {
         return Number(value);
     });
+
+const getValidatePasswordQuerySchema = z.object({
+    studentId: z.union([numericString, z.number()]).transform(function (value) {
+        return Number(value);
+    }),
+    password: z.string(),
+});
