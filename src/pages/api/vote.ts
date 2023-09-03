@@ -18,24 +18,32 @@ const postVotingBodySchema = z.object({
 
 async function hasStudentVoted(studentId: number) {
     return new Promise<boolean>(function (resolve, reject) {
-        database.pool.query(
-            {
-                sql: "SELECT id FROM vote WHERE student_id = ?",
-                values: [studentId],
-            },
-            function (error, results, _fields) {
-                if (error) {
-                    return reject(error);
-                }
-
-                if (!Array.isArray(results)) {
-                    return reject("`results` wasn't an array");
-                }
-
-                return resolve(results.length >= 0);
+        database.pool.getConnection(function (error, connection) {
+            if (error) {
+                return reject(error);
             }
-        );
-    })
+
+            connection.query(
+                {
+                    sql: "SELECT id FROM vote WHERE student_id = ?",
+                    values: [studentId],
+                },
+                function (error, results, _fields) {
+                    if (error) {
+                        return reject(error);
+                    }
+
+                    if (!Array.isArray(results)) {
+                        return reject("`results` wasn't an array");
+                    }
+
+                    return resolve(results.length >= 0);
+                }
+            );
+
+            return connection.release();
+        });
+    });
 }
 
 async function handlePost(request: NextApiRequest, response: NextApiResponse) {
@@ -58,22 +66,30 @@ async function handlePost(request: NextApiRequest, response: NextApiResponse) {
         : [parsedBody.data.organizationPairIds];
 
     for (const memberId of organizationPairIds) {
-        database.pool.query(
-            {
-                sql: `
-                    INSERT INTO
-                        \`vote\` (\`student_id\`, \`pair_id\`)
-                    VALUES
-                        (?, ?);
-                `,
-                values: [parsedBody.data.studentId, memberId],
-            },
-            function (error) {
-                if (error) {
-                    console.error(error);
-                }
+        database.pool.getConnection(function (error, connection) {
+            if (error) {
+                return;
             }
-        );
+
+            connection.query(
+                {
+                    sql: `
+                        INSERT INTO
+                            \`vote\` (\`student_id\`, \`pair_id\`)
+                        VALUES
+                            (?, ?);
+                    `,
+                    values: [parsedBody.data.studentId, memberId],
+                },
+                function (error) {
+                    if (error) {
+                        console.error(error);
+                    }
+                }
+            );
+
+            return connection.release();
+        });
     }
 
     return response.status(200).send({});
