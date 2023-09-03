@@ -275,7 +275,27 @@ export default function Home(
                             <div className="p-8" />
 
                             <div className="flex gap-3 items-center justify-center">
-                                <button className="bg-gray-600 text-white font-semibold px-6 py-3 rounded-xl flex gap-3 justify-center items-center cursor-pointer">
+                                <button
+                                    onClick={function () {
+                                        if (
+                                            !studentNumber ||
+                                            !organizationPairIds
+                                        ) {
+                                            return;
+                                        }
+
+                                        console.log("Clicked");
+
+                                        mutateVotePairs({
+                                            studentId: studentNumber,
+                                            organizationPairIds:
+                                                Object.values(
+                                                    organizationPairIds
+                                                ),
+                                        });
+                                    }}
+                                    className="bg-gray-600 text-white font-semibold px-6 py-3 rounded-xl flex gap-3 justify-center items-center cursor-pointer"
+                                >
                                     Submit
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
