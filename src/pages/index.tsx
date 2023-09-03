@@ -394,8 +394,15 @@ export default function Home(
                                     </svg>
                                 </button>
 
-                                {voteResponseJson && "error" in voteResponseJson
+                                {hasSubmitted &&
+                                voteResponseJson &&
+                                "error" in voteResponseJson
                                     ? voteResponseJson.error
+                                    : ""}
+
+                                {hasSubmitted &&
+                                mutateVotePairsResponse?.status === 200
+                                    ? "Successfully voted!"
                                     : ""}
                             </div>
                         </>
