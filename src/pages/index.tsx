@@ -7,15 +7,18 @@ import { RadioGroup } from "@headlessui/react";
 
 async function voteOrganizationPairs({
     studentId,
+    studentPassword,
     organizationPairIds,
 }: {
     studentId: number;
+    studentPassword: string;
     organizationPairIds: (string | number)[];
 }) {
     const response = await fetch("/api/vote?", {
         body: JSON.stringify({
             studentId,
             organizationPairIds,
+            password: studentPassword,
         }),
         method: "POST",
         cache: "no-cache",
@@ -241,12 +244,13 @@ export default function Home(
             studentId: number;
             organizationPairIds: (string | number)[];
         }) {
-            if (!studentId || !organizationPairIds) {
+            if (!studentId || !studentPassword || !organizationPairIds) {
                 return;
             }
 
             return await voteOrganizationPairs({
                 studentId,
+                studentPassword,
                 organizationPairIds: organizationPairIds,
             });
         },
