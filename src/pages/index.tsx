@@ -233,21 +233,6 @@ export default function Home(
         initialData: props.members,
     });
 
-    // const { data: passwordValidation } = useQuery({
-    //     enabled: false,
-    //     queryKey: ["password-validation"],
-    //     queryFn: function () {
-    //         if (!studentId || !studentPassword) {
-    //             return;
-    //         }
-
-    //         return getPasswordValidation({
-    //             studentId,
-    //             password: studentPassword,
-    //         });
-    //     },
-    // });
-
     const { mutate: mutateVotePairs } = useMutation({
         mutationFn: async function ({
             studentId,
