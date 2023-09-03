@@ -269,11 +269,29 @@ export default function Home(
 
     const [studentId, setStudentId] = useState<number>();
     const [studentPassword, setStudentPassword] = useState<string>();
+    const [passwordValidation, setPasswordValidation] = useState<boolean>();
     const [organizationPairIds, setOrganizationPairIds] =
         useState<OrganizationPairIds>({});
 
     const [pageIndex, setPageIndex] = useState<number>(1);
     const pageIndexLimit = 2;
+
+    useEffect(
+        function () {
+            setPageIndex(function (pageIndex) {
+                if (pageIndex + 1 === 2 && !passwordValidation) {
+                    return pageIndex;
+                }
+
+                if (pageIndex < pageIndexLimit) {
+                    return pageIndex + 1;
+                }
+
+                return pageIndex;
+            });
+        },
+        [passwordValidation]
+    );
 
     return (
         <div>
@@ -378,21 +396,17 @@ export default function Home(
                 <button
                     className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center disabled:bg-gray-50 disabled:text-gray-300"
                     disabled={pageIndex >= pageIndexLimit}
-                    onClick={function () {
-                        setPageIndex(function (pageIndex) {
-                            if (
-                                pageIndex + 1 === 2 &&
-                                (!studentId || !studentPassword)
-                            ) {
-                                return pageIndex;
-                            }
+                    onClick={async function () {
+                        if (!studentId || !studentPassword) {
+                            return;
+                        }
 
-                            if (pageIndex < pageIndexLimit) {
-                                return pageIndex + 1;
-                            }
-
-                            return pageIndex;
-                        });
+                        setPasswordValidation(
+                            await getPasswordValidation({
+                                studentId,
+                                password: studentPassword,
+                            })
+                        );
                     }}
                 >
                     <svg
