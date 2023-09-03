@@ -99,7 +99,7 @@ function VotePage({
 
                 <div className="p-2" />
 
-                <p className="text-center">Simply select your vote</p>
+                <p className="text-center">Please select your votes</p>
             </div>
 
             {organizationNames.map(function (organizationName) {
