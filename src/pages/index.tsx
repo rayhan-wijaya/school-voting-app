@@ -1,37 +1,28 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { URLSearchParams } from "url";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type { OrganizationMembers } from "~/pages/api/members";
 import { InferGetStaticPropsType } from "next";
 import { env } from "~/lib/env";
 import { RadioGroup } from "@headlessui/react";
 
-async function voteOrganizationMembers({
+async function voteOrganizationPairs({
     studentId,
-    organizationMemberIds,
+    organizationPairIds,
 }: {
     studentId: number;
-    organizationMemberIds: number[];
+    organizationPairIds: (string | number)[];
 }) {
-    const searchParams = new URLSearchParams({
-        studentId: studentId.toString(),
-        organizationMemberIds: organizationMemberIds.map(function (
-            organizationMemberId
-        ) {
-            return organizationMemberId.toString();
+    const response = await fetch("/api/vote?", {
+        body: JSON.stringify({
+            studentId,
+            organizationPairIds,
         }),
+        method: "POST",
+        cache: "no-cache",
+        next: {
+            revalidate: 3000,
+        },
     });
-
-    const response = await fetch(
-        new URL("/api/vote?" + searchParams, env.NEXT_PUBLIC_BASE_URL),
-        {
-            method: "POST",
-            cache: "no-cache",
-            next: {
-                revalidate: 3000,
-            },
-        }
-    );
 
     return await response.json();
 }
