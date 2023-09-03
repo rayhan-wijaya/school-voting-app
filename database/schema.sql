@@ -40,6 +40,12 @@ CREATE TABLE `vote` (
     UNIQUE (`student_id`, `pair_id`)
 );
 
+CREATE TABLE `student` (
+    `id` INT PRIMARY KEY AUTO_INCREMENT,
+    `full_name` VARCHAR(40),
+    `hashed_password` VARCHAR(64) -- sha256
+);
+
 --
 
 INSERT INTO
