@@ -8,6 +8,9 @@ CREATE TABLE `organization_pair` (
     `organization_id` INT,
     `pair_id` INT,
 
+    INDEX `organization_id_index` (`organization_id`),
+    INDEX `pair_id_index` (`pair_id`),
+
     FOREIGN KEY (`organization_id`)
         REFERENCES `organization`(`id`)
         ON DELETE CASCADE,
