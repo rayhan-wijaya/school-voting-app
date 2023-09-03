@@ -263,7 +263,6 @@ export default function Home(
                     {pageIndex === 2 ? (
                         <VotePage
                             members={members}
-                            organizationPairIds={organizationPairIds}
                             setOrganizationPairIds={setOrganizationPairIds}
                         />
                     ) : null}
