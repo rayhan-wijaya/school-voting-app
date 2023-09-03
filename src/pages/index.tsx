@@ -8,16 +8,21 @@ import { RadioGroup } from "@headlessui/react";
 async function voteOrganizationPairs({
     studentId,
     studentPassword,
-    organizationPairIds,
+    organizationPairs,
 }: {
     studentId: number;
     studentPassword: string;
-    organizationPairIds: (string | number)[];
+    organizationPairs: OrganizationPair[];
 }) {
     return await fetch("/api/vote?", {
         body: JSON.stringify({
             studentId,
-            organizationPairIds,
+            organizationPairs: organizationPairs.map(function (organizationPair) {
+                return {
+                    organizationId: organizationPair.organizationId,
+                    pairId: organizationPair.pairId,
+                };
+            }),
             password: studentPassword,
         }),
         method: "POST",
@@ -108,15 +113,21 @@ function StudentDetailsPage({
     );
 }
 
-type OrganizationPairIds = { [organizationName: string]: string | number };
+type OrganizationPair = {
+    organizationPairCompositeId: string;
+    organizationId: number;
+    pairId: number;
+};
+
+type OrganizationPairs = { [organizationName: string]: OrganizationPair };
 
 function VotePage({
     members,
-    setOrganizationPairIds,
+    setOrganizationPairs,
 }: {
     members: Awaited<OrganizationMembers>;
-    setOrganizationPairIds: React.Dispatch<
-        React.SetStateAction<OrganizationPairIds>
+    setOrganizationPairs: React.Dispatch<
+        React.SetStateAction<OrganizationPairs>
     >;
 }) {
     const organizationNames = Object.keys(members);
@@ -146,11 +157,12 @@ function VotePage({
                         <div className="p-3" />
 
                         <RadioGroup
-                            onChange={function (pairId) {
-                                setOrganizationPairIds(function (prevPairIds) {
+                            by={"organizationPairCompositeId"}
+                            onChange={function (pair: OrganizationPair) {
+                                setOrganizationPairs(function (prevPairs) {
                                     return {
-                                        ...prevPairIds,
-                                        [organizationName]: pairId,
+                                        ...prevPairs,
+                                        [organizationName]: pair,
                                     };
                                 });
                             }}
@@ -162,7 +174,15 @@ function VotePage({
                                     return (
                                         <RadioGroup.Option
                                             className="focus:outline-none ui-checked:bg-gray-500 bg-gray-100 rounded-xl ui-checked:text-white cursor-pointer ui-active:ring-4 ui-active:ring-gray-400 shadow-md"
-                                            value={pairId}
+                                            value={
+                                                {
+                                                    organizationPairCompositeId: `${pair[0].organizationId}-${pairId}`,
+                                                    pairId: Number(pairId),
+                                                    organizationId: Number(
+                                                        pair[0].organizationId
+                                                    ),
+                                                } as OrganizationPair
+                                            }
                                         >
                                             <div className="p-1">
                                                 <svg
@@ -238,27 +258,27 @@ export default function Home(
         useMutation({
             mutationFn: async function ({
                 studentId,
-                organizationPairIds,
+                organizationPairs,
             }: {
                 studentId: number;
-                organizationPairIds: (string | number)[];
+                organizationPairs: OrganizationPair[];
             }) {
-                if (!studentId || !studentPassword || !organizationPairIds) {
+                if (!studentId || !studentPassword || !organizationPairs) {
                     return;
                 }
 
                 return await voteOrganizationPairs({
                     studentId,
                     studentPassword,
-                    organizationPairIds: organizationPairIds,
+                    organizationPairs,
                 });
             },
         });
 
     const [studentId, setStudentId] = useState<number>();
     const [studentPassword, setStudentPassword] = useState<string>();
-    const [organizationPairIds, setOrganizationPairIds] =
-        useState<OrganizationPairIds>({});
+    const [organizationPairs, setOrganizationPairs] =
+        useState<OrganizationPairs>({});
     const [hasSubmitted, setHasSubmitted] = useState<boolean>(false);
     const [voteResponseJson, setVoteResponseJson] = useState<
         | {
@@ -334,7 +354,7 @@ export default function Home(
                     {pageIndex === 2 ? (
                         <VotePage
                             members={members}
-                            setOrganizationPairIds={setOrganizationPairIds}
+                            setOrganizationPairs={setOrganizationPairs}
                         />
                     ) : null}
 
@@ -346,10 +366,7 @@ export default function Home(
                                 <button
                                     disabled={hasSubmitted}
                                     onClick={function () {
-                                        if (
-                                            !studentId ||
-                                            !organizationPairIds
-                                        ) {
+                                        if (!studentId || !organizationPairs) {
                                             return;
                                         }
 
@@ -357,9 +374,9 @@ export default function Home(
 
                                         mutateVotePairs({
                                             studentId: studentId,
-                                            organizationPairIds:
+                                            organizationPairs:
                                                 Object.values(
-                                                    organizationPairIds
+                                                    organizationPairs
                                                 ),
                                         });
 
@@ -369,7 +386,7 @@ export default function Home(
                                             setStudentId(undefined);
                                             setStudentPassword(undefined);
 
-                                            setOrganizationPairIds({});
+                                            setOrganizationPairs({});
                                             setVoteResponseJson(undefined);
 
                                             setHasSubmitted(false);
@@ -394,10 +411,10 @@ export default function Home(
                                     </svg>
                                 </button>
 
-                                {hasSubmitted &&
+                                {(hasSubmitted &&
                                 voteResponseJson &&
-                                "error" in voteResponseJson
-                                    ? voteResponseJson.error
+                                "error" in voteResponseJson)
+                                    ? JSON.stringify(voteResponseJson.error)
                                     : ""}
 
                                 {hasSubmitted &&
