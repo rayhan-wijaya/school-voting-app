@@ -366,6 +366,18 @@ export default function Home(
                                                     organizationPairIds
                                                 ),
                                         });
+
+                                        setTimeout(function () {
+                                            setPageIndex(1);
+
+                                            setStudentId(undefined);
+                                            setStudentPassword(undefined);
+
+                                            setOrganizationPairIds({});
+                                            setVoteResponseJson(undefined);
+
+                                            setHasSubmitted(false);
+                                        }, 2000);
                                     }}
                                     className="bg-gray-600 text-white font-semibold px-6 py-3 rounded-xl flex gap-3 justify-center items-center cursor-pointer disabled:bg-gray-200 disabled:text-gray-300"
                                 >
