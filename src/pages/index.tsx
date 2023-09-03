@@ -34,12 +34,16 @@ async function getOrganizationMembers() {
     return await (response.json() as OrganizationMembers);
 }
 
-function StudentNumberPage({
-    studentNumber,
-    setStudentNumber,
+function StudentDetailsPage({
+    studentId,
+    setStudentId,
+    studentPassword,
+    setStudentPassword,
 }: {
-    studentNumber: number | undefined;
-    setStudentNumber: React.Dispatch<React.SetStateAction<number | undefined>>;
+    studentId: number | undefined;
+    setStudentId: React.Dispatch<React.SetStateAction<number | undefined>>;
+    studentPassword: string | undefined;
+    setStudentPassword: React.Dispatch<React.SetStateAction<string | undefined>>;
 }) {
     return (
         <>
