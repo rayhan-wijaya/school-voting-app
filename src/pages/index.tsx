@@ -48,7 +48,7 @@ function StudentNumberPage({
             <div className="p-1" />
 
             <p className="text-center">
-                Before we get started, please put in your student ID
+                Before we get started, please put in your student details
             </p>
 
             <div className="p-3" />
