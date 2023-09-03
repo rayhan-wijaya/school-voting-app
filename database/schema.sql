@@ -38,8 +38,8 @@ CREATE TABLE `organization_member` (
         REFERENCES `organization_pair`(`organization_id`)
         ON DELETE CASCADE,
 
-    CONSTRAINT `pair_id_nickname`
-    UNIQUE (`pair_id`, `nickname`)
+    CONSTRAINT `organization_pair_nickname`
+    UNIQUE (`organization_id`, `pair_id`, `nickname`)
 );
 
 CREATE TABLE `student` (
@@ -66,8 +66,8 @@ CREATE TABLE `vote` (
         REFERENCES `organization_pair`(`pair_id`)
         ON DELETE CASCADE,
 
-    CONSTRAINT `student_pair`
-    UNIQUE (`student_id`, `pair_id`)
+    CONSTRAINT `student_pair_organization`
+    UNIQUE (`student_id`, `pair_id`, `organization_id`)
 );
 
 --
