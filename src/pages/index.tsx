@@ -75,7 +75,7 @@ function StudentNumberPage({
     );
 }
 
-type OrganizationPairIds = { [organizationName: string]: number };
+type OrganizationPairIds = { [organizationName: string]: string | number };
 
 function VotePage({
     members,
