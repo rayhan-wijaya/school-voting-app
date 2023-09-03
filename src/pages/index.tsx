@@ -14,7 +14,7 @@ async function voteOrganizationPairs({
     studentPassword: string;
     organizationPairIds: (string | number)[];
 }) {
-    const response = await fetch("/api/vote?", {
+    return await fetch("/api/vote?", {
         body: JSON.stringify({
             studentId,
             organizationPairIds,
@@ -26,8 +26,6 @@ async function voteOrganizationPairs({
             revalidate: 3000,
         },
     });
-
-    return await response.json();
 }
 
 async function getOrganizationMembers() {
