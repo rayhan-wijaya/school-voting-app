@@ -39,7 +39,7 @@ async function hasStudentVoted(studentId: number) {
                         return reject("`results` wasn't an array");
                     }
 
-                    return resolve(results.length >= 0);
+                    return resolve(results.length > 0);
                 }
             );
 
