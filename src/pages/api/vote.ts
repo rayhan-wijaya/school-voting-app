@@ -47,6 +47,10 @@ async function handlePost(request: NextApiRequest, response: NextApiResponse) {
         return response.status(400).json({ error: parsedBody.error.issues });
     }
 
+    if (await hasStudentVoted(parsedBody.data.studentId)) {
+        return response.status(400).json({ error: "You already voted!" });
+    }
+
     const organizationPairIds = Array.isArray(
         parsedBody.data.organizationPairIds
     )
