@@ -18,3 +18,10 @@ VALUES
     (3, 'Malik', 'Malik Syarif Akbar', 'chairman'),
     (4, 'Akesh', 'Gede Akesh', 'vice_chairman'),
     (4, 'Daffa', 'Daffa Prawono', 'chairman');
+
+INSERT INTO
+    `student` (`id`, `full_name`, `password`)
+VALUES
+    (100, 'Rayhan Satria Wijaya', '532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25'), -- password: Test
+    (200, 'Malik Syarif Akbar', '532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25'), -- password: Test
+    (300, 'Daffa Prawono', '532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25'), -- password: Test
