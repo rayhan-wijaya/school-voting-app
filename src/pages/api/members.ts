@@ -69,120 +69,137 @@ async function getAllMembers() {
     };
 
     return new Promise<MembersResponse>(function (resolve, reject) {
-        database.pool.query(
-            `
-                SELECT
-                    id,
-                    pair_id as pairId,
-                    nickname,
-                    full_name as fullName,
-                    position
-                FROM organization_member;
-            `,
-            async function (error, results, _fields) {
-                if (error) {
-                    return reject(error);
-                }
+        database.pool.getConnection(function (error, connection) {
+            if (error) {
+                return reject(error);
+            }
 
-                if (!Array.isArray(results)) {
-                    return reject("`results` wasn't an array");
-                }
-
-                const members = await filterSuccesses(
-                    await Promise.allSettled(
-                        results.map(async function (result) {
-                            return organizationMemberSchema.parseAsync(result);
-                        })
-                    )
-                );
-
-                const organizationIds = Array.from(
-                    new Set(
-                        await filterSuccesses(
-                            await Promise.allSettled(
-                                members.map(function (member) {
-                                    return getOrganizationIdFromPairId(
-                                        member.pairId
-                                    );
-                                })
-                            )
-                        )
-                    )
-                );
-
-                const organizations = await filterSuccesses(
-                    await Promise.allSettled(
-                        organizationIds.map(async function (organizationId) {
-                            return {
-                                id: organizationId,
-                                name: await getOrganizationName(organizationId),
-                            };
-                        })
-                    )
-                );
-
-                const response = {} as MembersResponse;
-
-                for (const organization of organizations) {
-                    const organizationMembers = [] as typeof members;
-
-                    for (const member of members) {
-                        const organizationId =
-                            await getOrganizationIdFromPairId(member.pairId);
-
-                        if (organizationId !== organization.id) {
-                            continue;
-                        }
-
-                        organizationMembers.push(member);
+            connection.query(
+                `
+                    SELECT
+                        id,
+                        pair_id as pairId,
+                        nickname,
+                        full_name as fullName,
+                        position
+                    FROM organization_member;
+                `,
+                async function (error, results, _fields) {
+                    if (error) {
+                        return reject(error);
                     }
 
-                    const distinctPairIds = Array.from(
-                        new Set(
-                            organizationMembers.map(function (
-                                organizationMember
-                            ) {
-                                return organizationMember.pairId;
+                    if (!Array.isArray(results)) {
+                        return reject("`results` wasn't an array");
+                    }
+
+                    const members = await filterSuccesses(
+                        await Promise.allSettled(
+                            results.map(async function (result) {
+                                return organizationMemberSchema.parseAsync(
+                                    result
+                                );
                             })
                         )
                     );
 
-                    const grouppedOrganizationMembers = {} as {
-                        [pairId: number]: OrganizationMember[];
-                    };
+                    const organizationIds = Array.from(
+                        new Set(
+                            await filterSuccesses(
+                                await Promise.allSettled(
+                                    members.map(function (member) {
+                                        return getOrganizationIdFromPairId(
+                                            member.pairId
+                                        );
+                                    })
+                                )
+                            )
+                        )
+                    );
 
-                    for (const pairId of distinctPairIds) {
-                        const members = organizationMembers
-                            .filter(function (member) {
-                                return member.pairId === pairId;
+                    const organizations = await filterSuccesses(
+                        await Promise.allSettled(
+                            organizationIds.map(async function (
+                                organizationId
+                            ) {
+                                return {
+                                    id: organizationId,
+                                    name: await getOrganizationName(
+                                        organizationId
+                                    ),
+                                };
                             })
-                            .sort(function (memberA, memberB) {
-                                if (
-                                    memberA.position === "chairman" &&
-                                    memberB.position === "vice_chairman"
+                        )
+                    );
+
+                    const response = {} as MembersResponse;
+
+                    for (const organization of organizations) {
+                        const organizationMembers = [] as typeof members;
+
+                        for (const member of members) {
+                            const organizationId =
+                                await getOrganizationIdFromPairId(
+                                    member.pairId
+                                );
+
+                            if (organizationId !== organization.id) {
+                                continue;
+                            }
+
+                            organizationMembers.push(member);
+                        }
+
+                        const distinctPairIds = Array.from(
+                            new Set(
+                                organizationMembers.map(function (
+                                    organizationMember
                                 ) {
-                                    return -1;
-                                }
+                                    return organizationMember.pairId;
+                                })
+                            )
+                        );
 
-                                if (
-                                    memberA.position === "vice_chairman" &&
-                                    memberB.position === "chairman"
-                                ) {
-                                    return 1;
-                                }
+                        const grouppedOrganizationMembers = {} as {
+                            [pairId: number]: OrganizationMember[];
+                        };
 
-                                return 0;
-                            });
+                        for (const pairId of distinctPairIds) {
+                            const members = organizationMembers
+                                .filter(function (member) {
+                                    return member.pairId === pairId;
+                                })
+                                .sort(function (memberA, memberB) {
+                                    if (
+                                        memberA.position === "chairman" &&
+                                        memberB.position === "vice_chairman"
+                                    ) {
+                                        return -1;
+                                    }
 
-                        grouppedOrganizationMembers[pairId] = members;
+                                    if (
+                                        memberA.position === "vice_chairman" &&
+                                        memberB.position === "chairman"
+                                    ) {
+                                        return 1;
+                                    }
+
+                                    return 0;
+                                });
+
+                            grouppedOrganizationMembers[pairId] = members;
+                        }
+
+                        response[organization.name] =
+                            grouppedOrganizationMembers;
                     }
 
-                    response[organization.name] = grouppedOrganizationMembers;
+                    return resolve(response);
                 }
+            );
 
-                return resolve(response);
-            }
-        );
+            return connection.release();
+        });
     });
 }
 
