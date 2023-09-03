@@ -17,7 +17,9 @@ async function voteOrganizationPairs({
     return await fetch("/api/vote?", {
         body: JSON.stringify({
             studentId,
-            organizationPairs: organizationPairs.map(function (organizationPair) {
+            organizationPairs: organizationPairs.map(function (
+                organizationPair
+            ) {
                 return {
                     organizationId: organizationPair.organizationId,
                     pairId: organizationPair.pairId,
