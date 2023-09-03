@@ -34,6 +34,23 @@ async function getOrganizationMembers() {
     return await (response.json() as OrganizationMembers);
 }
 
+async function getPasswordValidation({
+    studentId,
+    password,
+}: {
+    studentId: number;
+    password: string;
+}) {
+    const response = await fetch(
+        new URL(
+            `/api/validate_password?studentId=${studentId}&password=${password}`,
+            env.NEXT_PUBLIC_BASE_URL
+        )
+    );
+
+    return response.status === 200;
+}
+
 function StudentDetailsPage({
     studentId,
     setStudentId,
