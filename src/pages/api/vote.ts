@@ -35,11 +35,11 @@ async function handlePost(request: NextApiRequest, response: NextApiResponse) {
         database.pool.query(
             {
                 sql: `
-                        INSERT INTO
-                            \`vote\` (\`student_id\`, \`pair_id\`)
-                        VALUES
-                            (?, ?);
-                    `,
+                    INSERT INTO
+                        \`vote\` (\`student_id\`, \`pair_id\`)
+                    VALUES
+                        (?, ?);
+                `,
                 values: [parsedBody.data.studentId, memberId],
             },
             function (error) {
