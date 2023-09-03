@@ -348,7 +348,10 @@ export default function Home(
                     disabled={pageIndex >= pageIndexLimit}
                     onClick={function () {
                         setPageIndex(function (pageIndex) {
-                            if ((pageIndex + 1) === 2 && !studentId) {
+                            if (
+                                pageIndex + 1 === 2 &&
+                                (!studentId || !studentPassword)
+                            ) {
                                 return pageIndex;
                             }
 
