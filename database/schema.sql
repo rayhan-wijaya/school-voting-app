@@ -6,10 +6,14 @@ CREATE TABLE `organization` (
 CREATE TABLE `organization_pair` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
     `organization_id` INT,
+    `pair_id` INT,
 
     FOREIGN KEY (`organization_id`)
         REFERENCES `organization`(`id`)
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+
+    CONSTRAINT `organization_pair`
+    UNIQUE (`organization_id`, `pair_id`)
 );
 
 CREATE TABLE `organization_member` (
@@ -36,14 +40,19 @@ CREATE TABLE `student` (
 CREATE TABLE `vote` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
     `student_id` INT,
+    `organization_id` INT,
     `pair_id` INT,
 
     FOREIGN KEY (`student_id`)
         REFERENCES `student`(`id`)
         ON DELETE CASCADE,
 
+    FOREIGN KEY (`organization_id`)
+        REFERENCES `organization_pair`(`organization_id`)
+        ON DELETE CASCADE,
+
     FOREIGN KEY (`pair_id`)
-        REFERENCES `organization_pair`(`id`)
+        REFERENCES `organization_pair`(`pair_id`)
         ON DELETE CASCADE,
 
     CONSTRAINT `student_pair`
