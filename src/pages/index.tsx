@@ -234,7 +234,12 @@ export default function Home(
         initialData: props.members,
     });
 
-    const { mutate: mutateVotePairs } = useMutation({
+    const {
+        mutate: mutateVotePairs,
+        isError: isVoteError,
+        error: voteError,
+        data: mutateVotePairsResponse,
+    } = useMutation({
         mutationFn: async function ({
             studentId,
             organizationPairIds,
@@ -258,6 +263,30 @@ export default function Home(
     const [studentPassword, setStudentPassword] = useState<string>();
     const [organizationPairIds, setOrganizationPairIds] =
         useState<OrganizationPairIds>({});
+    const [hasSubmitted, setHasSubmitted] = useState<boolean>(false);
+    const [voteResponseJson, setVoteResponseJson] = useState<
+        | {
+              message: string;
+          }
+        | { error: string }
+    >();
+
+    useEffect(
+        function () {
+            async function getVoteResponseJson() {
+                if (!mutateVotePairsResponse) {
+                    return;
+                }
+
+                if (!mutateVotePairsResponse?.bodyUsed) {
+                    setVoteResponseJson(await mutateVotePairsResponse.json());
+                }
+            }
+
+            getVoteResponseJson();
+        },
+        [mutateVotePairsResponse]
+    );
 
     const [pageIndex, setPageIndex] = useState<number>(1);
     const pageIndexLimit = 2;
@@ -319,6 +348,7 @@ export default function Home(
 
                             <div className="flex gap-3 items-center justify-center">
                                 <button
+                                    disabled={hasSubmitted}
                                     onClick={function () {
                                         if (
                                             !studentId ||
@@ -326,6 +356,8 @@ export default function Home(
                                         ) {
                                             return;
                                         }
+
+                                        setHasSubmitted(true);
 
                                         mutateVotePairs({
                                             studentId: studentId,
@@ -335,7 +367,7 @@ export default function Home(
                                                 ),
                                         });
                                     }}
-                                    className="bg-gray-600 text-white font-semibold px-6 py-3 rounded-xl flex gap-3 justify-center items-center cursor-pointer"
+                                    className="bg-gray-600 text-white font-semibold px-6 py-3 rounded-xl flex gap-3 justify-center items-center cursor-pointer disabled:bg-gray-200 disabled:text-gray-300"
                                 >
                                     Submit
                                     <svg
@@ -353,6 +385,10 @@ export default function Home(
                                         />
                                     </svg>
                                 </button>
+
+                                {voteResponseJson && "error" in voteResponseJson
+                                    ? voteResponseJson.error
+                                    : ""}
                             </div>
                         </>
                     ) : null}
