@@ -43,7 +43,9 @@ function StudentDetailsPage({
     studentId: number | undefined;
     setStudentId: React.Dispatch<React.SetStateAction<number | undefined>>;
     studentPassword: string | undefined;
-    setStudentPassword: React.Dispatch<React.SetStateAction<string | undefined>>;
+    setStudentPassword: React.Dispatch<
+        React.SetStateAction<string | undefined>
+    >;
 }) {
     return (
         <>
