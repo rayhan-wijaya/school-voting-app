@@ -368,7 +368,6 @@ export default function Home() {
                                         setPageIndex(1);
 
                                         setStudentId(undefined);
-                                        setStudentPassword(undefined);
 
                                         setOrganizationPairs({});
                                         setVoteResponseJson(undefined);
