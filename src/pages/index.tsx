@@ -92,21 +92,6 @@ function StudentDetailsPage({
                     }}
                 />
             </label>
-
-            <div className="p-3" />
-
-            <label className="flex flex-col gap-2">
-                <span className="font-semibold">Password</span>
-                <input
-                    type="password"
-                    className="bg-gray-100 rounded-xl p-3"
-                    placeholder="Your student password here"
-                    value={studentPassword}
-                    onChange={function (event) {
-                        setStudentPassword(event.target.value);
-                    }}
-                />
-            </label>
         </>
     );
 }
