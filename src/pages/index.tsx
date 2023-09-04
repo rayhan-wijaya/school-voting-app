@@ -317,8 +317,6 @@ export default function Home() {
                     <StudentDetailsPage
                         studentId={studentId}
                         setStudentId={setStudentId}
-                        studentPassword={studentPassword}
-                        setStudentPassword={setStudentPassword}
                     />
                 ) : null}
 
