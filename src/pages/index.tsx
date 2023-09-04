@@ -6,11 +6,9 @@ import { RadioGroup } from "@headlessui/react";
 
 async function voteOrganizationPairs({
     studentId,
-    studentPassword,
     organizationPairs,
 }: {
     studentId: number;
-    studentPassword: string;
     organizationPairs: OrganizationPair[];
 }) {
     return await fetch("/api/vote?", {
@@ -24,7 +22,6 @@ async function voteOrganizationPairs({
                     pairId: organizationPair.pairId,
                 };
             }),
-            password: studentPassword,
         }),
         method: "POST",
         cache: "no-cache",
