@@ -22,7 +22,6 @@ const postVotingBodySchema = z.object({
     studentId: z.union([numericString, z.number()]).transform(function (value) {
         return Number(value);
     }),
-    password: z.string(),
     organizationPairs: z.array(organizationPairSchema),
 });
 
@@ -67,15 +66,6 @@ async function handlePost(request: NextApiRequest, response: NextApiResponse) {
 
     if (await hasStudentVoted(parsedBody.data.studentId)) {
         return response.status(400).json({ error: "You already voted!" });
-    }
-
-    if (
-        !(await isAuthValid({
-            studentId: parsedBody.data.studentId,
-            requestedPassword: parsedBody.data.password,
-        }))
-    ) {
-        return response.status(400).json({ error: "Incorrect password" });
     }
 
     const organizationPairs = Array.isArray(parsedBody.data.organizationPairs)
