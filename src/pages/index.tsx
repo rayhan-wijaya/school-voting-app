@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type { OrganizationMembers } from "~/pages/api/members";
-import { InferGetStaticPropsType } from "next";
 import { env } from "~/lib/env";
 import { RadioGroup } from "@headlessui/react";
 
