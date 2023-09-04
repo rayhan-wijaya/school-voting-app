@@ -38,35 +38,12 @@ async function getOrganizationMembers() {
     return await (response.json() as OrganizationMembers);
 }
 
-async function getPasswordValidation({
-    studentId,
-    password,
-}: {
-    studentId: number;
-    password: string;
-}) {
-    const response = await fetch(
-        new URL(
-            `/api/validate_password?studentId=${studentId}&password=${password}`,
-            env.NEXT_PUBLIC_BASE_URL
-        )
-    );
-
-    return response.status === 200;
-}
-
 function StudentDetailsPage({
     studentId,
     setStudentId,
-    studentPassword,
-    setStudentPassword,
 }: {
     studentId: number | undefined;
     setStudentId: React.Dispatch<React.SetStateAction<number | undefined>>;
-    studentPassword: string | undefined;
-    setStudentPassword: React.Dispatch<
-        React.SetStateAction<string | undefined>
-    >;
 }) {
     return (
         <>
@@ -264,20 +241,18 @@ export default function Home() {
                 studentId: number;
                 organizationPairs: OrganizationPair[];
             }) {
-                if (!studentId || !studentPassword || !organizationPairs) {
+                if (!studentId || !organizationPairs) {
                     return;
                 }
 
                 return await voteOrganizationPairs({
                     studentId,
-                    studentPassword,
                     organizationPairs,
                 });
             },
         });
 
     const [studentId, setStudentId] = useState<number>();
-    const [studentPassword, setStudentPassword] = useState<string>();
     const [organizationPairs, setOrganizationPairs] =
         useState<OrganizationPairs>({});
     const [hasSubmitted, setHasSubmitted] = useState<boolean>(false);
@@ -429,17 +404,12 @@ export default function Home() {
                     className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center disabled:bg-gray-50 disabled:text-gray-300"
                     disabled={pageIndex >= pageIndexLimit}
                     onClick={async function () {
-                        if (!studentId || !studentPassword) {
+                        if (!studentId) {
                             return;
                         }
 
-                        const passwordValidation = await getPasswordValidation({
-                            studentId,
-                            password: studentPassword,
-                        });
-
                         setPageIndex(function (pageIndex) {
-                            if (pageIndex + 1 === 2 && !passwordValidation) {
+                            if (pageIndex + 1 === 2) {
                                 return pageIndex;
                             }
 
