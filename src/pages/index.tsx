@@ -409,10 +409,6 @@ export default function Home() {
                         }
 
                         setPageIndex(function (pageIndex) {
-                            if (pageIndex + 1 === 2) {
-                                return pageIndex;
-                            }
-
                             if (pageIndex < pageIndexLimit) {
                                 return pageIndex + 1;
                             }
