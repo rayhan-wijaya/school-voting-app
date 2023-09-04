@@ -1,13 +1,39 @@
 import { RadioGroup } from "@headlessui/react";
-import Link from "next/link";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { organizationPairsAtom } from "~/lib/atoms";
+import { organizationPairsAtom, studentIdAtom } from "~/lib/atoms";
 import { env } from "~/lib/env";
 import { type OrganizationMembers } from "~/pages/api/members";
 import { type OrganizationPair } from "~/types/organization";
+
+async function voteOrganizationPairs({
+    studentId,
+    organizationPairs,
+}: {
+    studentId: number;
+    organizationPairs: OrganizationPair[];
+}) {
+    return await fetch("/api/vote?", {
+        body: JSON.stringify({
+            studentId,
+            organizationPairs: organizationPairs.map(function (
+                organizationPair
+            ) {
+                return {
+                    organizationId: organizationPair.organizationId,
+                    pairId: organizationPair.pairId,
+                };
+            }),
+        }),
+        method: "POST",
+        cache: "no-cache",
+        next: {
+            revalidate: 3000,
+        },
+    });
+}
 
 async function getOrganizationMembers() {
     const response = await fetch(
@@ -22,10 +48,57 @@ function VotePage() {
         queryFn: getOrganizationMembers,
     });
 
+    const { mutate: mutateVotePairs, data: mutateVotePairsResponse } =
+        useMutation({
+            mutationFn: async function ({
+                studentId,
+                organizationPairs,
+            }: {
+                studentId: number;
+                organizationPairs: OrganizationPair[];
+            }) {
+                if (!studentId || !organizationPairs) {
+                    return;
+                }
+
+                return await voteOrganizationPairs({
+                    studentId,
+                    organizationPairs,
+                });
+            },
+        });
+
     const organizationNames = members ? Object.keys(members) : [];
+
     const [organizationIndex, setOrganizationIndex] = useState<number>(0);
+    const [hasSubmitted, setHasSubmitted] = useState<boolean>(false);
+    const [voteResponseJson, setVoteResponseJson] = useState<
+        | {
+              message: string;
+          }
+        | { error: string }
+    >();
+
+    const [studentId, setStudentId] = useAtom(studentIdAtom);
     const [selectedOrganizationPairs, setSelectedOrganizationPairs] = useAtom(
         organizationPairsAtom
+    );
+
+    useEffect(
+        function () {
+            async function getVoteResponseJson() {
+                if (!mutateVotePairsResponse) {
+                    return;
+                }
+
+                if (!mutateVotePairsResponse?.bodyUsed) {
+                    setVoteResponseJson(await mutateVotePairsResponse.json());
+                }
+            }
+
+            getVoteResponseJson();
+        },
+        [mutateVotePairsResponse]
     );
 
     const router = useRouter();
@@ -153,7 +226,71 @@ function VotePage() {
                 ) : undefined}
             </div>
 
-            <div className="p-6" />
+            {organizationIndex === organizationNames.length - 1 ? (
+                <>
+                    <div className="p-6" />
+
+                    <div className="flex flex-col gap-3 items-center justify-center">
+                        <button
+                            disabled={hasSubmitted}
+                            onClick={function () {
+                                if (!studentId || !selectedOrganizationPairs) {
+                                    return;
+                                }
+
+                                setHasSubmitted(true);
+
+                                mutateVotePairs({
+                                    studentId: studentId,
+                                    organizationPairs: Object.values(
+                                        selectedOrganizationPairs
+                                    ),
+                                });
+
+                                setTimeout(function () {
+                                    setStudentId(undefined);
+
+                                    setSelectedOrganizationPairs({});
+                                    setVoteResponseJson(undefined);
+
+                                    setHasSubmitted(false);
+
+                                    router.replace("/");
+                                }, 2000);
+                            }}
+                            className="bg-gray-600 text-white font-semibold px-6 py-3 rounded-xl flex gap-3 justify-center items-center cursor-pointer disabled:bg-gray-200 disabled:text-gray-300"
+                        >
+                            Submit
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="currentColor"
+                                className="w-6 h-6"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                />
+                            </svg>
+                        </button>
+
+                        {hasSubmitted &&
+                        voteResponseJson &&
+                        "error" in voteResponseJson
+                            ? JSON.stringify(voteResponseJson.error)
+                            : ""}
+
+                        {hasSubmitted && mutateVotePairsResponse?.status === 200
+                            ? "Successfully voted!"
+                            : ""}
+                    </div>
+                </>
+            ) : undefined}
+
+            <div className="p-3" />
 
             <div className="flex gap-3 justify-center">
                 <button
