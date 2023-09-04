@@ -187,7 +187,9 @@ function VotePage() {
 
                 <button
                     className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center disabled:bg-gray-50 disabled:text-gray-300"
-                    disabled={organizationIndex === (organizationNames.length - 1)}
+                    disabled={
+                        organizationIndex === organizationNames.length - 1
+                    }
                     onClick={function () {
                         setOrganizationIndex(function (organizationIndex) {
                             return organizationIndex + 1;
