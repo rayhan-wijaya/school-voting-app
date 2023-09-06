@@ -42,20 +42,11 @@ CREATE TABLE `organization_member` (
     UNIQUE (`organization_id`, `pair_id`, `nickname`)
 );
 
-CREATE TABLE `student` (
-    `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `full_name` VARCHAR(40)
-);
-
 CREATE TABLE `vote` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
     `student_id` INT,
     `organization_id` INT,
     `pair_id` INT,
-
-    FOREIGN KEY (`student_id`)
-        REFERENCES `student`(`id`)
-        ON DELETE CASCADE,
 
     FOREIGN KEY (`organization_id`)
         REFERENCES `organization_pair`(`organization_id`)
