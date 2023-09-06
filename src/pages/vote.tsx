@@ -153,7 +153,7 @@ function VotePage() {
 
                                     return (
                                         <RadioGroup.Option
-                                            className="focus:outline-none ui-checked:bg-gray-500 bg-gray-100 rounded-xl ui-checked:text-white cursor-pointer ui-active:ring-4 ui-active:ring-gray-400 shadow-md"
+                                            className="focus:outline-none ui-checked:bg-sky-500 bg-sky-100 rounded-xl ui-checked:text-white cursor-pointer ui-active:ring-4 ui-active:ring-sky-400"
                                             key={`${pair[0].organizationId}-${pairId}`}
                                             value={
                                                 {
@@ -195,7 +195,7 @@ function VotePage() {
                                                 </svg>
                                             </div>
 
-                                            <div className="flex flex-col gap-3 ui-checked:divide-gray-600 divide-y">
+                                            <div className="flex flex-col gap-3 ui-checked:divide-sky-600 divide-y">
                                                 {pair.map(function (member) {
                                                     return (
                                                         <div
@@ -207,7 +207,7 @@ function VotePage() {
                                                                     member.fullName
                                                                 }
                                                             </h3>
-                                                            <span className="ui-checked:text-gray-100">
+                                                            <span className="ui-checked:text-sky-100">
                                                                 {member.position ===
                                                                 "vice_chairman"
                                                                     ? "Wakil Ketua"
@@ -258,7 +258,7 @@ function VotePage() {
                                     router.replace("/");
                                 }, 2000);
                             }}
-                            className="bg-gray-600 text-white font-semibold px-6 py-3 rounded-xl flex gap-3 justify-center items-center cursor-pointer disabled:bg-gray-200 disabled:text-gray-300"
+                            className="bg-sky-600 text-white font-semibold px-6 py-3 rounded-xl flex gap-3 justify-center items-center cursor-pointer disabled:bg-sky-200 disabled:text-sky-300"
                         >
                             Vote
                             <svg
