@@ -195,7 +195,7 @@ function VotePage() {
                                                 </svg>
                                             </div>
 
-                                            <div className="flex flex-col gap-3 ui-checked:divide-sky-600 divide-y">
+                                            <div className="flex flex-col gap-3 divide-gray-300 ui-checked:divide-sky-600 divide-y">
                                                 {pair.map(function (member) {
                                                     return (
                                                         <div
