@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
-import { isAuthValid } from "~/lib/auth";
 import { database } from "~/lib/database";
 
 const numericString = z.union([
