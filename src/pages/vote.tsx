@@ -260,7 +260,7 @@ function VotePage() {
                             }}
                             className="bg-gray-600 text-white font-semibold px-6 py-3 rounded-xl flex gap-3 justify-center items-center cursor-pointer disabled:bg-gray-200 disabled:text-gray-300"
                         >
-                            Submit
+                            Vote
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
