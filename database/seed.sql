@@ -22,10 +22,3 @@ VALUES
     (2, 1, 'Malik', 'Malik Syarif Akbar', 'chairman'),
     (2, 2, 'Akesh', 'Gede Akesh', 'vice_chairman'),
     (2, 2, 'Daffa', 'Daffa Prawono', 'chairman');
-
-INSERT INTO
-    `student` (`id`, `full_name`)
-VALUES
-    (100, 'Rayhan Satria Wijaya'),
-    (200, 'Malik Syarif Akbar'),
-    (300, 'Daffa Prawono');
