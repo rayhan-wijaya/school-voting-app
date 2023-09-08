@@ -1,6 +1,6 @@
 CREATE TABLE `organization` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `name` VARCHAR(10) UNIQUE
+    `name` VARCHAR(10) UNIQUE NOT NULL
 );
 
 CREATE TABLE `organization_pair` (
