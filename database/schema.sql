@@ -5,8 +5,8 @@ CREATE TABLE `organization` (
 
 CREATE TABLE `organization_pair` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `organization_id` INT,
-    `pair_id` INT,
+    `organization_id` INT NOT NULL,
+    `pair_id` INT NOT NULL,
 
     INDEX `organization_id_index` (`organization_id`),
     INDEX `pair_id_index` (`pair_id`),
