@@ -21,11 +21,11 @@ CREATE TABLE `organization_pair` (
 
 CREATE TABLE `organization_member` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `organization_id` INT,
-    `pair_id` INT,
-    `nickname` VARCHAR(12),
+    `organization_id` INT NOT NULL,
+    `pair_id` INT NOT NULL,
+    `nickname` VARCHAR(12) NOT NULL,
     `full_name` VARCHAR(40),
-    `position` ENUM('chairman', 'vice_chairman'),
+    `position` ENUM('chairman', 'vice_chairman') NOT NULL,
     `image_file_name` varchar(255),
 
     INDEX `organization_id_index` (`organization_id`),
