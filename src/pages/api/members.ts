@@ -9,6 +9,7 @@ const organizationMemberSchema = z.object({
     nickname: z.string(),
     fullName: z.string(),
     position: z.enum(["chairman", "vice_chairman"]),
+    imageFileName: z.string().nullable().optional(),
 });
 
 type OrganizationMember = z.infer<typeof organizationMemberSchema>;
