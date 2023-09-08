@@ -70,7 +70,8 @@ async function getAllMembers() {
                         pair_id as pairId,
                         nickname,
                         full_name as fullName,
-                        position
+                        position,
+                        image_file_name as imageFileName
                     FROM organization_member;
                 `,
                 async function (error, results, _fields) {
