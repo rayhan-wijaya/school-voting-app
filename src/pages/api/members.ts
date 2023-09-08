@@ -7,7 +7,7 @@ const organizationMemberSchema = z.object({
     organizationId: z.number(),
     pairId: z.number(),
     nickname: z.string(),
-    fullName: z.string(),
+    fullName: z.string().nullable().optional(),
     position: z.enum(["chairman", "vice_chairman"]),
     imageFileName: z.string().nullable().optional(),
 });
