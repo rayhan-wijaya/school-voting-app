@@ -26,6 +26,7 @@ CREATE TABLE `organization_member` (
     `nickname` VARCHAR(12),
     `full_name` VARCHAR(40),
     `position` ENUM('chairman', 'vice_chairman'),
+    `image_file_name` varchar(255),
 
     INDEX `organization_id_index` (`organization_id`),
     INDEX `pair_id_index` (`pair_id`),
