@@ -203,7 +203,7 @@ function VotePage() {
                                                             key={`${member.organizationId}-${member.nickname}`}
                                                         >
                                                             <img
-                                                                className="rounded-md w-16 h-20 object-cover"
+                                                                className="rounded-lg w-16 h-20 object-cover"
                                                                 src={
                                                                     member.imageFileName
                                                                         ? `${process.env.NEXT_PUBLIC_CDN_BASE_URL}/image/${member.imageFileName}`
