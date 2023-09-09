@@ -199,7 +199,7 @@ function VotePage() {
                                                 {pair.map(function (member) {
                                                     return (
                                                         <div
-                                                            className="p-5"
+                                                            className="p-5 flex items-center gap-3"
                                                             key={`${member.organizationId}-${member.nickname}`}
                                                         >
                                                             <img
