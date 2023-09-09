@@ -15,7 +15,7 @@ VALUES
     (1, 1, 'Rafa', 'vice_chairman', 'rafa.jpg'),
     (1, 2, 'Flo', 'chairman', 'flo.jpg'),
     (1, 2, 'Ael', 'vice_chairman', 'ael.jpg'),
-    (1, 3, 'raras', 'chairman', 'raras.jpg'),
+    (1, 3, 'Raras', 'chairman', 'raras.jpg'),
     (1, 3, 'Kyoshi', 'vice_chairman', 'kyoshi.jpg'),
 
     (2, 1, 'Syahira', 'chairman', 'syahira.jpg'),
