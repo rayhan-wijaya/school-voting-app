@@ -120,7 +120,7 @@ function VotePage() {
             <div className="flex flex-col gap-16 max-w-lg px-5 m-auto">
                 {members ? (
                     <div key={organizationNames[organizationIndex]}>
-                        <h2 className="font-semibold text-center">
+                        <h2 className="font-semibold text-center text-lg">
                             {organizationNames[organizationIndex]}
                         </h2>
 
