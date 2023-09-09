@@ -159,7 +159,7 @@ function VotePage() {
 
                                     return (
                                         <RadioGroup.Option
-                                            className="focus:outline-none ui-checked:bg-sky-500 bg-sky-100 rounded-xl ui-checked:text-white cursor-pointer ui-active:ring-4 ui-active:ring-sky-200"
+                                            className="focus:outline-none ui-checked:bg-sky-500 bg-sky-100 rounded-xl ui-checked:text-white cursor-pointer ui-active:ring-4 ui-active:ring-sky-100"
                                             key={`${pair[0].organizationId}-${pairId}`}
                                             value={
                                                 {
