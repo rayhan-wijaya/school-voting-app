@@ -1,8 +1,8 @@
 function Header() {
     return (
         <div>
-            <div className="font-semibold bg-sky-600 text-white">
-                <img src="/backgrounds/spj.jpg" />
+            <div className="font-semibold p-3 m-3 rounded-lg bg-sky-600 shadow-md text-white">
+                <img className="rounded-lg" src="/backgrounds/header.png" />
             </div>
         </div>
     );
