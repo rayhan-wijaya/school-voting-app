@@ -84,6 +84,12 @@ function VotePage() {
         organizationPairsAtom
     );
 
+    useEffect(function () {
+        if (!studentId) {
+            router.replace("/");
+        }
+    }, []);
+
     useEffect(
         function () {
             async function getVoteResponseJson() {
