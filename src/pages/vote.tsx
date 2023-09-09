@@ -213,7 +213,7 @@ function VotePage() {
                                                             <div>
                                                             <h3 className="font-semibold">
                                                                 {
-                                                                    member.fullName
+                                                                    member.nickname
                                                                 }
                                                             </h3>
                                                             <span className="ui-checked:text-sky-100">
