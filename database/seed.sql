@@ -9,6 +9,5 @@ INSERT INTO
 VALUES
     (2, 1, 'Syahira', 'chairman', 'syahira.jpg'),
     (2, 1, 'Haekal', 'vice_chairman', 'haekal.jpg'),
-
     (2, 2, 'Jasmin', 'chairman', 'jasmin.jpg'),
     (2, 2, 'Neora', 'vice_chairman', 'neora.jpg');
