@@ -222,6 +222,7 @@ function VotePage() {
                                                                     ? "Wakil Ketua"
                                                                     : "Ketua"}
                                                             </span>
+                                                            </div>
                                                         </div>
                                                     );
                                                 })}
