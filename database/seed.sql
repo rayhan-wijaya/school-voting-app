@@ -14,9 +14,9 @@ VALUES
     (1, 1, 'Maylaff', 'chairman', 'maylaff.jpg'),
     (1, 1, 'Rafa', 'vice_chairman', 'rafa.jpg'),
     (1, 2, 'Flo', 'chairman', 'flo.jpg'),
-    (1, 2, 'Ael', 'vice_chairman', 'arhael.jpg'),
-    (1, 3, 'Tyas', 'chairman', 'tyas.jpg'),
-    (1, 3, 'Kyoshi', 'vice_chairman', 'anasya.jpg'),
+    (1, 2, 'Ael', 'vice_chairman', 'ael.jpg'),
+    (1, 3, 'raras', 'chairman', 'raras.jpg'),
+    (1, 3, 'Kyoshi', 'vice_chairman', 'kyoshi.jpg'),
 
     (2, 1, 'Syahira', 'chairman', 'syahira.jpg'),
     (2, 1, 'Haekal', 'vice_chairman', 'haekal.jpg'),
