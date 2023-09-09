@@ -216,7 +216,7 @@ function VotePage() {
                                                                     member.nickname
                                                                 }
                                                             </h3>
-                                                            <span className="ui-checked:text-sky-100">
+                                                            <span className="ui-checked:text-sky-200">
                                                                 {member.position ===
                                                                 "vice_chairman"
                                                                     ? "Wakil Ketua"
