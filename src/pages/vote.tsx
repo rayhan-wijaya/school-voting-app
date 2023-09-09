@@ -107,7 +107,7 @@ function VotePage() {
         <>
             <div className="p-3" />
 
-            <h1 className="text-center font-semibold">
+            <h1 className="text-center font-semibold text-lg">
                 Pick your Vote for Each Organization
             </h1>
 
