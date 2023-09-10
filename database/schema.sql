@@ -64,7 +64,7 @@ CREATE TABLE `vote` (
 
 CREATE TABLE `admin` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `username` VARCHAR(30),
+    `username` VARCHAR(30) UNIQUE,
     `hashed_password` VARCHAR(64)
 );
 
