@@ -42,7 +42,7 @@ function createSession({
                 }
             );
 
-            return connection.release();
+            return resolve(connection.release());
         });
     });
 }
