@@ -1,4 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { env } from "~/lib/env";
 
@@ -70,31 +71,12 @@ function LoginAlert({
 }
 
 function Login() {
+    const router = useRouter();
     const [username, setUsername] = useState<string>();
     const [password, setPassword] = useState<string>();
-    const [hasSubmitted, setHasSubmitted] = useState(false);
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
-    const [mutateLoginResponse, setMutateLoginResponse] = useState<Response>();
     const [mutateLoginJsonResponse, setMutateLoginJsonResponse] =
         useState<unknown>();
-
-    useEffect(
-        function () {
-            if (hasSubmitted && mutateLoginResponse?.status === 200) {
-                setIsSubmitDisabled(true);
-            }
-        },
-        [mutateLoginResponse]
-    );
-
-    useEffect(() => console.log(isSubmitDisabled), [isSubmitDisabled]);
-
-    useEffect(
-        function () {
-            console.log(mutateLoginJsonResponse);
-        },
-        [mutateLoginJsonResponse]
-    );
 
     const { mutate: mutateLogin } = useMutation({
         mutationFn: async function ({
@@ -109,10 +91,18 @@ function Login() {
             const response = await fetch(url, {
                 method: "POST",
                 body: JSON.stringify({ username, password }),
+                cache: "no-cache",
             });
 
-            setMutateLoginResponse(response);
             setMutateLoginJsonResponse(await response.json());
+
+            setIsSubmitDisabled(response?.status === 200);
+
+            setTimeout(function () {
+                if (response?.status === 200) {
+                    router.replace("/admin");
+                }
+            }, 5000);
 
             return response;
         },
@@ -125,8 +115,6 @@ function Login() {
             <form
                 className="flex flex-col gap-5 items-center justify-center"
                 onSubmit={function (event) {
-                    setHasSubmitted(true);
-
                     event.preventDefault();
 
                     if (!username || !password) {
