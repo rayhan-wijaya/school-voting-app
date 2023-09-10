@@ -48,6 +48,11 @@ function createSession({
     });
 }
 
+const bodySchema = z.object({
+    username: z.string(),
+    password: z.string(),
+});
+
 async function handlePost(request: NextApiRequest, response: NextApiResponse) {}
 
 export default async function handler(
