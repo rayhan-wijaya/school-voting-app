@@ -62,6 +62,12 @@ CREATE TABLE `vote` (
     UNIQUE (`student_id`, `pair_id`, `organization_id`)
 );
 
+CREATE TABLE `admin` (
+    `id` INT PRIMARY KEY AUTO_INCREMENT,
+    `username` VARCHAR(30),
+    `hashed_password` VARCHAR(64)
+);
+
 --
 
 INSERT INTO
