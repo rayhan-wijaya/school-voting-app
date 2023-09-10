@@ -33,7 +33,7 @@ async function getOrganizationName(id: number) {
 
             connection.query(
                 {
-                    sql: "SELECT name, acronym FROM organization where id = ?",
+                    sql: "SELECT name, full_name as fullName FROM organization where id = ?",
                     values: [id],
                 },
                 function (error, results, _fields) {
@@ -41,7 +41,7 @@ async function getOrganizationName(id: number) {
                         return reject(error);
                     }
 
-                    return resolve(`${results?.[0]?.acronym}<br>(${results?.[0]?.name})`);
+                    return resolve(`${results?.[0]?.fullName}<br>(${results?.[0]?.name})`);
                 }
             );
 
