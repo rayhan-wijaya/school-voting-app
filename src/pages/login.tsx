@@ -1,4 +1,6 @@
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
+import { env } from "~/lib/env";
 
 function LoginAlert({
     mutateLoginJsonResponse,
@@ -32,13 +34,44 @@ function LoginAlert({
 function Login() {
     const [username, setUsername] = useState<string>();
     const [password, setPassword] = useState<string>();
+    const [mutateLoginJsonResponse, setMutateLoginJsonResponse] =
+        useState<unknown>();
+
+    const { mutate: mutateLogin } = useMutation({
+        mutationFn: async function ({
+            username,
+            password,
+        }: {
+            username: string;
+            password: string;
+        }) {
+            const url = new URL("/api/login", env.NEXT_PUBLIC_BASE_URL);
+
+            const response = await fetch(url, {
+                method: "POST",
+                body: JSON.stringify({ username, password }),
+            });
+
+            setMutateLoginJsonResponse(await response.json());
+
+            return response;
+        },
+    });
 
     return (
         <>
+            <LoginAlert mutateLoginJsonResponse={mutateLoginJsonResponse} />
+
             <form
                 className="flex flex-col gap-5 items-center justify-center"
                 onSubmit={function (event) {
                     event.preventDefault();
+
+                    if (!username || !password) {
+                        return;
+                    }
+
+                    mutateLogin({ username, password });
                 }}
             >
                 <label className="flex flex-col gap-2">
