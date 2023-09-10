@@ -50,6 +50,8 @@ export function validateCredentials({
 
                     const adminFromDb = adminsResult.data[0];
 
+                    connection.release();
+
                     return resolve(
                         timingSafeEqual(
                             Buffer.from(adminFromDb.hashedPassword),
@@ -81,11 +83,15 @@ export function validateSessionToken(token: string) {
                         return reject(error);
                     }
 
+                    connection.release();
+
                     return resolve(
                         Array.isArray(results) && results.length > 0
                     );
                 }
             );
+
+            return connection.release();
         });
     });
 }

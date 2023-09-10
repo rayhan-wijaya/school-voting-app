@@ -32,6 +32,8 @@ async function getOrganizationName(id: number) {
                         return reject(error);
                     }
 
+                    connection.release();
+
                     return resolve(`${results?.[0]?.fullName}<br>(${results?.[0]?.name})`);
                 }
             );
