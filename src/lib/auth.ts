@@ -63,3 +63,29 @@ export function validateCredentials({
         });
     });
 }
+
+export function validateSessionToken(token: string) {
+    return new Promise<boolean>(function (resolve, reject) {
+        database.pool.getConnection(function (error, connection) {
+            if (error) {
+                return reject(error);
+            }
+
+            connection.query(
+                {
+                    sql: "SELECT id FROM admin_session WHERE token = ?",
+                    values: [token],
+                },
+                function (error, results) {
+                    if (error) {
+                        return reject(error);
+                    }
+
+                    return resolve(
+                        Array.isArray(results) && results.length > 0
+                    );
+                }
+            );
+        });
+    });
+}
