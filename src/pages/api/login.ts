@@ -87,7 +87,9 @@ async function handlePost(request: NextApiRequest, response: NextApiResponse) {
 
         response.setHeader(
             "Set-Cookie",
-            cookie.serialize("admin_session_token", sessionToken)
+            cookie.serialize("admin_session_token", sessionToken, {
+                path: "/",
+            })
         );
     } catch (error) {
         console.error(error);
