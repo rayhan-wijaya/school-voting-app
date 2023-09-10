@@ -98,7 +98,12 @@ function Login() {
                     />
                 </label>
 
-                <button type="submit">Submit</button>
+                <button
+                    type="submit"
+                    disabled={!username || !password || hasSubmitted}
+                >
+                    Submit
+                </button>
             </form>
         </>
     );
