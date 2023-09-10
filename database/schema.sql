@@ -65,7 +65,7 @@ CREATE TABLE `vote` (
 --
 
 INSERT INTO
-    `organization` (`name`, `acronym`)
+    `organization` (`name`, `full_name`)
 VALUES
     ('OSIS', 'Organisasi Siswa Intra Sekolah'),
     ('MPK', 'Majelis Perwakilan Kelas');
