@@ -165,6 +165,8 @@ async function getAllMembers() {
                             grouppedOrganizationMembers;
                     }
 
+                    connection.release();
+
                     return resolve(response);
                 }
             );
