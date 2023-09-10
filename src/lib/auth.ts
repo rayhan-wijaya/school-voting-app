@@ -41,11 +41,11 @@ export function validateCredentials({
                         .safeParseAsync(results);
 
                     if (!adminsResult.success) {
-                        return reject("Failed to validate admin results");
+                        return resolve(false);
                     }
 
                     if (!adminsResult.data[0]) {
-                        return reject("Failed to get an admin from DB");
+                        return resolve(false);
                     }
 
                     const adminFromDb = adminsResult.data[0];
