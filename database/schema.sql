@@ -70,7 +70,7 @@ CREATE TABLE `admin` (
 
 CREATE TABLE `admin_session` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `token` VARCHAR(64)
+    `token` VARCHAR(64) UNIQUE
 );
 
 --
