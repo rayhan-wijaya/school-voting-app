@@ -1,38 +1,38 @@
 {
-  "name": "school-voting-app",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@headlessui/react": "^1.7.17",
-    "@headlessui/tailwindcss": "^0.2.0",
-    "@paralleldrive/cuid2": "^2.2.2",
-    "@t3-oss/env-nextjs": "^0.6.1",
-    "@tanstack/react-query": "^4.33.0",
-    "@types/mysql": "^2.15.21",
-    "@types/node": "20.5.7",
-    "@types/react": "18.2.21",
-    "@types/react-dom": "18.2.7",
-    "autoprefixer": "10.4.15",
-    "cookie": "^0.5.0",
-    "eslint": "8.48.0",
-    "eslint-config-next": "13.4.19",
-    "jotai": "^2.4.1",
-    "mysql": "^2.18.1",
-    "next": "13.4.19",
-    "postcss": "8.4.28",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "tailwindcss": "3.3.3",
-    "typescript": "5.2.2",
-    "zod": "^3.22.2"
-  },
-  "devDependencies": {
-    "@types/cookie": "^0.5.2"
-  }
+    "name": "school-voting-app",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@headlessui/react": "^1.7.17",
+        "@headlessui/tailwindcss": "^0.2.0",
+        "@paralleldrive/cuid2": "^2.2.2",
+        "@t3-oss/env-nextjs": "^0.6.1",
+        "@tanstack/react-query": "^4.33.0",
+        "@types/mysql": "^2.15.21",
+        "@types/node": "20.5.7",
+        "@types/react": "18.2.21",
+        "@types/react-dom": "18.2.7",
+        "autoprefixer": "10.4.15",
+        "cookie": "^0.5.0",
+        "eslint": "8.48.0",
+        "eslint-config-next": "13.4.19",
+        "jotai": "^2.4.1",
+        "mysql": "^2.18.1",
+        "next": "13.4.19",
+        "postcss": "8.4.28",
+        "react": "18.2.0",
+        "react-dom": "18.2.0",
+        "tailwindcss": "3.3.3",
+        "typescript": "5.2.2",
+        "zod": "^3.22.2"
+    },
+    "devDependencies": {
+        "@types/cookie": "^0.5.2"
+    }
 }
