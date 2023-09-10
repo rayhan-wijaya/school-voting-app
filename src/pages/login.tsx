@@ -101,7 +101,7 @@ function Login() {
 
                 setTimeout(async function () {
                     await router.replace("/admin");
-                }, 5000);
+                }, 2000);
             }
 
             return response;
