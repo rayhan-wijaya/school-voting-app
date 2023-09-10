@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import cookie from "cookie";
 import { database } from "~/lib/database";
 import { validateCredentials } from "~/lib/auth";
 import { createId } from "~/lib/cuid";
@@ -77,11 +78,16 @@ async function handlePost(request: NextApiRequest, response: NextApiResponse) {
     }
 
     try {
-        await createSession({
+        const sessionToken = await createSession({
             username,
             hashedPassword,
             isValidateCredentials: false,
         });
+
+        response.setHeader(
+            "Set-Cookie",
+            cookie.serialize("admin_session_token", sessionToken)
+        );
     } catch (error) {
         console.error(error);
 
