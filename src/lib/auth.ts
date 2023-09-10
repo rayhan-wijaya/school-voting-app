@@ -7,7 +7,7 @@ const adminSchema = z.object({
     hashedPassword: z.string(),
 });
 
-export function validateAuthToken(authToken: string) {
+export function validateCredentials(authToken: string) {
     const [username, hashedPassword] = authToken.split(":");
 
     return new Promise<boolean>(function (resolve, reject) {
