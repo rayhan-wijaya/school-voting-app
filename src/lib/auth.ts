@@ -7,9 +7,13 @@ const adminSchema = z.object({
     hashedPassword: z.string(),
 });
 
-export function validateCredentials(authToken: string) {
-    const [username, hashedPassword] = authToken.split(":");
-
+export function validateCredentials({
+    username,
+    hashedPassword,
+}: {
+    username: string;
+    hashedPassword: string;
+}) {
     return new Promise<boolean>(function (resolve, reject) {
         database.pool.getConnection(function (error, connection) {
             if (error) {
