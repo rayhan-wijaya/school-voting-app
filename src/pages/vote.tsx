@@ -85,6 +85,10 @@ function VotePage() {
     );
 
     useEffect(function () {
+        window.scrollTo({ top: 0, left: 0 });
+    }, [organizationIndex]);
+
+    useEffect(function () {
         if (!studentId) {
             router.replace("/");
         }
