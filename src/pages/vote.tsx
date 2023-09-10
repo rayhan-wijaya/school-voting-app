@@ -85,10 +85,6 @@ function VotePage() {
     );
 
     useEffect(function () {
-        window.scrollTo({ top: 0, left: 0 });
-    }, [organizationIndex]);
-
-    useEffect(function () {
         if (!studentId) {
             router.replace("/");
         }
@@ -323,6 +319,8 @@ function VotePage() {
                             return router.replace("/");
                         }
 
+                        window.scrollTo({ top: 0, left: 0 });
+
                         setOrganizationIndex(function (organizationIndex) {
                             return organizationIndex - 1;
                         });
@@ -351,6 +349,8 @@ function VotePage() {
                         organizationIndex === organizationNames.length - 1
                     }
                     onClick={function () {
+                        window.scrollTo({ top: 0, left: 0 });
+
                         setOrganizationIndex(function (organizationIndex) {
                             return organizationIndex + 1;
                         });
