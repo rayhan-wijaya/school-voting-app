@@ -217,17 +217,17 @@ function VotePage() {
                                                                 }
                                                             />
                                                             <div>
-                                                            <h3 className="font-semibold">
-                                                                {
-                                                                    member.nickname
-                                                                }
-                                                            </h3>
-                                                            <span className="ui-checked:text-sky-200">
-                                                                {member.position ===
-                                                                "vice_chairman"
-                                                                    ? "Wakil Ketua"
-                                                                    : "Ketua"}
-                                                            </span>
+                                                                <h3 className="font-semibold">
+                                                                    {
+                                                                        member.nickname
+                                                                    }
+                                                                </h3>
+                                                                <span className="ui-checked:text-sky-200">
+                                                                    {member.position ===
+                                                                    "vice_chairman"
+                                                                        ? "Wakil Ketua"
+                                                                        : "Ketua"}
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     );
