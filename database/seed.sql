@@ -22,3 +22,8 @@ VALUES
     (2, 1, 'Haekal', 'vice_chairman', 'haekal.jpg'),
     (2, 2, 'Jasmin', 'chairman', 'jasmin.jpg'),
     (2, 2, 'Neora', 'vice_chairman', 'neora.jpg');
+
+INSERT INTO
+    `admin` (`username`, `hashed_password`)
+VALUES
+    ('admin', '49a00e8cfbb9b94b3c2f5f18b4db27a7ac7d9e57320e32799ddb9dd9291b9369');
