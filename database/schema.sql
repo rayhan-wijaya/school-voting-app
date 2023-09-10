@@ -1,6 +1,7 @@
 CREATE TABLE `organization` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `name` VARCHAR(10) UNIQUE NOT NULL
+    `name` VARCHAR(10) UNIQUE NOT NULL,
+    `acronym` VARCHAR(35) UNIQUE NOT NULL
 );
 
 CREATE TABLE `organization_pair` (
@@ -64,7 +65,7 @@ CREATE TABLE `vote` (
 --
 
 INSERT INTO
-    `organization` (`name`)
+    `organization` (`name`, `acronym`)
 VALUES
-    ('OSIS'),
-    ('MPK');
+    ('OSIS', 'Organisasi Siswa Intra Sekolah'),
+    ('MPK', 'Majelis Perwakilan Kelas');
