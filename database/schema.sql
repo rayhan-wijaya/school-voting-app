@@ -70,7 +70,12 @@ CREATE TABLE `admin` (
 
 CREATE TABLE `admin_session` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `token` VARCHAR(64) UNIQUE
+    `token` VARCHAR(64) UNIQUE,
+    `admin_id` INT,
+
+    FOREIGN KEY (`admin_id`)
+        REFERENCES `admin`(`id`)
+        ON DELETE CASCADE
 );
 
 --
