@@ -45,8 +45,6 @@ async function hasStudentVoted(studentId: number) {
                         return reject("`results` wasn't an array");
                     }
 
-                    connection.release();
-
                     return resolve(results.length > 0);
                 }
             );
