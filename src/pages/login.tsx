@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { env } from "~/lib/env";
 
 function LoginAlert({
@@ -18,14 +18,22 @@ function LoginAlert({
         "message" in mutateLoginJsonResponse &&
         typeof mutateLoginJsonResponse.message === "string"
     ) {
-        return <div>{mutateLoginJsonResponse.message}</div>;
+        return (
+            <div className="bg-green-500 p-3 rounded-xl m-3 text-white">
+                {mutateLoginJsonResponse.message}
+            </div>
+        );
     }
 
     if (
         "error" in mutateLoginJsonResponse &&
         typeof mutateLoginJsonResponse.error === "string"
     ) {
-        return <div className="bg-red-300 text-white">{mutateLoginJsonResponse.error}</div>;
+        return (
+            <div className="bg-red-500 p-3 rounded-xl m-3 text-white">
+                {mutateLoginJsonResponse.error}
+            </div>
+        );
     }
 
     return <></>;
@@ -35,8 +43,28 @@ function Login() {
     const [username, setUsername] = useState<string>();
     const [password, setPassword] = useState<string>();
     const [hasSubmitted, setHasSubmitted] = useState(false);
+    const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
+    const [mutateLoginResponse, setMutateLoginResponse] = useState<Response>();
     const [mutateLoginJsonResponse, setMutateLoginJsonResponse] =
         useState<unknown>();
+
+    useEffect(
+        function () {
+            if (hasSubmitted && mutateLoginResponse?.status === 200) {
+                setIsSubmitDisabled(true);
+            }
+        },
+        [mutateLoginResponse]
+    );
+
+    useEffect(() => console.log(isSubmitDisabled), [isSubmitDisabled]);
+
+    useEffect(
+        function () {
+            console.log(mutateLoginJsonResponse);
+        },
+        [mutateLoginJsonResponse]
+    );
 
     const { mutate: mutateLogin } = useMutation({
         mutationFn: async function ({
@@ -53,6 +81,7 @@ function Login() {
                 body: JSON.stringify({ username, password }),
             });
 
+            setMutateLoginResponse(response);
             setMutateLoginJsonResponse(await response.json());
 
             return response;
@@ -100,7 +129,8 @@ function Login() {
 
                 <button
                     type="submit"
-                    disabled={!username || !password || hasSubmitted}
+                    disabled={!username || !password || isSubmitDisabled}
+                    className="disabled:bg-gray-200 bg-sky-600 px-8 rounded-xl py-3 text-white"
                 >
                     Submit
                 </button>
