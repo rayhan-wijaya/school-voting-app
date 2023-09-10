@@ -26,4 +26,4 @@ VALUES
 INSERT INTO
     `admin` (`username`, `hashed_password`)
 VALUES
-    ('admin', '49a00e8cfbb9b94b3c2f5f18b4db27a7ac7d9e57320e32799ddb9dd9291b9369');
+    ('admin', '9151259f305d1e8f5430498b133ae352e1b657df2d63bbefdcfdc07908e21b89'); -- spjhebat1013 (seed data)
