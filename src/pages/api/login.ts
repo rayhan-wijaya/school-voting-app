@@ -32,7 +32,7 @@ function createSession({
                         INSERT INTO
                             \`admin_session\` (\`admin_id\`, \`token\`)
                         VALUES
-                            (SELECT \`id\` FROM \`admin\` WHERE \`username\` = ?, ?);
+                            ((SELECT \`id\` FROM \`admin\` WHERE \`username\` = ?), ?);
                     `,
                     values: [username, createId()],
                 },
@@ -46,4 +46,20 @@ function createSession({
             return connection.release();
         });
     });
+}
+
+async function handlePost(request: NextApiRequest, response: NextApiResponse) {}
+
+export default async function handler(
+    request: NextApiRequest,
+    response: NextApiResponse
+) {
+    switch (request.method) {
+        case "POST":
+            return await handlePost(request, response);
+        default:
+            return response
+                .status(501)
+                .json({ message: "Unimplemented method" });
+    }
 }
