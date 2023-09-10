@@ -60,7 +60,8 @@ const bodySchema = z.object({
 });
 
 async function handlePost(request: NextApiRequest, response: NextApiResponse) {
-    const parsedBodyResult = await bodySchema.safeParseAsync(request.body);
+    const body = JSON.parse(request.body);
+    const parsedBodyResult = await bodySchema.safeParseAsync(body);
 
     if (!parsedBodyResult.success) {
         return response
