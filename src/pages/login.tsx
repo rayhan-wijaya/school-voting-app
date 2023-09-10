@@ -110,6 +110,7 @@ function Login() {
                     Username
                     <input
                         placeholder="Your username here"
+                        required={true}
                         onChange={function (event) {
                             setUsername(event.target.value);
                         }}
@@ -121,6 +122,7 @@ function Login() {
                     <input
                         type="password"
                         placeholder="Your password here"
+                        required={true}
                         onChange={function (event) {
                             setPassword(event.target.value);
                         }}
