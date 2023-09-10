@@ -14,7 +14,7 @@ function createSession({
     hashedPassword: string;
     isValidateCredentials: boolean;
 }) {
-    return new Promise<void>(async function (resolve, reject) {
+    return new Promise<string>(async function (resolve, reject) {
         if (
             isValidateCredentials &&
             !(await validateCredentials({ username, hashedPassword }))
@@ -27,6 +27,8 @@ function createSession({
                 return reject(error);
             }
 
+            const newId = createId();
+
             connection.query(
                 {
                     sql: `
@@ -35,7 +37,7 @@ function createSession({
                         VALUES
                             ((SELECT \`id\` FROM \`admin\` WHERE \`username\` = ?), ?);
                     `,
-                    values: [username, createId()],
+                    values: [username, newId],
                 },
                 function (error) {
                     if (error) {
@@ -44,7 +46,9 @@ function createSession({
                 }
             );
 
-            return resolve(connection.release());
+            connection.release();
+
+            return resolve(newId);
         });
     });
 }
