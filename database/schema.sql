@@ -68,6 +68,11 @@ CREATE TABLE `admin` (
     `hashed_password` VARCHAR(64)
 );
 
+CREATE TABLE `admin_session` (
+    `id` INT PRIMARY KEY AUTO_INCREMENT,
+    `session` VARCHAR(64)
+);
+
 --
 
 INSERT INTO
