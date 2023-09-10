@@ -19,7 +19,22 @@ function LoginAlert({
         typeof mutateLoginJsonResponse.message === "string"
     ) {
         return (
-            <div className="bg-green-500 p-3 rounded-xl m-3 text-white">
+            <div className="bg-green-500 p-4 rounded-xl m-3 text-white flex gap-3">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                </svg>
+
                 {mutateLoginJsonResponse.message}
             </div>
         );
@@ -30,7 +45,22 @@ function LoginAlert({
         typeof mutateLoginJsonResponse.error === "string"
     ) {
         return (
-            <div className="bg-red-500 p-3 rounded-xl m-3 text-white">
+            <div className="bg-red-500 p-4 rounded-xl m-3 text-white flex gap-3">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                    />
+                </svg>
+
                 {mutateLoginJsonResponse.error}
             </div>
         );
@@ -132,23 +162,9 @@ function Login() {
                 <button
                     type="submit"
                     disabled={isSubmitDisabled}
-                    className="bg-sky-600 text-white font-semibold px-6 py-3 rounded-xl flex gap-3 justify-center items-center cursor-pointer disabled:bg-sky-200 disabled:text-sky-300"
+                    className="bg-sky-600 text-white font-semibold px-9 py-3 rounded-xl flex gap-3 justify-center items-center cursor-pointer disabled:bg-sky-200 disabled:text-sky-300"
                 >
                     Login
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-6 h-6"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                    </svg>
                 </button>
             </form>
         </>
