@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { validateSessionToken } from "./lib/auth";
 
 export async function middleware(request: NextRequest) {
-    const adminSessionToken = request.cookies.get("admin_auth_token");
+    const adminSessionToken = request.cookies.get("admin_session_token");
 
     if (
         !adminSessionToken ||
