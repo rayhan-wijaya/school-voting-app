@@ -146,7 +146,7 @@ function VotePage() {
                                 });
                             }}
                         >
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div className="flex flex-row items-center justify-center flex-wrap gap-5">
                                 {Object.keys(
                                     members[
                                         organizationNames[organizationIndex]
