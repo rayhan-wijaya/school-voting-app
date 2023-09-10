@@ -72,6 +72,11 @@ dependencies:
     specifier: ^3.22.2
     version: 3.22.2
 
+devDependencies:
+  '@types/cookie':
+    specifier: ^0.5.2
+    version: 0.5.2
+
 packages:
 
   /@aashutoshrathi/word-wrap@1.2.6:
@@ -374,6 +379,10 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
+
+  /@types/cookie@0.5.2:
+    resolution: {integrity: sha512-DBpRoJGKJZn7RY92dPrgoMew8xCWc2P71beqsjyhEI/Ds9mOyVmBwtekyfhpwFIVt1WrxTonFifiOZ62V8CnNA==}
+    dev: true
 
   /@types/json5@0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
