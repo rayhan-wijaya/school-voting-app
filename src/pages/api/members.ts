@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
 import { database } from "~/lib/database";
+import { filterSuccesses } from "~/lib/promises";
 
 const organizationMemberSchema = z.object({
     id: z.number(),
@@ -13,16 +14,6 @@ const organizationMemberSchema = z.object({
 });
 
 type OrganizationMember = z.infer<typeof organizationMemberSchema>;
-
-async function filterSuccesses<T>(promiseResults: PromiseSettledResult<T>[]) {
-    return promiseResults
-        .filter(function (result): result is PromiseFulfilledResult<T> {
-            return result.status === "fulfilled";
-        })
-        .map(function (result) {
-            return result.value;
-        });
-}
 
 async function getOrganizationName(id: number) {
     return new Promise<string>(function (resolve, reject) {
