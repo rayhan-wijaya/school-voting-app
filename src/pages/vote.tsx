@@ -309,7 +309,7 @@ function VotePage() {
                 </>
             ) : undefined}
 
-            <div className="p-3" />
+            <div className="p-6" />
 
             <div className="flex gap-3 justify-center">
                 <button

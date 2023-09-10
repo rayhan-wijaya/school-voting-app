@@ -33,7 +33,7 @@ function StudentDetailsPage() {
                 </label>
             </div>
 
-            <div className="p-3" />
+            <div className="p-4" />
 
             <div className="flex gap-3 justify-center">
                 <button
