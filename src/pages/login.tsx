@@ -131,10 +131,24 @@ function Login() {
 
                 <button
                     type="submit"
-                    disabled={!username || !password || isSubmitDisabled}
-                    className="disabled:bg-gray-200 bg-sky-600 px-8 rounded-xl py-3 text-white"
+                    disabled={isSubmitDisabled}
+                    className="bg-sky-600 text-white font-semibold px-6 py-3 rounded-xl flex gap-3 justify-center items-center cursor-pointer disabled:bg-sky-200 disabled:text-sky-300"
                 >
-                    Submit
+                    Login
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                    </svg>
                 </button>
             </form>
         </>
