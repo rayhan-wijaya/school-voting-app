@@ -98,9 +98,9 @@ function Login() {
 
             setIsSubmitDisabled(response?.status === 200);
 
-            setTimeout(function () {
+            setTimeout(async function () {
                 if (response?.status === 200) {
-                    router.replace("/admin");
+                    await router.replace("/admin");
                 }
             }, 5000);
 
