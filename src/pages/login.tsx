@@ -34,6 +34,7 @@ function LoginAlert({
 function Login() {
     const [username, setUsername] = useState<string>();
     const [password, setPassword] = useState<string>();
+    const [hasSubmitted, setHasSubmitted] = useState(false);
     const [mutateLoginJsonResponse, setMutateLoginJsonResponse] =
         useState<unknown>();
 
@@ -65,6 +66,8 @@ function Login() {
             <form
                 className="flex flex-col gap-5 items-center justify-center"
                 onSubmit={function (event) {
+                    setHasSubmitted(true);
+
                     event.preventDefault();
 
                     if (!username || !password) {
