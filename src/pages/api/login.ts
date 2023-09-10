@@ -54,7 +54,40 @@ const bodySchema = z.object({
     password: z.string(),
 });
 
-async function handlePost(request: NextApiRequest, response: NextApiResponse) {}
+async function handlePost(request: NextApiRequest, response: NextApiResponse) {
+    const parsedBodyResult = await bodySchema.safeParseAsync(request.body);
+
+    if (!parsedBodyResult.success) {
+        return response
+            .status(400)
+            .send({ error: parsedBodyResult.error.issues });
+    }
+
+    const { username, password } = parsedBodyResult.data;
+    const hashedPassword = createHash("sha256").update(password).digest("hex");
+
+    if (!(await validateCredentials({ username, hashedPassword }))) {
+        return response
+            .status(400)
+            .send({ error: "Invalid username or password" });
+    }
+
+    try {
+        await createSession({
+            username,
+            hashedPassword,
+            isValidateCredentials: false,
+        });
+    } catch (error) {
+        console.error(error);
+
+        return response
+            .status(500)
+            .send({ error: "Internal server error, something went wrong" });
+    }
+
+    return response.status(200).send({ message: "OK" });
+}
 
 export default async function handler(
     request: NextApiRequest,
