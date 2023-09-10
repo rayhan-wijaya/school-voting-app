@@ -96,13 +96,13 @@ function Login() {
 
             setMutateLoginJsonResponse(await response.json());
 
-            setIsSubmitDisabled(response?.status === 200);
+            if (response?.status === 200) {
+                setIsSubmitDisabled(true);
 
-            setTimeout(async function () {
-                if (response?.status === 200) {
+                setTimeout(async function () {
                     await router.replace("/admin");
-                }
-            }, 5000);
+                }, 5000);
+            }
 
             return response;
         },
