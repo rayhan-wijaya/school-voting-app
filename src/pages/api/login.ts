@@ -43,3 +43,47 @@ function getAdminIdFromUsername(username: string) {
         });
     });
 }
+
+function createSession({
+    username,
+    hashedPassword,
+    isValidateCredentials = true,
+}: {
+    username: string;
+    hashedPassword: string;
+    isValidateCredentials: boolean;
+}) {
+    return new Promise<void>(async function (resolve, reject) {
+        if (
+            isValidateCredentials &&
+            !(await validateCredentials({ username, hashedPassword }))
+        ) {
+            return reject("Invalid credentials");
+        }
+
+        database.pool.getConnection(function (error, connection) {
+            if (error) {
+                return reject(error);
+            }
+
+            connection.query(
+                {
+                    sql: `
+                        INSERT INTO
+                            \`admin_session\` (\`admin_id\`, \`token\`)
+                        VALUES
+                            (SELECT \`id\` FROM \`admin\` WHERE \`username\` = ?, ?);
+                    `,
+                    values: [username, createId()],
+                },
+                function (error) {
+                    if (error) {
+                        return reject(error);
+                    }
+                }
+            );
+
+            return connection.release();
+        });
+    });
+}
