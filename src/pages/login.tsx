@@ -1,5 +1,34 @@
 import { useState } from "react";
 
+function LoginAlert({
+    mutateLoginJsonResponse,
+}: {
+    mutateLoginJsonResponse: unknown;
+}) {
+    if (
+        typeof mutateLoginJsonResponse !== "object" ||
+        !mutateLoginJsonResponse
+    ) {
+        return <></>;
+    }
+
+    if (
+        "message" in mutateLoginJsonResponse &&
+        typeof mutateLoginJsonResponse.message === "string"
+    ) {
+        return <div>{mutateLoginJsonResponse.message}</div>;
+    }
+
+    if (
+        "error" in mutateLoginJsonResponse &&
+        typeof mutateLoginJsonResponse.error === "string"
+    ) {
+        return <div className="bg-red-300 text-white">{mutateLoginJsonResponse.error}</div>;
+    }
+
+    return <></>;
+}
+
 function Login() {
     const [username, setUsername] = useState<string>();
     const [password, setPassword] = useState<string>();
