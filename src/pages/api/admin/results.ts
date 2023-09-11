@@ -57,7 +57,7 @@ async function getVotingResults(connection: PoolConnection) {
             return vote.organizationId === organizationId;
         });
 
-        const voteCount = organizationVotes.length;
+        const totalVoteCount = organizationVotes.length;
 
         const distinctPairDetails = Array.from(
             new Set(
@@ -75,9 +75,10 @@ async function getVotingResults(connection: PoolConnection) {
                 return {
                     imageFileName: "", // fill this in
                     percentage: 100, // fill this in
+                    voteCount: 100, // fill this in
                     pairId: pairDetail.pairId,
                     organizationId: pairDetail.organizationId,
-                    voteCount,
+                    totalVoteCount,
                 };
             }
         ) as VotingResult[];
