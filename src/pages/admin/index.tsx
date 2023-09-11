@@ -70,6 +70,14 @@ export default function Admin() {
                                                           <div className="p-1" />
 
                                                           <h3>{result.name}</h3>
+
+                                                          <div className="p-1" />
+
+                                                          <div>
+                                                              {result.percentage ??
+                                                                  0}
+                                                              %
+                                                          </div>
                                                       </div>
                                                   );
                                               })
