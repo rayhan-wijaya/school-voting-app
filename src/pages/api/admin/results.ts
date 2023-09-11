@@ -62,48 +62,53 @@ async function getVotingResults(connection: PoolConnection) {
 }
 
 async function handleGet(request: NextApiRequest, response: NextApiResponse) {
-    const votingResults = await new Promise<
-        Awaited<ReturnType<typeof getVotingResults>>
-    >(function (resolve, reject) {
+    type VotingResults = {
+        [organizationName: string]: VotingResult[];
+    };
+
+    const votingResults = await new Promise<VotingResults>(function (
+        resolve,
+        reject
+    ) {
         database.pool.getConnection(async function (error, connection) {
             if (error) {
                 return reject(error);
             }
 
-            return resolve(await getVotingResults(connection));
+            const votingResultsFromDb = await getVotingResults(connection);
+
+            const finalVotingResults = {} as VotingResults;
+            const distinctOrganizationIds = Array.from(
+                new Set(
+                    votingResultsFromDb.map(function (votingResult) {
+                        return votingResult.organizationId;
+                    })
+                )
+            );
+
+            for (const organizationId of distinctOrganizationIds) {
+                const organizationName = await getFormattedOrganizationName({
+                    id: organizationId,
+                    connection,
+                    isFromCache: true,
+                });
+
+                if (!organizationName) {
+                    continue;
+                }
+
+                finalVotingResults[organizationName] = votingResultsFromDb.filter(
+                    function (votingResult) {
+                        return votingResult.organizationId === organizationId;
+                    }
+                );
+            }
+
+            return resolve(finalVotingResults);
         });
     });
 
-    const finalVotingResults = {} as {
-        [organizationName: string]: VotingResult[];
-    };
-    const distinctOrganizationIds = Array.from(
-        new Set(
-            votingResults.map(function (votingResult) {
-                return votingResult.organizationId;
-            })
-        )
-    );
-
-    for (const organizationId of distinctOrganizationIds) {
-        const organizationName = await getFormattedOrganizationName({
-            id: organizationId,
-            connection,
-            isFromCache: true,
-        });
-
-        if (!organizationName) {
-            continue;
-        }
-
-        finalVotingResults[organizationName] = votingResults.filter(function (
-            votingResult
-        ) {
-            return votingResult.organizationId === organizationId;
-        });
-    }
-
-    return response.status(200).send(finalVotingResults);
+    return response.status(200).send(votingResults);
 }
 
 export default async function handler(
