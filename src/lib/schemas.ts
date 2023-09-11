@@ -14,7 +14,7 @@ export const votingResultSchema = z.object({
     name: z.string(),
     organizationId: z.number(),
     pairId: z.number(),
-    percentage: z.number().max(100),
+    percentage: z.number().max(100).nullable().optional(),
     voteCount: z.number(),
     totalVoteCount: z.number(),
     imageFileName: z.string().nullable().optional(),
