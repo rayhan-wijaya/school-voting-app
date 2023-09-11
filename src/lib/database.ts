@@ -1,4 +1,4 @@
-import { createPool } from "mysql";
+import { PoolConnection, createPool } from "mysql";
 import { env } from "./env";
 
 export const database = {
