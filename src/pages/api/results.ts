@@ -89,7 +89,11 @@ async function getVotingResults(connection: PoolConnection) {
 }
 
 async function handleGet(request: NextApiRequest, response: NextApiResponse) {
-    const votingResults = await getVotingResults();
+    const votingResults = await new Promise(function (resolve, reject) {
+        database.pool.getConnection(async function (error, connection) {
+            return resolve(await getVotingResults(connection));
+        });
+    })
 
     return response.status(200).send(votingResults);
 }
