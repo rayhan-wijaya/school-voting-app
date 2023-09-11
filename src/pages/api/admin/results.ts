@@ -11,13 +11,13 @@ async function getVotes(connection: PoolConnection) {
         connection.query(
             {
                 sql: `
-                        SELECT
-                            \`id\`,
-                            \`student_id\` as studentId,
-                            \`organization_id\` as organizationId,
-                            \`pair_id\` as pairId
-                        FROM votes;
-                    `,
+                    SELECT
+                        \`id\`,
+                        \`student_id\` as studentId,
+                        \`organization_id\` as organizationId,
+                        \`pair_id\` as pairId
+                    FROM votes;
+                `,
                 values: [],
             },
             async function (error, results) {
