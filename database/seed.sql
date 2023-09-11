@@ -1,12 +1,12 @@
 INSERT INTO
-    `organization_pair` (`organization_id`, `pair_id`, `image_file_name`)
+    `organization_pair` (`organization_id`, `pair_id`, `name`, `image_file_name`)
 VALUES
-    (1, 1, 'maylaff_rafa.jpg'),
-    (1, 2, 'flo_ael.jpg'),
-    (1, 3, 'raras_kyoshi.jpg'),
+    (1, 1, 'Maylaff & Rafa', 'maylaff_rafa.jpg'),
+    (1, 2, 'Flo & Ael', 'flo_ael.jpg'),
+    (1, 3, 'Raras & Kyoshi', 'raras_kyoshi.jpg'),
 
-    (2, 1, 'syahira_haekal.jpg'),
-    (2, 2, 'jasmin_neora.jpg');
+    (2, 1, 'Syahira & Haekal', 'syahira_haekal.jpg'),
+    (2, 2, 'Jasmin & Neora', 'jasmin_neora.jpg');
 
 INSERT INTO
     `organization_member` (`organization_id`, `pair_id`, `nickname`, `position`, `image_file_name`)
