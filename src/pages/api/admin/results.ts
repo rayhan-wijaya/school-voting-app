@@ -136,7 +136,7 @@ async function handleGet(request: NextApiRequest, response: NextApiResponse) {
 
             return resolve(await getVotingResults(connection));
         });
-    })
+    });
 
     return response.status(200).send(votingResults);
 }
