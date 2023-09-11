@@ -19,7 +19,9 @@ export default function Admin() {
 
     return (
         <>
-            <h1 className="text-center font-semibold text-lg">Voting Results</h1>
+            <h1 className="text-center font-semibold text-lg">
+                Voting Results
+            </h1>
 
             <div className="p-3" />
 
