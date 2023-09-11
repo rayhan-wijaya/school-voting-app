@@ -1,22 +1,15 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { z } from "zod";
 
 function Header() {
     const router = useRouter();
     const [currentTab, setCurrentTab] = useState<"voting" | "admin">();
+    const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(function () {
-        const { tab } = router.query;
-
-        const tabResult = z
-            .enum(["voting", "admin"])
-            .safeParse(tab);
-
-        if (tabResult.success) {
-            setCurrentTab(tabResult.data);
-        }
+        setIsAdmin(document.cookie.indexOf("admin_session_token=") !== -1);
+        setCurrentTab(router.pathname.startsWith("/admin") ? "admin" : "voting");
     }, [router]);
 
     return (
@@ -30,26 +23,32 @@ function Header() {
                 </div>
             </div>
 
-            {currentTab ? (
+            {isAdmin && currentTab ? (
                 <>
-                    <div className="flex gap-3 items-center justify-center p-8">
+                    <div className="p-3" />
+
+                    <div className="flex items-center justify-center">
+                    <div className="inline-flex rounded-xl gap-3 items-center justify-center p-2 bg-gray-50">
                         <Link
                             className={`${
-                                currentTab === "voting" ? "bg-sky-100" : ""
-                            } p-3 rounded-xl border-2 border-sky-100`}
+                                currentTab === "voting" ? "bg-sky-100 shadow-md" : "hover:bg-gray-100"
+                            } py-3 px-5 rounded-xl`}
                             href="/"
                         >
                             Voting Page
                         </Link>
                         <Link
                             className={`${
-                                currentTab === "admin" ? "bg-sky-100" : ""
-                            } p-3 rounded-xl border-2 border-sky-100`}
+                                currentTab === "admin" ? "bg-sky-100 shadow-md" : "hover:bg-gray-100"
+                            } py-3 px-5 rounded-xl`}
                             href="/admin"
                         >
                             Admin Dashboard
                         </Link>
                     </div>
+                    </div>
+
+                    <div className="p-3" />
                 </>
             ) : null}
         </>
