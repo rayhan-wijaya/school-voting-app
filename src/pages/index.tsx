@@ -25,9 +25,15 @@ function StudentDetailsPage() {
                         type="number"
                         className="bg-sky-100 rounded-xl p-3"
                         placeholder="Your student ID here"
-                        maxLength={15}
                         value={studentId}
                         onChange={function (event) {
+                            if (
+                                event.target.valueAsNumber.toString().length >
+                                15
+                            ) {
+                                return;
+                            }
+
                             setStudentId(event.target.valueAsNumber);
                         }}
                     />
