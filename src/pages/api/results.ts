@@ -41,9 +41,9 @@ async function getVotes(connection: PoolConnection) {
 
 type VotingResult = z.infer<typeof votingResultSchema>;
 
-async function getVotingResults() {
+async function getVotingResults(connection: PoolConnection) {
     const votingResults = {} as { [organizationId: string]: VotingResult[] };
-    const votes = await getVotes();
+    const votes = await getVotes(connection);
     const distinctOrganizationIds = Array.from(
         new Set(
             votes.map(function (vote) {
