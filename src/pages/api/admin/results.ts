@@ -45,6 +45,41 @@ const voteCountSchema = z.object({
     voteCount: z.number(),
 });
 
+async function getVoteCounts(connection: PoolConnection) {
+    return new Promise<z.infer<typeof voteCountSchema>[]>(function (
+        resolve,
+        reject
+    ) {
+        connection.query(
+            {
+                sql: `
+                    SELECT
+                        \`organization_id\` as \`organizationId\`,
+                        \`pair_id\` as \`pairId\`,
+                        COUNT(*) as \`voteCount\`
+                    FROM \`vote\`
+                    GROUP BY \`organization_id\, \`pair_id\`;
+                `,
+            },
+            async function (error, results) {
+                if (error) {
+                    return reject(error);
+                }
+
+                const voteCountsResult = await z
+                    .array(voteCountSchema)
+                    .safeParseAsync(results);
+
+                if (!voteCountsResult.success) {
+                    return reject("Failed to parse result from DB");
+                }
+
+                return resolve(voteCountsResult.data);
+            }
+        );
+    });
+}
+
 type VotingResult = z.infer<typeof votingResultSchema>;
 
 async function getVotingResults(connection: PoolConnection) {
