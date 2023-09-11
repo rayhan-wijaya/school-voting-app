@@ -78,6 +78,25 @@ export default function Admin() {
                                                                   0}
                                                               %
                                                           </div>
+
+                                                          <div className="p-1" />
+
+                                                          <div>
+                                                              <span className="font-semibold">
+                                                                  {
+                                                                      result.voteCount
+                                                                  }{" "}
+                                                                  vote
+                                                                  {result.voteCount >
+                                                                  1
+                                                                      ? "s"
+                                                                      : ""}
+                                                              </span>{" "}
+                                                              out of{" "}
+                                                              {
+                                                                  result.totalVoteCount
+                                                              }
+                                                          </div>
                                                       </div>
                                                   );
                                               })
