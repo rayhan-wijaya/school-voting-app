@@ -48,7 +48,7 @@ CREATE TABLE `organization_member` (
 
 CREATE TABLE `vote` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `student_id` INT,
+    `student_id` VARCHAR(15),
     `organization_id` INT,
     `pair_id` INT,
 
