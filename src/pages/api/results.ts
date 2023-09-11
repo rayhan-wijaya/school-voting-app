@@ -68,7 +68,7 @@ async function getVotingResults() {
             new Set(
                 organizationVotes.map(function (vote) {
                     return {
-                        organizationId: vote.organizationId,
+                        organizationId,
                         pairId: vote.pairId,
                     };
                 })
