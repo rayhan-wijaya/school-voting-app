@@ -96,7 +96,9 @@ async function getVotingResults() {
 }
 
 async function handleGet(request: NextApiRequest, response: NextApiResponse) {
-    return response.status(200).send({});
+    const votingResults = await getVotingResults();
+
+    return response.status(200).send(votingResults);
 }
 
 export default async function handler(
