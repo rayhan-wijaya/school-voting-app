@@ -58,7 +58,7 @@ async function getVotingResults() {
     );
 
     for (const organizationId of distinctOrganizationIds) {
-        const votingResults = [
+        const organizationVotingResults = [
             {
                 voteCount: 100,
                 percentage: 100,
@@ -67,7 +67,7 @@ async function getVotingResults() {
         ] as VotingResult[];
         // fill in votingResult
 
-        votingResults[organizationId] = votingResults;
+        votingResults[organizationId] = organizationVotingResults;
     }
 }
 
