@@ -16,7 +16,7 @@ async function getVotes(connection: PoolConnection) {
                         \`student_id\` as studentId,
                         \`organization_id\` as organizationId,
                         \`pair_id\` as pairId
-                    FROM votes;
+                    FROM vote;
                 `,
                 values: [],
             },
