@@ -88,7 +88,9 @@ export default function Admin() {
                                                                   }{" "}
                                                                   vote
                                                                   {result.voteCount >
-                                                                  1
+                                                                      1 ||
+                                                                  result.voteCount ===
+                                                                      0
                                                                       ? "s"
                                                                       : ""}
                                                               </span>{" "}
