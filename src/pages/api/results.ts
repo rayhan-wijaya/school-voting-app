@@ -44,6 +44,17 @@ async function getVotes() {
     });
 }
 
+async function getResults() {
+    const votes = await getVotes();
+    const distinctOrganizationIds = Array.from(
+        new Set(
+            votes.map(function (vote) {
+                return vote.organizationId;
+            })
+        )
+    );
+}
+
 async function handleGet(request: NextApiRequest, response: NextApiResponse) {
     return response.status(200).send({});
 }
