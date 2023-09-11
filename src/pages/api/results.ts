@@ -41,3 +41,17 @@ async function getVotes() {
 async function handleGet(request: NextApiRequest, response: NextApiResponse) {
     return response.status(200).send({});
 }
+
+export default async function handler(
+    request: NextApiRequest,
+    response: NextApiResponse
+) {
+    switch (request.method) {
+        case "GET":
+            return await handleGet(request, response);
+        default:
+            return response
+                .status(501)
+                .json({ message: "Unimplemented method" });
+    }
+}
