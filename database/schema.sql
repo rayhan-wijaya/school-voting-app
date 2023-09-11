@@ -8,6 +8,7 @@ CREATE TABLE `organization_pair` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
     `organization_id` INT NOT NULL,
     `pair_id` INT NOT NULL,
+    `name` VARCHAR(30),
     `image_file_name` varchar(255),
 
     INDEX `organization_id_index` (`organization_id`),
