@@ -2,16 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
 import { database } from "~/lib/database";
 import { filterSuccesses } from "~/lib/promises";
-
-const organizationMemberSchema = z.object({
-    id: z.number(),
-    organizationId: z.number(),
-    pairId: z.number(),
-    nickname: z.string(),
-    fullName: z.string().nullable().optional(),
-    position: z.enum(["chairman", "vice_chairman"]),
-    imageFileName: z.string().nullable().optional(),
-});
+import organizationMemberSchema from "~/lib/schemas";
 
 type OrganizationMember = z.infer<typeof organizationMemberSchema>;
 
