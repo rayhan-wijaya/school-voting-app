@@ -15,6 +15,7 @@ export const votingResultSchema = z.object({
     pairId: z.number(),
     percentage: z.number().max(100),
     voteCount: z.number(),
+    totalVoteCount: z.number(),
     imageFileName: z.string().nullable().optional(),
 });
 
