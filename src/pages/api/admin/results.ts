@@ -13,6 +13,7 @@ async function getVotingResults(connection: PoolConnection) {
             {
                 sql: `
                     select
+                        name,
                         organization_id as organizationId,
                         pair_id as pairId,
                         image_file_name as imageFileName,
