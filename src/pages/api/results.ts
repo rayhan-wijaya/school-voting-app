@@ -56,6 +56,19 @@ async function getVotingResults() {
             })
         )
     );
+
+    for (const organizationId of distinctOrganizationIds) {
+        const votingResults = [
+            {
+                voteCount: 100,
+                percentage: 100,
+                imageFileName: "",
+            },
+        ] as VotingResult[];
+        // fill in votingResult
+
+        votingResults[organizationId] = votingResult;
+    }
 }
 
 async function handleGet(request: NextApiRequest, response: NextApiResponse) {
