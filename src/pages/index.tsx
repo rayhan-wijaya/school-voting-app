@@ -44,7 +44,7 @@ function StudentDetailsPage() {
 
             <div className="flex gap-3 justify-center">
                 <button
-                    className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center disabled:bg-gray-50 disabled:text-gray-300"
+                    className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center disabled:bg-gray-50 disabled:text-gray-300 hover:bg-gray-300 transition-colors"
                     disabled={true}
                 >
                     <svg
@@ -66,7 +66,7 @@ function StudentDetailsPage() {
 
                 {studentId ? (
                     <Link
-                        className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center disabled:bg-gray-50 disabled:text-gray-300"
+                        className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center disabled:bg-gray-50 disabled:text-gray-300 hover:bg-gray-300 transition-colors"
                         href="/vote"
                     >
                         <span className="hidden sm:block">Next</span>
@@ -87,7 +87,7 @@ function StudentDetailsPage() {
                     </Link>
                 ) : (
                     <button
-                        className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center disabled:bg-gray-50 disabled:text-gray-300"
+                        className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center disabled:bg-gray-50 disabled:text-gray-300 hover:bg-gray-300 transition-colors"
                         disabled={true}
                     >
                         <span className="hidden sm:block">Next</span>

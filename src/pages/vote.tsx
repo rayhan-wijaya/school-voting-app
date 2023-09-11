@@ -318,7 +318,7 @@ function VotePage() {
 
             <div className="flex gap-3 justify-center">
                 <button
-                    className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center disabled:bg-gray-50 disabled:text-gray-300"
+                    className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center disabled:bg-gray-50 disabled:text-gray-300 hover:bg-gray-300 transition-colors"
                     onClick={function () {
                         if (organizationIndex <= 0) {
                             return router.replace("/");
@@ -349,7 +349,7 @@ function VotePage() {
                 </button>
 
                 <button
-                    className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center disabled:bg-gray-50 disabled:text-gray-300"
+                    className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center disabled:bg-gray-50 disabled:text-gray-300 hover:bg-gray-300 transition-colors"
                     disabled={
                         organizationIndex === organizationNames.length - 1 ||
                         !selectedOrganizationPairs[
