@@ -58,17 +58,39 @@ async function getVotingResults() {
     );
 
     for (const organizationId of distinctOrganizationIds) {
-        const organizationVotingResults = [
-            {
-                voteCount: 100,
-                percentage: 100,
-                imageFileName: "",
-            },
-        ] as VotingResult[];
-        // fill in votingResult
+        const organizationVotes = votes.filter(function (vote) {
+            return vote.organizationId === organizationId;
+        });
+
+        const voteCount = organizationVotes.length;
+
+        const distinctPairDetails = Array.from(
+            new Set(
+                organizationVotes.map(function (vote) {
+                    return {
+                        organizationId: vote.organizationId,
+                        pairId: vote.pairId,
+                    };
+                })
+            )
+        );
+
+        const organizationVotingResults = distinctPairDetails.map(
+            function (pairDetail) {
+                return {
+                    imageFileName: "", // fill this in
+                    percentage: 100, // fill this in
+                    pairId: pairDetail.pairId,
+                    organizationId: pairDetail.organizationId,
+                    voteCount,
+                };
+            }
+        ) as VotingResult[];
 
         votingResults[organizationId] = organizationVotingResults;
     }
+
+    return votingResults;
 }
 
 async function handleGet(request: NextApiRequest, response: NextApiResponse) {
