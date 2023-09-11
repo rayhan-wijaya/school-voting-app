@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
 import { database } from "~/lib/database";
 import { filterSuccesses } from "~/lib/promises";
-import organizationMemberSchema from "~/lib/schemas";
+import { organizationMemberSchema } from "~/lib/schemas";
 
 type OrganizationMember = z.infer<typeof organizationMemberSchema>;
 
