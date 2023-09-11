@@ -71,7 +71,26 @@ async function handleGet(request: NextApiRequest, response: NextApiResponse) {
         });
     });
 
-    return response.status(200).send(votingResults);
+    const finalVotingResults = {} as {
+        [organizationId: number]: VotingResult[];
+    };
+    const distinctOrganizationIds = Array.from(
+        new Set(
+            votingResults.map(function (votingResult) {
+                return votingResult.organizationId;
+            })
+        )
+    );
+
+    for (const organizationId of distinctOrganizationIds) {
+        finalVotingResults[organizationId] = votingResults.filter(function (
+            votingResult
+        ) {
+            return votingResult.organizationId === organizationId;
+        });
+    }
+
+    return response.status(200).send(finalVotingResults);
 }
 
 export default async function handler(
