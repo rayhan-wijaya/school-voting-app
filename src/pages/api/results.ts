@@ -14,7 +14,14 @@ async function getVotes() {
 
             connection.query(
                 {
-                    sql: "",
+                    sql: `
+                        SELECT
+                            \`id\`,
+                            \`student_id\` as studentId,
+                            \`organization_id\` as organizationId,
+                            \`pair_id\` as pairId
+                        FROM votes;
+                    `,
                     values: [],
                 },
                 async function (error, results) {
