@@ -1,15 +1,16 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
-    const adminSessionToken = request.cookies.get("admin_session_token");
+    const url = request.nextUrl;
 
-    if (!adminSessionToken) {
+    const isAdminPage = url.pathname.startsWith("/admin");
+
+    if (isAdminPage && !request.cookies.get("admin_session_token")) {
         return NextResponse.redirect(new URL("/login", request.url));
     }
 
-    return NextResponse.next();
-}
+    const newTab = isAdminPage ? "admin" : "voting";
+    url.searchParams.set("tab", newTab);
 
-export const config = {
-    matcher: ["/admin/:path*"],
-};
+    return NextResponse.rewrite(url);
+}
