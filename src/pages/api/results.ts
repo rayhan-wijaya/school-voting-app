@@ -44,7 +44,10 @@ async function getVotes() {
     });
 }
 
-async function getResults() {
+type VotingResults = z.infer<typeof votingResultSchema>;
+
+async function getVotingResults() {
+    const votingResults = {} as VotingResults;
     const votes = await getVotes();
     const distinctOrganizationIds = Array.from(
         new Set(
