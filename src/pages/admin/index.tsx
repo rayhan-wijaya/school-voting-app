@@ -58,6 +58,17 @@ export default function Admin() {
                                               .map(function (result) {
                                                   return (
                                                       <div className="p-3 bg-sky-100 rounded-xl">
+                                                          <img
+                                                              className="rounded-lg w-42 h-32 object-cover"
+                                                              src={
+                                                                  result.imageFileName
+                                                                      ? `${process.env.NEXT_PUBLIC_CDN_BASE_URL}/image/${result.imageFileName}`
+                                                                      : ""
+                                                              }
+                                                          />
+
+                                                          <div className="p-1" />
+
                                                           <h3>{result.name}</h3>
                                                       </div>
                                                   );
