@@ -11,6 +11,7 @@ export const organizationMemberSchema = z.object({
 });
 
 export const votingResultSchema = z.object({
+    name: z.string(),
     organizationId: z.number(),
     pairId: z.number(),
     percentage: z.number().max(100),
