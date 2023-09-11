@@ -43,6 +43,7 @@ const voteCountDetailSchema = z.object({
     organizationId: z.number(),
     pairId: z.number(),
     voteCount: z.number(),
+    imageFileName: z.string(),
 });
 
 async function getVoteCountDetails(connection: PoolConnection) {
