@@ -346,7 +346,10 @@ function VotePage() {
                 <button
                     className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center disabled:bg-gray-50 disabled:text-gray-300"
                     disabled={
-                        organizationIndex === organizationNames.length - 1
+                        organizationIndex === organizationNames.length - 1 ||
+                        !selectedOrganizationPairs[
+                            organizationNames[organizationIndex]
+                        ]
                     }
                     onClick={function () {
                         window.scrollTo({ top: 0, left: 0 });
