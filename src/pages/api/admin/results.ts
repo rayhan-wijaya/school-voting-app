@@ -3,6 +3,7 @@ import type { PoolConnection } from "mysql";
 import { z } from "zod";
 import { database } from "~/lib/database";
 import { votingResultSchema } from "~/lib/schemas";
+import { getFormattedOrganizationName } from "~/lib/database";
 
 type VotingResult = z.infer<typeof votingResultSchema>;
 
@@ -74,7 +75,7 @@ async function handleGet(request: NextApiRequest, response: NextApiResponse) {
     });
 
     const finalVotingResults = {} as {
-        [organizationId: number]: VotingResult[];
+        [organizationName: string]: VotingResult[];
     };
     const distinctOrganizationIds = Array.from(
         new Set(
@@ -85,7 +86,17 @@ async function handleGet(request: NextApiRequest, response: NextApiResponse) {
     );
 
     for (const organizationId of distinctOrganizationIds) {
-        finalVotingResults[organizationId] = votingResults.filter(function (
+        const organizationName = await getFormattedOrganizationName({
+            id: organizationId,
+            connection,
+            isFromCache: true,
+        });
+
+        if (!organizationName) {
+            continue;
+        }
+
+        finalVotingResults[organizationName] = votingResults.filter(function (
             votingResult
         ) {
             return votingResult.organizationId === organizationId;
