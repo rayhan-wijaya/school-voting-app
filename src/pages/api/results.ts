@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
 import { database } from "~/lib/database";
-import { voteSchema } from "~/lib/schemas";
+import { voteSchema, votingResultSchema } from "~/lib/schemas";
 
 type Vote = z.infer<typeof voteSchema>;
 
