@@ -137,6 +137,11 @@ function VotePage() {
 
                         <RadioGroup
                             by={"organizationPairCompositeId"}
+                            value={
+                                selectedOrganizationPairs[
+                                    organizationNames[organizationIndex]
+                                ]
+                            }
                             onChange={function (pair: OrganizationPair) {
                                 setSelectedOrganizationPairs(function (
                                     prevPairs
