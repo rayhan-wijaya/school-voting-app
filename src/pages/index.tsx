@@ -23,7 +23,7 @@ function StudentDetailsPage() {
                 <label className="flex flex-col">
                     <input
                         type="number"
-                        className="bg-sky-100 rounded-xl p-3"
+                        className="bg-sky-100 rounded-xl p-3 transition-all focus:shadow-md outline-transparent outline-none"
                         placeholder="Your student ID here"
                         value={studentId}
                         onChange={function (event) {
