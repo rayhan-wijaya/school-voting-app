@@ -167,7 +167,7 @@ function VotePage() {
 
                                     return (
                                         <RadioGroup.Option
-                                            className="focus:outline-none ui-checked:bg-sky-500 bg-sky-100 rounded-xl ui-checked:text-white cursor-pointer ui-active:ring-4 ui-active:ring-sky-100"
+                                            className="focus:outline-none ui-checked:bg-sky-500 bg-sky-100 hover:bg-sky-50 rounded-xl ui-checked:text-white cursor-pointer ui-active:ring-4 ui-active:ring-sky-100"
                                             key={`${pair[0].organizationId}-${pairId}`}
                                             value={
                                                 {
@@ -209,7 +209,7 @@ function VotePage() {
                                                 </svg>
                                             </div>
 
-                                            <div className="flex flex-col gap-3 divide-sky-200 ui-checked:divide-sky-600 divide-y">
+                                            <div className="flex flex-col gap-3 ui-not-checked:hover:divide-sky-100 divide-sky-200 ui-checked:divide-sky-600 divide-y">
                                                 {pair.map(function (member) {
                                                     return (
                                                         <div
@@ -282,7 +282,7 @@ function VotePage() {
                                     router.replace("/");
                                 }, 2000);
                             }}
-                            className="bg-sky-600 text-white font-semibold px-6 py-3 rounded-xl flex gap-3 justify-center items-center cursor-pointer disabled:bg-sky-200 disabled:text-sky-300"
+                            className="bg-sky-600 enabled:hover:bg-sky-700 transition-colors text-white font-semibold px-6 py-3 rounded-xl flex gap-3 justify-center items-center cursor-pointer disabled:bg-sky-200 disabled:text-sky-300"
                         >
                             Vote
                             <svg
