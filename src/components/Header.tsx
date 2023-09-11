@@ -39,7 +39,7 @@ function Header() {
                                     currentTab === "voting"
                                         ? "bg-sky-100 shadow-md"
                                         : "hover:bg-gray-100"
-                                } py-3 px-5 rounded-xl`}
+                                } py-3 px-5 rounded-xl transition-all`}
                                 href="/"
                             >
                                 Voting Page
@@ -49,7 +49,7 @@ function Header() {
                                     currentTab === "admin"
                                         ? "bg-sky-100 shadow-md"
                                         : "hover:bg-gray-100"
-                                } py-3 px-5 rounded-xl`}
+                                } py-3 px-5 rounded-xl transition-all`}
                                 href="/admin"
                             >
                                 Admin Dashboard
