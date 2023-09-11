@@ -10,6 +10,12 @@ export const organizationMemberSchema = z.object({
     imageFileName: z.string().nullable().optional(),
 });
 
+export const votingResultSchema = z.object({
+    percentage: z.number().max(100),
+    voteCount: z.number(),
+    imageFileName: z.string().nullable().optional(),
+});
+
 export const voteSchema = z.object({
     id: z.number(),
     studentId: z.number(),
