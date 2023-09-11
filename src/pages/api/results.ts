@@ -40,6 +40,8 @@ async function getVotes() {
                     return resolve(votesResult.data);
                 }
             );
+
+            return connection.release();
         });
     });
 }
