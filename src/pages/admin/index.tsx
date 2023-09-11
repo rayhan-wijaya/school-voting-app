@@ -11,7 +11,7 @@ async function fetchVotingResults() {
     return json;
 }
 
-function Admin() {
+export default function Admin() {
     const { data: votingResults } = useQuery({
         queryKey: ["voting-results"],
         queryFn: fetchVotingResults,
@@ -61,5 +61,3 @@ function Admin() {
         </>
     );
 }
-
-export default Admin;
