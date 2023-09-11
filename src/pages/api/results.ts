@@ -94,6 +94,7 @@ async function handleGet(request: NextApiRequest, response: NextApiResponse) {
             if (error) {
                 return reject(error);
             }
+
             return resolve(await getVotingResults(connection));
         });
     })
