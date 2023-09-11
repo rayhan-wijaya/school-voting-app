@@ -54,18 +54,13 @@ async function getVoteCountDetails(connection: PoolConnection) {
         connection.query(
             {
                 sql: `
-                    SELECT
-                        \`organization_id\` as \`organizationId\`,
-                        \`pair_id\` as \`pairId\`,
-                        COUNT(*) as \`voteCount\`,
-                        (
-                            SELECT \`image_file_name\`
-                            FROM \`organization_pair\`
-                            WHERE \`organization_id\` = \`organizationId\`
-                            AND \`pair_id\` = \`pairId\`
-                        ) AS \`imageFileName\`
-                    FROM \`vote\`
-                    GROUP BY \`organization_id\, \`pair_id\`;
+                    select
+                        organization_id as organizationId,
+                        pair_id as pairId,
+                        count(*) as voteCount,
+                        (SELECT image_file_name from organization_pair where organization_id = organizationId and pair_id = pairId) as imageFileName
+                    from vote
+                    group by organization_id, pair_id;
                 `,
             },
             async function (error, results) {
