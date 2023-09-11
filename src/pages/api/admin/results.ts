@@ -56,7 +56,13 @@ async function getVoteCountDetails(connection: PoolConnection) {
                     SELECT
                         \`organization_id\` as \`organizationId\`,
                         \`pair_id\` as \`pairId\`,
-                        COUNT(*) as \`voteCount\`
+                        COUNT(*) as \`voteCount\`,
+                        (
+                            SELECT \`image_file_name\`
+                            FROM \`organization_pair\`
+                            WHERE \`organization_id\` = \`organizationId\`
+                            AND \`pair_id\` = \`pairId\`
+                        ) AS \`imageFileName\`
                     FROM \`vote\`
                     GROUP BY \`organization_id\, \`pair_id\`;
                 `,
