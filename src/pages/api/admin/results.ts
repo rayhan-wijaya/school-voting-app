@@ -108,18 +108,18 @@ async function getVotingResults(connection: PoolConnection) {
             )
         );
 
-        const organizationVotingResults = distinctPairIds.map(
-            function (pairId) {
-                return {
-                    imageFileName: "", // fill this in
-                    percentage: 100, // fill this in
-                    voteCount: 100, // fill this in
-                    pairId,
-                    organizationId,
-                    totalVoteCount,
-                };
-            }
-        ) as VotingResult[];
+        const organizationVotingResults = distinctPairIds.map(function (
+            pairId
+        ) {
+            return {
+                imageFileName: "", // fill this in
+                percentage: 100, // fill this in
+                voteCount: 100, // fill this in
+                pairId,
+                organizationId,
+                totalVoteCount,
+            };
+        }) as VotingResult[];
 
         votingResults[organizationId] = organizationVotingResults;
     }
