@@ -39,14 +39,14 @@ async function getVotes(connection: PoolConnection) {
     });
 }
 
-const voteCountSchema = z.object({
+const voteCountDetailSchema = z.object({
     organizationId: z.number(),
     pairId: z.number(),
     voteCount: z.number(),
 });
 
-async function getVoteCounts(connection: PoolConnection) {
-    return new Promise<z.infer<typeof voteCountSchema>[]>(function (
+async function getVoteCountDetails(connection: PoolConnection) {
+    return new Promise<z.infer<typeof voteCountDetailSchema>[]>(function (
         resolve,
         reject
     ) {
@@ -66,15 +66,15 @@ async function getVoteCounts(connection: PoolConnection) {
                     return reject(error);
                 }
 
-                const voteCountsResult = await z
-                    .array(voteCountSchema)
+                const voteCountDetailsResult = await z
+                    .array(voteCountDetailSchema)
                     .safeParseAsync(results);
 
-                if (!voteCountsResult.success) {
+                if (!voteCountDetailsResult.success) {
                     return reject("Failed to parse result from DB");
                 }
 
-                return resolve(voteCountsResult.data);
+                return resolve(voteCountDetailsResult.data);
             }
         );
     });
@@ -85,6 +85,7 @@ type VotingResult = z.infer<typeof votingResultSchema>;
 async function getVotingResults(connection: PoolConnection) {
     const votingResults = {} as { [organizationId: string]: VotingResult[] };
     const votes = await getVotes(connection);
+    const voteCountDetails = await getVoteCountDetails(connection);
     const distinctOrganizationIds = Array.from(
         new Set(
             votes.map(function (vote) {
