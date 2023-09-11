@@ -61,11 +61,11 @@ async function getVotingResults(connection: PoolConnection) {
     });
 }
 
-async function handleGet(request: NextApiRequest, response: NextApiResponse) {
-    type VotingResults = {
-        [organizationName: string]: VotingResult[];
-    };
+export type VotingResults = {
+    [organizationName: string]: VotingResult[];
+};
 
+async function handleGet(request: NextApiRequest, response: NextApiResponse) {
     const votingResults = await new Promise<VotingResults>(function (
         resolve,
         reject
