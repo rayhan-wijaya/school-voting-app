@@ -67,7 +67,7 @@ async function getVotingResults() {
         ] as VotingResult[];
         // fill in votingResult
 
-        votingResults[organizationId] = votingResult;
+        votingResults[organizationId] = votingResults;
     }
 }
 
