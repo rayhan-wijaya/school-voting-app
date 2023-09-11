@@ -44,15 +44,24 @@ export default function Admin() {
 
                                 <div className="flex flex-wrap gap-3 items-center justify-center">
                                     {organizationVotingResults
-                                        ? organizationVotingResults.map(
-                                              function (result) {
+                                        ? organizationVotingResults
+                                              .sort(function (
+                                                  resultA,
+                                                  resultB
+                                              ) {
+                                                  return (resultA?.percentage ??
+                                                      0) >
+                                                      (resultB?.percentage ?? 0)
+                                                      ? -1
+                                                      : 1;
+                                              })
+                                              .map(function (result) {
                                                   return (
                                                       <div className="p-3 bg-sky-100 rounded-xl">
                                                           <h3>{result.name}</h3>
                                                       </div>
                                                   );
-                                              }
-                                          )
+                                              })
                                         : null}
                                 </div>
                             </div>
