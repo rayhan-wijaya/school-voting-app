@@ -39,6 +39,12 @@ async function getVotes(connection: PoolConnection) {
     });
 }
 
+const voteCountSchema = z.object({
+    organizationId: z.number(),
+    pairId: z.number(),
+    voteCount: z.number(),
+});
+
 type VotingResult = z.infer<typeof votingResultSchema>;
 
 async function getVotingResults(connection: PoolConnection) {
