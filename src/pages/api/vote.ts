@@ -86,7 +86,7 @@ async function handlePost(request: NextApiRequest, response: NextApiResponse) {
                             (?, ?, ?);
                     `,
                     values: [
-                        parsedBody.data.studentId,
+                        parsedBody.data.studentId.toString(),
                         organizationPair.organizationId,
                         organizationPair.pairId,
                     ],
