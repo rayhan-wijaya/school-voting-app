@@ -2,21 +2,42 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import type { PoolConnection } from "mysql";
 import { z } from "zod";
 import { database } from "~/lib/database";
-import { voteSchema, votingResultSchema } from "~/lib/schemas";
+import { votingResultSchema } from "~/lib/schemas";
 
-type Vote = z.infer<typeof voteSchema>;
+type VotingResult = z.infer<typeof votingResultSchema>;
 
-async function getVotes(connection: PoolConnection) {
-    return new Promise<Vote[]>(function (resolve, reject) {
+async function getVotingResults(connection: PoolConnection) {
+    return new Promise<VotingResult[]>(function (resolve, reject) {
         connection.query(
             {
                 sql: `
-                    SELECT
-                        \`id\`,
-                        \`student_id\` as studentId,
-                        \`organization_id\` as organizationId,
-                        \`pair_id\` as pairId
-                    FROM vote;
+                    select
+                        organization_id as organizationId,
+                        pair_id as pairId,
+                        image_file_name as imageFileName,
+                        (
+                            select count(*)
+                            from vote
+                            where organization_id = organizationId and pair_id = pairId
+                        ) as voteCount,
+                        (
+                            select count(*)
+                            from vote
+                            where organization_id = organizationId
+                        ) as totalVoteCount,
+                        (
+                            (
+                                select count(*)
+                                from vote
+                                where organization_id = organizationId and pair_id = pairId
+                            ) /
+                            (
+                                select count(*)
+                                from vote
+                                where organization_id = organizationId
+                            ) * 100
+                        ) as percentage
+                    from organization_pair;  
                 `,
                 values: [],
             },
@@ -25,119 +46,18 @@ async function getVotes(connection: PoolConnection) {
                     return reject(error);
                 }
 
-                const votesResult = await z
-                    .array(voteSchema)
+                const parsedVotingResult = await z
+                    .array(votingResultSchema)
                     .safeParseAsync(results);
 
-                if (!votesResult.success) {
+                if (!parsedVotingResult.success) {
                     return reject("Error while parsing result from db");
                 }
 
-                return resolve(votesResult.data);
+                return resolve(parsedVotingResult.data);
             }
         );
     });
-}
-
-const voteCountDetailSchema = z.object({
-    organizationId: z.number(),
-    pairId: z.number(),
-    voteCount: z.number(),
-    imageFileName: z.string(),
-});
-
-async function getVoteCountDetails(connection: PoolConnection) {
-    return new Promise<z.infer<typeof voteCountDetailSchema>[]>(function (
-        resolve,
-        reject
-    ) {
-        connection.query(
-            {
-                sql: `
-                    select
-                        organization_id as organizationId,
-                        pair_id as pairId,
-                        count(*) as voteCount,
-                        (SELECT image_file_name from organization_pair where organization_id = organizationId and pair_id = pairId) as imageFileName
-                    from vote
-                    group by organization_id, pair_id;
-                `,
-            },
-            async function (error, results) {
-                if (error) {
-                    return reject(error);
-                }
-
-                const voteCountDetailsResult = await z
-                    .array(voteCountDetailSchema)
-                    .safeParseAsync(results);
-
-                if (!voteCountDetailsResult.success) {
-                    return reject("Failed to parse result from DB");
-                }
-
-                return resolve(voteCountDetailsResult.data);
-            }
-        );
-    });
-}
-
-type VotingResult = z.infer<typeof votingResultSchema>;
-
-async function getVotingResults(connection: PoolConnection) {
-    const votingResults = {} as { [organizationId: string]: VotingResult[] };
-    const votes = await getVotes(connection);
-    const voteCountDetails = await getVoteCountDetails(connection);
-    const distinctOrganizationIds = Array.from(
-        new Set(
-            votes.map(function (vote) {
-                return vote.organizationId;
-            })
-        )
-    );
-
-    for (const organizationId of distinctOrganizationIds) {
-        const organizationVotes = votes.filter(function (vote) {
-            return vote.organizationId === organizationId;
-        });
-
-        const totalVoteCount = organizationVotes.length;
-
-        const distinctPairIds = Array.from(
-            new Set(
-                organizationVotes.map(function (vote) {
-                    return vote.pairId;
-                })
-            )
-        );
-
-        const organizationVotingResults = distinctPairIds.map(function (
-            pairId
-        ) {
-            const voteCountDetail = voteCountDetails.find(function (
-                voteCountDetail
-            ) {
-                return (
-                    voteCountDetail.organizationId === organizationId &&
-                    voteCountDetail.pairId === pairId
-                );
-            });
-
-            return {
-                imageFileName: voteCountDetail?.imageFileName,
-                percentage:
-                    ((voteCountDetail?.voteCount ?? 0) / totalVoteCount) * 100,
-                voteCount: voteCountDetail?.voteCount,
-                pairId,
-                organizationId,
-                totalVoteCount,
-            };
-        }) as VotingResult[];
-
-        votingResults[organizationId] = organizationVotingResults;
-    }
-
-    return votingResults;
 }
 
 async function handleGet(request: NextApiRequest, response: NextApiResponse) {
