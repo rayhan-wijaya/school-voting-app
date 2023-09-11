@@ -37,3 +37,7 @@ async function getVotes() {
         });
     });
 }
+
+async function handleGet(request: NextApiRequest, response: NextApiResponse) {
+    return response.status(200).send({});
+}
