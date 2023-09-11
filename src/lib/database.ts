@@ -13,7 +13,7 @@ export const database = {
 
 const cachedOrganizationNames = new Map<number, string>();
 
-function getFormattedOrganizationName({
+export function getFormattedOrganizationName({
     id,
     connection,
     isFromCache = false,
