@@ -114,10 +114,20 @@ async function getVotingResults(connection: PoolConnection) {
         const organizationVotingResults = distinctPairIds.map(function (
             pairId
         ) {
+            const voteCountDetail = voteCountDetails.find(function (
+                voteCountDetail
+            ) {
+                return (
+                    voteCountDetail.organizationId === organizationId &&
+                    voteCountDetail.pairId === pairId
+                );
+            });
+
             return {
-                imageFileName: "", // fill this in
-                percentage: 100, // fill this in
-                voteCount: 100, // fill this in
+                imageFileName: voteCountDetail?.imageFileName,
+                percentage:
+                    ((voteCountDetail?.voteCount ?? 0) / totalVoteCount) * 100,
+                voteCount: voteCountDetail?.voteCount,
                 pairId,
                 organizationId,
                 totalVoteCount,
