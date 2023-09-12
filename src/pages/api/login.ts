@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import type { PoolConnection } from "mysql";
 import cookie from "cookie";
 import { database } from "~/lib/database";
 import { validateCredentials } from "~/lib/auth";
@@ -10,47 +11,45 @@ function createSession({
     username,
     hashedPassword,
     isValidateCredentials = true,
+    connection,
 }: {
     username: string;
     hashedPassword: string;
     isValidateCredentials: boolean;
+    connection: PoolConnection;
 }) {
     return new Promise<string>(async function (resolve, reject) {
         if (
             isValidateCredentials &&
-            !(await validateCredentials({ username, hashedPassword }))
+            !(await validateCredentials({
+                username,
+                hashedPassword,
+                connection,
+            }))
         ) {
             return reject("Invalid credentials");
         }
 
-        database.pool.getConnection(function (error, connection) {
-            if (error) {
-                return reject(error);
-            }
+        const newId = createId();
 
-            const newId = createId();
-
-            connection.query(
-                {
-                    sql: `
-                        INSERT INTO
-                            \`admin_session\` (\`admin_id\`, \`token\`)
-                        VALUES
-                            ((SELECT \`id\` FROM \`admin\` WHERE \`username\` = ?), ?);
-                    `,
-                    values: [username, newId],
-                },
-                function (error) {
-                    if (error) {
-                        return reject(error);
-                    }
+        connection.query(
+            {
+                sql: `
+                    INSERT INTO
+                        \`admin_session\` (\`admin_id\`, \`token\`)
+                    VALUES
+                        ((SELECT \`id\` FROM \`admin\` WHERE \`username\` = ?), ?);
+                `,
+                values: [username, newId],
+            },
+            function (error) {
+                if (error) {
+                    return reject(error);
                 }
-            );
+            }
+        );
 
-            connection.release();
-
-            return resolve(newId);
-        });
+        return resolve(newId);
     });
 }
 
