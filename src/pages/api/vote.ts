@@ -33,43 +33,58 @@ async function handlePost(request: NextApiRequest, response: NextApiResponse) {
         return response.status(400).json({ error: parsedBody.error.issues });
     }
 
-    if (await hasStudentVoted(parsedBody.data.studentId)) {
-        return response.status(400).json({ error: "You already voted!" });
-    }
-
     const organizationPairs = Array.isArray(parsedBody.data.organizationPairs)
         ? parsedBody.data.organizationPairs
         : [parsedBody.data.organizationPairs];
 
-    for (const organizationPair of organizationPairs) {
-        database.pool.getConnection(function (error, connection) {
-            if (error) {
-                return;
-            }
-
-            connection.query(
-                {
-                    sql: `
-                        INSERT INTO
-                            \`vote\` (\`student_id\`, \`organization_id\`, \`pair_id\`)
-                        VALUES
-                            (?, ?, ?);
-                    `,
-                    values: [
-                        parsedBody.data.studentId.toString(),
-                        organizationPair.organizationId,
-                        organizationPair.pairId,
-                    ],
-                },
-                function (error) {
-                    if (error) {
-                        console.error(error);
-                    }
+    const { isAlreadyVoted } = await new Promise<{ isAlreadyVoted: boolean }>(
+        function (resolve, reject) {
+            database.pool.getConnection(async function (error, connection) {
+                if (error) {
+                    return reject(error);
                 }
-            );
 
-            return connection.release();
-        });
+                if (
+                    await hasStudentVoted({
+                        connection,
+                        studentId: parsedBody.data.studentId,
+                    })
+                ) {
+                    return resolve({ isAlreadyVoted: true });
+                }
+
+                for (const organizationPair of organizationPairs) {
+                    connection.query(
+                        {
+                            sql: `
+                                INSERT INTO
+                                    \`vote\` (\`student_id\`, \`organization_id\`, \`pair_id\`)
+                                VALUES
+                                    (?, ?, ?);
+                            `,
+                            values: [
+                                parsedBody.data.studentId.toString(),
+                                organizationPair.organizationId,
+                                organizationPair.pairId,
+                            ],
+                        },
+                        function (error) {
+                            if (error) {
+                                console.error(error);
+                            }
+                        }
+                    );
+                }
+
+                connection.release();
+
+                return resolve({ isAlreadyVoted: false });
+            });
+        }
+    );
+
+    if (isAlreadyVoted) {
+        return response.status(400).json({ error: "You already voted!" });
     }
 
     return response.status(200).send({});
