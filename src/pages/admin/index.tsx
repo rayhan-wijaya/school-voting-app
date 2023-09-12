@@ -74,8 +74,10 @@ export default function Admin() {
                                                           <div className="p-1" />
 
                                                           <div>
-                                                              {result.percentage ??
-                                                                  0}
+                                                              {Math.floor(
+                                                                  result.percentage ??
+                                                                      0
+                                                              )}
                                                               %
                                                           </div>
 
