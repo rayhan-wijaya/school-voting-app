@@ -69,49 +69,48 @@ function StudentDetailsPage() {
                     <span className="hidden sm:block">Previous</span>
                 </button>
 
-                {studentId ? (
-                    <Link
-                        className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center disabled:bg-gray-50 disabled:text-gray-300 hover:bg-gray-300 transition-colors"
-                        href="/vote"
+                <button
+                    className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center disabled:bg-gray-50 disabled:text-gray-300 hover:bg-gray-300 transition-colors"
+                    disabled={!studentId}
+                    onClick={async function () {
+                        const studentVoteStatusResponse = await fetch(
+                            new URL(
+                                `/api/student_vote_status?studentId=${studentId}`,
+                                env.NEXT_PUBLIC_BASE_URL
+                            )
+                        );
+
+                        console.log(studentVoteStatusResponse.status);
+
+                        if (studentVoteStatusResponse.status !== 200) {
+                            setIsWarningVisible(true);
+
+                            return void setTimeout(function () {
+                                setIsWarningVisible(false);
+                            }, 4000);
+                        }
+
+                        router.replace("/vote");
+                    }}
+                >
+                    <span className="hidden sm:block">Next</span>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="w-6 h-6"
                     >
-                        <span className="hidden sm:block">Next</span>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth="1.5"
-                            stroke="currentColor"
-                            className="w-6 h-6"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M8.25 4.5l7.5 7.5-7.5 7.5"
-                            />
-                        </svg>
-                    </Link>
-                ) : (
-                    <button
-                        className="flex gap-3 bg-gray-200 rounded-xl p-5 py-3 items-center disabled:bg-gray-50 disabled:text-gray-300 hover:bg-gray-300 transition-colors"
-                        disabled={true}
-                    >
-                        <span className="hidden sm:block">Next</span>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth="1.5"
-                            stroke="currentColor"
-                            className="w-6 h-6"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M8.25 4.5l7.5 7.5-7.5 7.5"
-                            />
-                        </svg>
-                    </button>
-                )}
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                        />
+                    </svg>
+                </button>
+
+                {isWarningVisible ? <div>You already voted</div> : null}
             </div>
         </>
     );
