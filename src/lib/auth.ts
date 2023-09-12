@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { database } from "../lib/database";
 import { timingSafeEqual } from "crypto";
 import type { PoolConnection } from "mysql";
 
@@ -59,30 +58,26 @@ export function validateCredentials({
     });
 }
 
-export function validateSessionToken(token: string) {
+export function validateSessionToken({
+    token,
+    connection,
+}: {
+    token: string;
+    connection: PoolConnection;
+}) {
     return new Promise<boolean>(function (resolve, reject) {
-        database.pool.getConnection(function (error, connection) {
-            if (error) {
-                return reject(error);
-            }
-
-            connection.query(
-                {
-                    sql: "SELECT id FROM admin_session WHERE token = ?",
-                    values: [token],
-                },
-                function (error, results) {
-                    if (error) {
-                        return reject(error);
-                    }
-
-                    return resolve(
-                        Array.isArray(results) && results.length > 0
-                    );
+        connection.query(
+            {
+                sql: "SELECT id FROM admin_session WHERE token = ?",
+                values: [token],
+            },
+            function (error, results) {
+                if (error) {
+                    return reject(error);
                 }
-            );
 
-            return connection.release();
-        });
+                return resolve(Array.isArray(results) && results.length > 0);
+            }
+        );
     });
 }
