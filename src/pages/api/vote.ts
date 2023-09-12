@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
-import { database } from "~/lib/database";
+import { database, hasStudentVoted } from "~/lib/database";
 
 const numericString = z.union([
     z
@@ -23,36 +23,6 @@ const postVotingBodySchema = z.object({
     }),
     organizationPairs: z.array(organizationPairSchema),
 });
-
-async function hasStudentVoted(studentId: number) {
-    return new Promise<boolean>(function (resolve, reject) {
-        database.pool.getConnection(function (error, connection) {
-            if (error) {
-                return reject(error);
-            }
-
-            connection.query(
-                {
-                    sql: "SELECT id FROM vote WHERE student_id = ?",
-                    values: [studentId],
-                },
-                function (error, results, _fields) {
-                    if (error) {
-                        return reject(error);
-                    }
-
-                    if (!Array.isArray(results)) {
-                        return reject("`results` wasn't an array");
-                    }
-
-                    return resolve(results.length > 0);
-                }
-            );
-
-            return connection.release();
-        });
-    });
-}
 
 async function handlePost(request: NextApiRequest, response: NextApiResponse) {
     const parsedBody = await postVotingBodySchema.safeParseAsync(
