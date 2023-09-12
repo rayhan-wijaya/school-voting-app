@@ -51,19 +51,19 @@ function StudentDetailsPage() {
 
                 <label className="flex flex-col">
                     <input
-                        type="number"
+                        type="password"
+                        maxLength={15}
                         className="bg-sky-100 rounded-xl p-3"
                         placeholder="Your student ID here"
                         value={studentId}
+                        inputMode="numeric"
+                        pattern="[0-9]*"
                         onChange={function (event) {
-                            if (
-                                event.target.valueAsNumber.toString().length >
-                                15
-                            ) {
-                                return;
-                            }
-
-                            setStudentId(event.target.valueAsNumber);
+                            setStudentId(function (prevStudentId) {
+                                return /^[0-9]*$/.test(event.target.value)
+                                    ? Number(event.target.value)
+                                    : prevStudentId;
+                            });
                         }}
                     />
                 </label>
