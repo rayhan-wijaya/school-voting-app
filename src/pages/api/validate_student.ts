@@ -30,3 +30,45 @@ function hasStudentVoted({
         );
     });
 }
+
+async function handleGet(request: NextApiRequest, response: NextApiResponse) {
+    const parsedQuery = await z
+        .object({ studentId: z.string() })
+        .safeParseAsync(request.query);
+
+    if (!parsedQuery.success) {
+        return response.status(400).json({
+            error: parsedQuery.error.issues,
+        });
+    }
+
+    const { studentId } = parsedQuery.data;
+
+    const hasStudentVotedResult = await new Promise<boolean>(function (
+        resolve,
+        reject
+    ) {
+        database.pool.getConnection(async function (error, connection) {
+            if (error) {
+                return reject(error);
+            }
+
+            return resolve(
+                await hasStudentVoted({
+                    connection,
+                    studentId: Number(studentId),
+                })
+            );
+        });
+    });
+
+    if (hasStudentVotedResult) {
+        return response.status(400).json({
+            error: "You already voted",
+        });
+    }
+
+    return response.status(200).json({
+        message: "OK",
+    });
+}
