@@ -71,34 +71,77 @@ async function handlePost(request: NextApiRequest, response: NextApiResponse) {
     const { username, password } = parsedBodyResult.data;
     const hashedPassword = createHash("sha256").update(password).digest("hex");
 
-    if (!(await validateCredentials({ username, hashedPassword }))) {
+    const { areCredentialsInvalid, isSuccessful } = await new Promise<{
+        areCredentialsInvalid: boolean;
+        isSuccessful: boolean;
+    }>(function (resolve, reject) {
+        database.pool.getConnection(async function (error, connection) {
+            if (error) {
+                return reject(error);
+            }
+
+            const validateCredentialsResult = await validateCredentials({
+                username,
+                hashedPassword,
+                connection,
+            });
+
+            if (!validateCredentialsResult) {
+                connection.release();
+
+                return resolve({
+                    areCredentialsInvalid: true,
+                    isSuccessful: false,
+                });
+            }
+
+            try {
+                const sessionToken = await createSession({
+                    username,
+                    hashedPassword,
+                    connection,
+                    isValidateCredentials: false,
+                });
+
+                response.setHeader(
+                    "Set-Cookie",
+                    cookie.serialize("admin_session_token", sessionToken, {
+                        path: "/",
+                    })
+                );
+            } catch (error) {
+                console.error(error);
+
+                connection.release();
+
+                return resolve({
+                    areCredentialsInvalid: false,
+                    isSuccessful: false,
+                });
+            }
+
+            connection.release();
+
+            return resolve({
+                areCredentialsInvalid: false,
+                isSuccessful: true,
+            });
+        });
+    });
+
+    if (isSuccessful) {
+        return response.status(200).send({ message: "OK" });
+    }
+
+    if (areCredentialsInvalid) {
         return response
             .status(400)
             .send({ error: "Invalid username or password" });
     }
 
-    try {
-        const sessionToken = await createSession({
-            username,
-            hashedPassword,
-            isValidateCredentials: false,
-        });
-
-        response.setHeader(
-            "Set-Cookie",
-            cookie.serialize("admin_session_token", sessionToken, {
-                path: "/",
-            })
-        );
-    } catch (error) {
-        console.error(error);
-
-        return response
-            .status(500)
-            .send({ error: "Internal server error, something went wrong" });
-    }
-
-    return response.status(200).send({ message: "OK" });
+    return response
+        .status(500)
+        .send({ error: "Internal server error, something went wrong" });
 }
 
 export default async function handler(
