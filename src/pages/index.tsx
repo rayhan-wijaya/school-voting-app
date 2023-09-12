@@ -1,6 +1,8 @@
-import Link from "next/link";
 import { useAtom } from "jotai";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import { studentIdAtom } from "~/lib/atoms";
+import { env } from "~/lib/env";
 
 function StudentDetailsPage() {
     const [studentId, setStudentId] = useAtom(studentIdAtom);
