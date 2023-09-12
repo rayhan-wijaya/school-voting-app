@@ -69,11 +69,13 @@ export default function Admin() {
 
                                                           <div className="p-1" />
 
-                                                          <h3>{result.name}</h3>
+                                                          <h3 className="text-center">
+                                                              {result.name}
+                                                          </h3>
 
                                                           <div className="p-1" />
 
-                                                          <div>
+                                                          <div className="text-center">
                                                               {Math.floor(
                                                                   result.percentage ??
                                                                       0
@@ -83,7 +85,7 @@ export default function Admin() {
 
                                                           <div className="p-1" />
 
-                                                          <div>
+                                                          <div className="text-center">
                                                               <span className="font-semibold">
                                                                   {
                                                                       result.voteCount
