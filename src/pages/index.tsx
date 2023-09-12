@@ -14,6 +14,13 @@ function StudentDetailsPage() {
         <>
             <div className="p-3" />
 
+            {isWarningVisible ? (
+                <>
+                    <div className="text-center">You already voted</div>
+                    <div className="p-3" />
+                </>
+            ) : null}
+
             <div className="max-w-lg m-auto px-5">
                 <h1 className="text-center font-semibold">Welcome!</h1>
 
@@ -109,8 +116,6 @@ function StudentDetailsPage() {
                         />
                     </svg>
                 </button>
-
-                {isWarningVisible ? <div>You already voted</div> : null}
             </div>
         </>
     );
