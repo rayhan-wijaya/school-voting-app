@@ -5,7 +5,10 @@ import { studentIdAtom } from "~/lib/atoms";
 import { env } from "~/lib/env";
 
 function StudentDetailsPage() {
+    const router = useRouter();
+
     const [studentId, setStudentId] = useAtom(studentIdAtom);
+    const [isWarningVisible, setIsWarningVisible] = useState(false);
 
     return (
         <>
