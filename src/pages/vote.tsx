@@ -256,7 +256,11 @@ function VotePage() {
 
                     <div className="flex flex-col gap-3 items-center justify-center">
                         <button
-                            disabled={hasSubmitted}
+                            disabled={
+                                !selectedOrganizationPairs[
+                                    organizationNames[organizationIndex]
+                                ] || hasSubmitted
+                            }
                             onClick={function () {
                                 if (!studentId || !selectedOrganizationPairs) {
                                     return;
