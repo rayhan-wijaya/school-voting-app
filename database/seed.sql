@@ -1,27 +1,27 @@
 INSERT INTO
     `organization_pair` (`organization_id`, `pair_id`, `name`, `image_file_name`)
 VALUES
-    (1, 1, 'Maylaff & Rafa', 'maylaff_rafa.jpg'),
-    (1, 2, 'Flo & Ael', 'flo_ael.jpg'),
-    (1, 3, 'Raras & Kyoshi', 'raras_kyoshi.jpg'),
+    (1, 1, 'Maylaff & Rafa', 'maylaff_rafa.webp'),
+    (1, 2, 'Flo & Ael', 'flo_ael.webp'),
+    (1, 3, 'Raras & Kyoshi', 'raras_kyoshi.webp'),
 
-    (2, 1, 'Syahira & Haekal', 'syahira_haekal.jpg'),
-    (2, 2, 'Jasmin & Neora', 'jasmin_neora.jpg');
+    (2, 1, 'Syahira & Haekal', 'syahira_haekal.webp'),
+    (2, 2, 'Jasmin & Neora', 'jasmin_neora.webp');
 
 INSERT INTO
     `organization_member` (`organization_id`, `pair_id`, `nickname`, `position`, `image_file_name`)
 VALUES
-    (1, 1, 'Maylaff', 'chairman', 'maylaff.jpg'),
-    (1, 1, 'Rafa', 'vice_chairman', 'rafa.jpg'),
-    (1, 2, 'Flo', 'chairman', 'flo.jpg'),
-    (1, 2, 'Ael', 'vice_chairman', 'ael.jpg'),
-    (1, 3, 'Raras', 'chairman', 'raras.jpg'),
-    (1, 3, 'Kyoshi', 'vice_chairman', 'kyoshi.jpg'),
+    (1, 1, 'Maylaff', 'chairman', 'maylaff.webp'),
+    (1, 1, 'Rafa', 'vice_chairman', 'rafa.webp'),
+    (1, 2, 'Flo', 'chairman', 'flo.webp'),
+    (1, 2, 'Ael', 'vice_chairman', 'ael.webp'),
+    (1, 3, 'Raras', 'chairman', 'raras.webp'),
+    (1, 3, 'Kyoshi', 'vice_chairman', 'kyoshi.webp'),
 
-    (2, 1, 'Syahira', 'chairman', 'syahira.jpg'),
-    (2, 1, 'Haekal', 'vice_chairman', 'haekal.jpg'),
-    (2, 2, 'Jasmin', 'chairman', 'jasmin.jpg'),
-    (2, 2, 'Neora', 'vice_chairman', 'neora.jpg');
+    (2, 1, 'Syahira', 'chairman', 'syahira.webp'),
+    (2, 1, 'Haekal', 'vice_chairman', 'haekal.webp'),
+    (2, 2, 'Jasmin', 'chairman', 'jasmin.webp'),
+    (2, 2, 'Neora', 'vice_chairman', 'neora.webp');
 
 INSERT INTO
     `admin` (`username`, `hashed_password`)
