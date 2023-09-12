@@ -143,7 +143,11 @@ async function handleGet(_request: NextApiRequest, response: NextApiResponse) {
                 return reject(error);
             }
 
-            return resolve(getAllMembers(connection));
+            const membersResult = getAllMembers(connection);
+
+            connection.release();
+
+            return resolve(membersResult);
         });
     });
 
