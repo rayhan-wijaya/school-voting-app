@@ -72,3 +72,17 @@ async function handleGet(request: NextApiRequest, response: NextApiResponse) {
         message: "OK",
     });
 }
+
+export default async function handler(
+    request: NextApiRequest,
+    response: NextApiResponse
+) {
+    switch (request.method) {
+        case "GET":
+            return await handleGet(request, response);
+        default:
+            return response
+                .status(501)
+                .json({ message: "Unimplemented method" });
+    }
+}
