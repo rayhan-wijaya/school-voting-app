@@ -53,12 +53,14 @@ async function handleGet(request: NextApiRequest, response: NextApiResponse) {
                 return reject(error);
             }
 
-            return resolve(
-                await hasStudentVoted({
-                    connection,
-                    studentId: Number(studentId),
-                })
-            );
+            const result = await hasStudentVoted({
+                connection,
+                studentId: Number(studentId),
+            });
+
+            connection.release();
+
+            return resolve(result);
         });
     });
 
