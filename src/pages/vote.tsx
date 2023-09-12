@@ -286,7 +286,7 @@ function VotePage() {
                                     router.replace("/");
                                 }, 2000);
                             }}
-                            className="bg-sky-600 enabled:hover:bg-sky-700 transition-colors text-white font-semibold px-6 py-3 rounded-xl flex gap-3 justify-center items-center cursor-pointer disabled:bg-sky-200 disabled:text-sky-300"
+                            className="bg-sky-600 enabled:hover:bg-sky-700 transition-colors text-white font-semibold px-6 py-3 rounded-xl flex gap-3 justify-center items-center cursor-pointer disabled:bg-sky-100 disabled:text-sky-200"
                         >
                             Vote
                             <svg
