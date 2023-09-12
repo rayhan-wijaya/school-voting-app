@@ -83,8 +83,6 @@ function StudentDetailsPage() {
                             )
                         );
 
-                        console.log(studentVoteStatusResponse.status);
-
                         if (studentVoteStatusResponse.status !== 200) {
                             setIsWarningVisible(true);
 
