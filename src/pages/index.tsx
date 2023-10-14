@@ -61,7 +61,7 @@ function StudentDetailsPage() {
                         onChange={function (event) {
                             setStudentId(function (prevStudentId) {
                                 return /^[0-9]*$/.test(event.target.value)
-                                    ? Number(event.target.value)
+                                    ? event.target.value
                                     : prevStudentId;
                             });
                         }}
