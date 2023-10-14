@@ -52,7 +52,7 @@ function StudentDetailsPage() {
                 <label className="flex flex-col">
                     <input
                         type="password"
-                        maxLength={15}
+                        maxLength={120}
                         className="bg-sky-100 rounded-xl p-3"
                         placeholder="Your student ID here"
                         value={studentId}
